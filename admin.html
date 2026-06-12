@@ -108,7 +108,6 @@
             const fileName = `${Math.random()}.${fileExt}`;
             
             try {
-                // 1. Wrzucamy zdjęcie do Storage
                 const uploadResponse = await fetch(`${SUPABASE_URL}/storage/v1/object/zdjecia-produktow/${fileName}`, {
                     method: 'POST',
                     headers: {
@@ -121,10 +120,8 @@
 
                 if(!uploadResponse.ok) throw new Error("Błąd podczas wgrywania zdjęcia.");
 
-                // Generujemy publiczny link do zdjęcia
                 const imgUrl = `${SUPABASE_URL}/storage/v1/object/public/zdjecia-produktow/${fileName}`;
 
-                // 2. Pobieramy dane z formularza
                 const productData = {
                     name: document.getElementById('name').value,
                     type: document.querySelector('input[name="type"]:checked').value,
@@ -133,11 +130,10 @@
                     size: document.getElementById('size').value,
                     condition_grade: document.getElementById('condition_grade').value,
                     brands: document.getElementById('brands').value,
-                    description: document.getElementById('description').value
-                    // W kolejnym kroku zaktualizujemy tabelę, aby na stałe trzymała ten link!
+                    description: document.getElementById('description').value,
+                    image_url: imgUrl
                 };
 
-                // 3. Wrzucamy rekord do bazy danych
                 const dbResponse = await fetch(`${SUPABASE_URL}/rest/v1/products`, {
                     method: 'POST',
                     headers: {
