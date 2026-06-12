@@ -3,77 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stylownie.pl - Odzież Używana & Sneakers Vintage</title>
+    <title>Stylownie.pl - Moda Vintage & Buty</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <style>
-        .brand-pink { color: #e91e63; }
-        .bg-brand-pink { background-color: #e91e63; }
-        .border-brand-pink { border-color: #e91e63; }
-    </style>
 </head>
-<body class="bg-gray-50 font-sans text-gray-900">
+<body class="bg-white font-sans text-gray-900 selection:bg-pink-500 selection:text-white">
 
-    <nav class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <header class="border-b border-gray-100 sticky top-0 bg-white/90 backdrop-blur-md z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <div class="flex items-center gap-2">
-                <span class="text-2xl font-black tracking-wider text-gray-900 uppercase">STYL<span class="brand-pink">OWNIE</span></span>
+                <span class="text-2xl font-black tracking-tighter uppercase text-gray-900">STYL<span class="text-pink-600 font-extrabold text-3xl">OWNIE</span></span>
             </div>
-            <div class="flex gap-6 font-medium text-sm tracking-wide">
-                <a href="#detal" class="hover:brand-pink transition">SKLEP (DETAL)</a>
-                <a href="#hurt" class="hover:brand-pink transition font-bold bg-pink-50 px-3 py-1 rounded text-pink-600">HURT (BOX)</a>
-            </div>
-        </div>
-    </nav>
-
-    <header class="bg-white border-b border-gray-100 py-12 md:py-20 text-center px-4">
-        <div class="max-w-3xl mx-auto">
-            <span class="bg-pink-100 text-pink-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest">Nowy wymiar second-handu</span>
-            <h1 class="text-4xl md:text-6xl font-black text-gray-900 tracking-tight mt-4 mb-6 uppercase">
-                Moda Vintage & Odświeżane <span class="brand-pink">Buty</span>
-            </h1>
-            <p class="text-gray-600 text-lg md:text-xl font-normal max-w-xl mx-auto mb-8">
-                Wyselekcjonowane perełki streetwearowe i unikalne paczki hurtowe dla sprzedawców z Vinted i Instagrama.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#detal" class="bg-brand-pink text-white font-bold px-8 py-4 rounded-xl shadow-lg hover:opacity-90 transition tracking-wide text-center">Sprawdź Drop</a>
-                <a href="#hurt" class="bg-gray-900 text-white font-bold px-8 py-4 rounded-xl hover:bg-gray-800 transition tracking-wide text-center">Kup Box na Handel</a>
-            </div>
+            <nav class="flex items-center gap-6 text-sm font-bold uppercase tracking-wider text-gray-600">
+                <a href="#detal" class="hover:text-pink-600 transition">Sklep (Detal)</a>
+                <a href="#hurt" class="bg-gray-900 text-white px-4 py-2 rounded-xl hover:bg-pink-600 transition text-xs">Hurt (Boxy)</a>
+            </nav>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <section id="detal" class="mb-16">
-            <div class="flex justify-between items-end mb-8 border-b border-gray-200 pb-4">
-                <div>
-                    <h2 class="text-2xl font-black text-gray-900 uppercase tracking-tight">Kolekcja Detaliczna</h2>
-                    <p class="text-gray-500 text-sm mt-1">Pojedyncze perełki premium i odnowione sneakersy</p>
-                </div>
+    <section class="relative bg-gray-50 py-20 lg:py-32 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <span class="bg-pink-100 text-pink-700 text-xs font-black uppercase tracking-widest px-3 py-1.5 rounded-full">Nowy wymiar second-handu</span>
+            <h1 class="text-5xl sm:text-7xl font-black tracking-tight text-gray-900 mt-6 uppercase leading-none">
+                Moda Vintage & <br><span class="text-pink-600">Odświeżane buty</span>
+            </h1>
+            <p class="mt-6 text-lg text-gray-600 max-w-xl mx-auto font-medium">
+                Wyselekcjonowana perełki streetwearowe i unikalne paczki hurtowe dla sprzedawców z Vinted i Instagrama.
+            </p>
+            <div class="mt-10 flex flex-wrap justify-center gap-4">
+                <a href="#detal" class="bg-pink-600 text-white font-bold px-8 py-4 rounded-2xl shadow-lg shadow-pink-600/20 hover:bg-pink-700 transition uppercase tracking-wider text-sm">Sprawdź Drop</a>
+                <a href="#hurt" class="bg-gray-950 text-white font-bold px-8 py-4 rounded-2xl hover:bg-gray-800 transition uppercase tracking-wider text-sm">Kup Box na Handel</a>
             </div>
-            <div id="products-detal" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="hurt" class="bg-gray-900 text-white rounded-3xl p-8 md:p-12 shadow-xl">
-            <div class="mb-8 border-b border-gray-800 pb-4">
-                <h2 class="text-2xl font-black uppercase tracking-tight">Strefa Hurtowa (Mystery Boxes)</h2>
-                <p class="text-gray-400 text-sm mt-1">Gotowe pakiety odzieży i obuwia dla niezależnych resellerów (bez wymogu NIP)</p>
+    <section id="detal" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div class="mb-12">
+            <span class="text-pink-600 text-sm font-bold uppercase tracking-wider">Kolekcja detaliczna</span>
+            <h2 class="text-3xl font-black text-gray-900 uppercase tracking-tight mt-1">Pojedyncze perełki (Dla każdego)</h2>
+        </div>
+        <div id="detal-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <p class="text-gray-400 col-span-full text-center py-10">Ładowanie najnowszego dropu...</p>
+        </div>
+    </section>
+
+    <section id="hurt" class="bg-gray-950 text-white py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-12">
+                <span class="text-pink-500 text-sm font-bold uppercase tracking-wider">Oferta B2B (Hurt)</span>
+                <h2 class="text-3xl font-black uppercase tracking-tight mt-1">Mystery Boxy na handel</h2>
+                <p class="text-gray-400 text-sm mt-2">Zatowaruj swój sklep, Vinted lub Instagrama paczkami ubrań i butów w klasie Grade A / Premium.</p>
             </div>
-            <div id="products-hurt" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                </div>
-        </section>
-    </main>
+            <div id="hurt-container" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <p class="text-gray-500 col-span-full text-center py-10">Ładowanie pakietów hurtowych...</p>
+            </div>
+        </div>
+    </section>
 
-    <footer class="bg-white border-t border-gray-100 py-12 text-center text-sm text-gray-500">
-        <p class="font-bold text-gray-900 mb-2 uppercase tracking-wider">Stylownie - Tania Odzież Używana</p>
-        <p class="mb-6">Nisko, ul. Wolności 8 | Zapraszamy stacjonarnie i online!</p>
-        <p>&copy; 2026 Stylownie.pl. Wszystkie prawa zastrzeżone.</p>
+    <footer class="bg-gray-100 border-t border-gray-200 py-12 text-center text-sm text-gray-500 font-medium">
+        <p>&copy; 2026 STYLOWNIE.PL. Wszelkie prawa zastrzeżone. Sklep stacjonarny: Nisko.</p>
     </footer>
 
     <script>
         const SUPABASE_URL = "https://bcizrlemxdecnzkzcxfi.supabase.co";
         const SUPABASE_KEY = "sb_publishable_feyl5lfAJkE2FhXKJUb4WA_9ya9cSAw";
 
-        async function fetchProducts() {
+        async function pobierzProdukty() {
             try {
                 const response = await fetch(`${SUPABASE_URL}/rest/v1/products?select=*`, {
                     headers: {
@@ -81,63 +75,75 @@
                         'Authorization': `Bearer ${SUPABASE_KEY}`
                     }
                 });
-                const products = await response.json();
-                renderProducts(products);
-            } catch (error) {
-                console.error("Błąd pobierania produktów:", error);
+                const produkty = await response.json();
+
+                const detalContainer = document.getElementById('detal-container');
+                const hurtContainer = document.getElementById('hurt-container');
+
+                detalContainer.innerHTML = '';
+                hurtContainer.innerHTML = '';
+
+                // Domyslne foto jesli produkt nie ma zdjecia
+                const defaultImg = "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=600&auto=format&fit=crop";
+
+                produkty.forEach(p => {
+                    // Sprawdzamy czy produkt ma zapisany link do zdjecia
+                    const fotka = p.image_url ? p.image_url : defaultImg;
+
+                    if(p.type === 'DETAL') {
+                        // KARTA DETAL (Biała)
+                        detalContainer.innerHTML += `
+                            <div class="group relative bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col">
+                                <div class="aspect-square w-full bg-gray-50 overflow-hidden relative">
+                                    <img src="${fotka}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                    <span class="absolute top-4 left-4 bg-white/90 backdrop-blur text-gray-900 text-xs font-bold px-3 py-1 rounded-full uppercase border border-gray-100">Rozmiar: ${p.size}</span>
+                                </div>
+                                <div class="p-5 flex-grid flex-col flex-1 justify-between">
+                                    <div>
+                                        <p class="text-xs font-bold uppercase tracking-wider text-pink-600 mb-1">${p.brands || 'Vintage'}</p>
+                                        <h3 class="font-bold text-gray-900 text-lg group-hover:text-pink-600 transition line-clamp-1">${p.name}</h3>
+                                        <p class="text-xs text-gray-500 font-medium mt-1 line-clamp-2">${p.description || 'Brak dodatkowego opisu przedmiotu.'}</p>
+                                    </div>
+                                    <div class="mt-5 pt-4 border-t border-gray-50 flex items-center justify-between">
+                                        <span class="text-xl font-black text-gray-900">${parseFloat(p.price).toFixed(2)} PLN</span>
+                                        <button class="bg-gray-900 text-white font-bold text-xs uppercase px-4 py-2.5 rounded-xl hover:bg-pink-600 transition">Kup</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        // KARTA HURT (Ciemna)
+                        hurtContainer.innerHTML += `
+                            <div class="group bg-gray-900 border border-gray-800 rounded-3xl overflow-hidden hover:border-pink-500/50 transition-all duration-300 flex flex-col">
+                                <div class="aspect-[4/3] w-full bg-gray-800 overflow-hidden relative">
+                                    <img src="${fotka}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-103 transition duration-500 opacity-90">
+                                    <span class="absolute top-4 left-4 bg-pink-600 text-white text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider">GRADE: ${p.condition_grade || 'A'}</span>
+                                </div>
+                                <div class="p-6 flex flex-col flex-1 justify-between">
+                                    <div>
+                                        <p class="text-xs font-bold uppercase tracking-wider text-pink-500 mb-1">Pakiet: ${p.size}</p>
+                                        <h3 class="font-bold text-white text-xl group-hover:text-pink-500 transition">${p.name}</h3>
+                                        <p class="text-xs text-gray-400 font-medium mt-2 leading-relaxed">${p.description || 'Brak dodatkowego opisu zawartości paczki.'}</p>
+                                    </div>
+                                    <div class="mt-6 pt-4 border-t border-gray-800 flex items-center justify-between">
+                                        <div>
+                                            <p class="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Cena brutto</p>
+                                            <span class="text-2xl font-black text-white">${parseFloat(p.price).toFixed(2)} PLN</span>
+                                        </div>
+                                        <button class="bg-pink-600 text-white font-bold text-xs uppercase px-5 py-3 rounded-xl hover:bg-pink-700 transition shadow-lg shadow-pink-600/10">Zamów Box</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+
+            } catch (err) {
+                console.error("Błąd ładowania produktów:", err);
             }
         }
 
-        function renderProducts(products) {
-            const detalContainer = document.getElementById('products-detal');
-            const hurtContainer = document.getElementById('products-hurt');
-
-            products.forEach(product => {
-                const isHurt = product.type === 'HURT';
-                
-                // Stałe zdjęcie dla Air Force, dla reszty ikona zastępcza (zdjęcia zrobimy w kolejnym kroku!)
-                let imgUrl = "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80"; // domyślny but
-                if (product.name.includes("Air Force")) {
-                    imgUrl = "https://images.vinted.net/v/1718222340_dummy_placeholder_or_real"; // Tu podmienimy na Twoje zdjęcie
-                } else if (product.category === 'odziez') {
-                    imgUrl = "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=500&q=80"; // odzież
-                }
-
-                const cardHtml = `
-                    <div class="${isHurt ? 'bg-gray-800 border border-gray-700' : 'bg-white'} rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition flex flex-col">
-                        <div class="h-64 bg-gray-100 relative">
-                            <img src="${imgUrl}" alt="${product.name}" class="w-full h-full object-cover">
-                            <span class="absolute top-3 left-3 bg-brand-pink text-white text-xs font-black px-2.5 py-1 rounded-md uppercase tracking-wider">
-                                ${product.condition_grade || 'Grade A'}
-                            </span>
-                            <span class="absolute top-3 right-3 bg-gray-900 text-white text-xs font-bold px-2.5 py-1 rounded-md">
-                                Rozmiar: ${product.size}
-                            </span>
-                        </div>
-                        <div class="p-6 flex flex-col flex-grow">
-                            <span class="text-xs font-bold uppercase tracking-widest ${isHurt ? 'text-pink-400' : 'text-gray-400'} mb-1">${product.brands || 'Vintage'}</span>
-                            <h3 class="text-lg font-bold ${isHurt ? 'text-white' : 'text-gray-900'} mb-2 line-clamp-1">${product.name}</h3>
-                            <p class="${isHurt ? 'text-gray-400' : 'text-gray-600'} text-sm mb-6 line-clamp-3 flex-grow">${product.description || ''}</p>
-                            <div class="flex items-center justify-between mt-auto pt-4 border-t ${isHurt ? 'border-gray-700' : 'border-gray-100'}">
-                                <span class="text-2xl font-black ${isHurt ? 'text-white' : 'text-gray-900'}">${parseFloat(product.price).toFixed(2)} PLN</span>
-                                <button class="bg-brand-pink text-white text-xs font-bold px-4 py-2.5 rounded-lg hover:opacity-90 transition uppercase tracking-wide">
-                                    ${isHurt ? 'Zamów Box' : 'Kup Teraz'}
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-
-                if (isHurt) {
-                    hurtContainer.innerHTML += cardHtml;
-                } else {
-                    detalContainer.innerHTML += cardHtml;
-                }
-            });
-        }
-
-        // Odpalenie pobierania przy starcie strony
-        fetchProducts();
+        pobierzProdukty();
     </script>
 </body>
 </html>
