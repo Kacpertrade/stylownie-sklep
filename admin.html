@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stylownie.pl - Panel Admina</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-100 font-sans p-4 md:p-8">
+
+    <div class="max-w-2xl mx-auto bg-white rounded-3xl shadow-xl p-6 md:p-8">
+        <div class="border-b border-gray-100 pb-4 mb-6">
+            <h1 class="text-2xl font-black tracking-tight text-gray-900 uppercase">STYL<span class="text-pink-600">OWNIE</span></h1>
+            <p class="text-sm text-gray-500 mt-1">Panel dodawania towaru prosto z zaplecza w Nisku</p>
+        </div>
+
+        <form id="admin-form" class="space-y-5">
+            <div>
+                <label class="block text-sm font-bold text-gray-700 mb-2 uppercase">Typ sprzedaży</label>
+                <div class="grid grid-cols-2 gap-4">
+                    <label class="border-2 border-pink-600 bg-pink-50 p-4 rounded-xl flex items-center justify-center cursor-pointer font-bold text-pink-700" id="label-detal">
+                        <input type="radio" name="type" value="DETAL" checked class="hidden" onchange="toggleType('DETAL')"> DETAL (B2C)
+                    </label>
+                    <label class="border-2 border-gray-200 p-4 rounded-xl flex items-center justify-center cursor-pointer font-bold text-gray-500" id="label-hurt">
+                        <input type="radio" name="type" value="HURT" class="hidden" onchange="toggleType('HURT')"> HURT (B2B Box)
+                    </label>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Nazwa produktu / modelu</label>
+                    <input type="text" id="name" required placeholder="np. Nike Air Force 1" class="w-full border border-gray-300 rounded-xl p-3 focus:outline-none focus:border-pink-600">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Cena (PLN)</label>
+                    <input type="number" step="0.01" id="price" required placeholder="249.00" class="w-full border border-gray-300 rounded-xl p-3 focus:outline-none focus:border-pink-600">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Kategoria</label>
+                    <select id="category" class="w-full border border-gray-300 rounded-xl p-3 focus:outline-none focus:border-pink-600">
+                        <option value="buty">Buty</option>
+                        <option value="odziez">Odzież</option>
+                        <option value="mystery-box">Mystery Box</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Rozmiar</label>
+                    <input type="text" id="size" required placeholder="np. 37.5 lub L" class="w-full border border-gray-300 rounded-xl p-3 focus:outline-none focus:border-pink-600">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1">Klasa stanu (Grade)</label>
+                    <input type="text" id="condition_grade" placeholder="np. Premium lub Grade A" class="w-full border border-gray-300 rounded-xl p-3 focus:outline-none focus:border-pink-600">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-bold text-gray-700 mb-1">Marka / Marki w pakiecie</label>
+                <input type="text" id="brands" placeholder="np. Nike, Adidas" class="w-full border border-gray-300 rounded-xl p-3 focus:outline-none focus:border-pink-600">
+            </div>
+
+            <div>
+                <label class="block text-sm font-bold text-gray-700 mb-1">Opis produktu</label>
+                <textarea id="description" rows="3" placeholder="Krótki opis stanu, renowacji lub zawartości boxu..." class="w-full border border-gray-300 rounded-xl p-3 focus:outline-none focus:border-pink-600"></textarea>
+            </div>
+
+            <div class="border-2 border-dashed border-gray-300 rounded-2xl p-6 text-center bg-gray-50 hover:bg-gray-100 transition relative">
+                <input type="file" id="image" accept="image/*" required class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                <div class="space-y-1">
+                    <p class="text-sm font-bold text-gray-700">Kliknij, aby zrobić lub dodać zdjęcie</p>
+                    <p class="text-xs text-gray-500">Działa bezpośrednio z aparatem w telefonie</p>
+                </div>
+            </div>
+
+            <button type="submit" id="submit-btn" class="w-full bg-pink-600 text-white font-bold p-4 rounded-xl shadow-lg hover:bg-pink-700 transition uppercase tracking-wider mt-4">
+                Wystaw produkt na sklep
+            </button>
+        </form>
+    </div>
+
+    <script>
+        const SUPABASE_URL = "https://bcizrlemxdecnzkzcxfi.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_feyl5lfAJkE2FhXKJUb4WA_9ya9cSAw";
+
+        function toggleType(type) {
+            const lDetal = document.getElementById('label-detal');
+            const lHurt = document.getElementById('label-hurt');
+            if(type === 'DETAL') {
+                lDetal.className = "border-2 border-pink-600 bg-pink-50 p-4 rounded-xl flex items-center justify-center cursor-pointer font-bold text-pink-700";
+                lHurt.className = "border-2 border-gray-200 p-4 rounded-xl flex items-center justify-center cursor-pointer font-bold text-gray-500";
+            } else {
+                lHurt.className = "border-2 border-pink-600 bg-pink-50 p-4 rounded-xl flex items-center justify-center cursor-pointer font-bold text-pink-700";
+                lDetal.className = "border-2 border-gray-200 p-4 rounded-xl flex items-center justify-center cursor-pointer font-bold text-gray-500";
+            }
+        }
+
+        document.getElementById('admin-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submit-btn');
+            btn.disabled = true;
+            btn.innerText = "Wysyłanie pliku i danych...";
+
+            const file = document.getElementById('image').files[0];
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${Math.random()}.${fileExt}`;
+            
+            try {
+                // 1. Wrzucamy zdjęcie do Storage
+                const uploadResponse = await fetch(`${SUPABASE_URL}/storage/v1/object/zdjecia-produktow/${fileName}`, {
+                    method: 'POST',
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`,
+                        'Content-Type': file.type
+                    },
+                    body: file
+                });
+
+                if(!uploadResponse.ok) throw new Error("Błąd podczas wgrywania zdjęcia.");
+
+                // Generujemy publiczny link do zdjęcia
+                const imgUrl = `${SUPABASE_URL}/storage/v1/object/public/zdjecia-produktow/${fileName}`;
+
+                // 2. Pobieramy dane z formularza
+                const productData = {
+                    name: document.getElementById('name').value,
+                    type: document.querySelector('input[name="type"]:checked').value,
+                    price: parseFloat(document.getElementById('price').value),
+                    category: document.getElementById('category').value,
+                    size: document.getElementById('size').value,
+                    condition_grade: document.getElementById('condition_grade').value,
+                    brands: document.getElementById('brands').value,
+                    description: document.getElementById('description').value
+                    // W kolejnym kroku zaktualizujemy tabelę, aby na stałe trzymała ten link!
+                };
+
+                // 3. Wrzucamy rekord do bazy danych
+                const dbResponse = await fetch(`${SUPABASE_URL}/rest/v1/products`, {
+                    method: 'POST',
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`,
+                        'Content-Type': 'application/json',
+                        'Prefer': 'return=minimal'
+                    },
+                    body: JSON.stringify(productData)
+                });
+
+                if(dbResponse.ok) {
+                    alert("Sukces! Produkt został wystawiony.");
+                    document.getElementById('admin-form').reset();
+                } else {
+                    alert("Błąd zapisu danych w bazie.");
+                }
+
+            } catch (err) {
+                alert(err.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "Wystaw produkt na sklep";
+            }
+        });
+    </script>
+</body>
+</html>
