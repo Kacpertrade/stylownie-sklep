@@ -67,12 +67,17 @@
                 <textarea id="description" rows="3" placeholder="Krótki opis stanu, renowacji lub zawartości boxu..." class="w-full border border-gray-300 rounded-xl p-3 focus:outline-none focus:border-pink-600"></textarea>
             </div>
 
-            <div class="border-2 border-dashed border-gray-300 rounded-2xl p-6 text-center bg-gray-50 hover:bg-gray-100 transition relative">
-                <input type="file" id="image" accept="image/*" required class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
-                <div class="space-y-1">
-                    <p class="text-sm font-bold text-gray-700">Kliknij, aby zrobić lub dodać zdjęcie</p>
-                    <p class="text-xs text-gray-500">Działa bezpośrednio z aparatem w telefonie</p>
+            <div>
+                <label class="block text-sm font-bold text-gray-700 mb-1">Zdjęcia produktu (Możesz wybrać kilka)</label>
+                <div class="border-2 border-dashed border-gray-300 rounded-2xl p-6 text-center bg-gray-50 hover:bg-gray-100 transition relative">
+                    <input type="file" id="image" accept="image/*" multiple required class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                    <div class="space-y-1">
+                        <p class="text-sm font-bold text-gray-700">Kliknij, aby dodać lub zrobić zdjęcia</p>
+                        <p class="text-xs text-gray-500">Pierwsze wybrane zdjęcie będzie zdjęciem głównym</p>
+                    </div>
                 </div>
+                
+                <div id="preview-container" class="grid grid-cols-4 gap-3 mt-4"></div>
             </div>
 
             <button type="submit" id="submit-btn" class="w-full bg-pink-600 text-white font-bold p-4 rounded-xl shadow-lg hover:bg-pink-700 transition uppercase tracking-wider mt-4">
@@ -82,7 +87,6 @@
     </div>
 
     <script>
-        // PROSTE ZABEZPIECZENIE HASŁEM
         const HASLO = "Stylownie2026";
         const podaneHaslo = prompt("Podaj hasło administratora:");
         
@@ -95,6 +99,25 @@
 
         const SUPABASE_URL = "https://bcizrlemxdecnzkzcxfi.supabase.co";
         const SUPABASE_KEY = "sb_publishable_feyl5lfAJkE2FhXKJUb4WA_9ya9cSAw";
+
+        // FUNKCJA GENERUJĄCA PODGLĄD ZDJĘĆ NA ŻYWO
+        document.getElementById('image').addEventListener('change', function(e) {
+            const container = document.getElementById('preview-container');
+            container.innerHTML = ''; // czyszczenie poprzednich miniatur
+            const files = e.target.files;
+            
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const url = URL.createObjectURL(file); // tworzymy tymczasowy link w pamięci telefonu
+                
+                container.innerHTML += `
+                    <div class="relative aspect-square rounded-xl overflow-hidden border-2 border-gray-200 shadow-sm bg-gray-50">
+                        <img src="${url}" class="w-full h-full object-cover">
+                        <span class="absolute top-1 left-1 bg-black/70 text-white text-[10px] px-1.5 py-0.5 rounded-md font-bold">${i === 0 ? 'Główne' : i + 1}</span>
+                    </div>
+                `;
+            }
+        });
 
         function toggleType(type) {
             const lDetal = document.getElementById('label-detal');
@@ -112,26 +135,35 @@
             e.preventDefault();
             const btn = document.getElementById('submit-btn');
             btn.disabled = true;
-            btn.innerText = "Wysyłanie pliku i danych...";
-
-            const file = document.getElementById('image').files[0];
-            const fileExt = file.name.split('.').pop();
-            const fileName = `${Math.random()}.${fileExt}`;
             
+            const files = document.getElementById('image').files;
+            const uploadedUrls = [];
+
             try {
-                const uploadResponse = await fetch(`${SUPABASE_URL}/storage/v1/object/zdjecia-produktow/${fileName}`, {
-                    method: 'POST',
-                    headers: {
-                        'apikey': SUPABASE_KEY,
-                        'Authorization': `Bearer ${SUPABASE_KEY}`,
-                        'Content-Type': file.type
-                    },
-                    body: file
-                });
+                // PĘTLA WYGRYWAJĄCA KAŻDE ZDJĘCIE PO KOLEI
+                for (let i = 0; i < files.length; i++) {
+                    btn.innerText = `Wgrywanie zdjęcia ${i + 1} z ${files.length}...`;
+                    const file = files[i];
+                    const fileExt = file.name.split('.').pop();
+                    const fileName = `${Math.random()}.${fileExt}`;
+                    
+                    const uploadResponse = await fetch(`${SUPABASE_URL}/storage/v1/object/zdjecia-produktow/${fileName}`, {
+                        method: 'POST',
+                        headers: {
+                            'apikey': SUPABASE_KEY,
+                            'Authorization': `Bearer ${SUPABASE_KEY}`,
+                            'Content-Type': file.type
+                        },
+                        body: file
+                    });
 
-                if(!uploadResponse.ok) throw new Error("Błąd podczas wgrywania zdjęcia.");
+                    if(!uploadResponse.ok) throw new Error(`Błąd wgrywania zdjęcia nr ${i+1}`);
 
-                const imgUrl = `${SUPABASE_URL}/storage/v1/object/public/zdjecia-produktow/${fileName}`;
+                    const imgUrl = `${SUPABASE_URL}/storage/v1/object/public/zdjecia-produktow/${fileName}`;
+                    uploadedUrls.push(imgUrl);
+                }
+
+                btn.innerText = "Zapisywanie danych produktu...";
 
                 const productData = {
                     name: document.getElementById('name').value,
@@ -142,7 +174,8 @@
                     condition_grade: document.getElementById('condition_grade').value,
                     brands: document.getElementById('brands').value,
                     description: document.getElementById('description').value,
-                    image_url: imgUrl
+                    image_url: uploadedUrls[0], // pierwsze jako główne (dla starego kodu)
+                    image_urls: uploadedUrls     // cała lista zdjęć do nowej kolumny
                 };
 
                 const dbResponse = await fetch(`${SUPABASE_URL}/rest/v1/products`, {
@@ -157,7 +190,8 @@
                 });
 
                 if(dbResponse.ok) {
-                    alert("Sukces! Produkt został wystawiony.");
+                    alert("Sukces! Produkt z kompletem zdjęć został wystawiony.");
+                    document.getElementById('preview-container').innerHTML = '';
                     document.getElementById('admin-form').reset();
                 } else {
                     alert("Błąd zapisu danych w bazie.");
