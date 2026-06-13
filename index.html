@@ -141,7 +141,7 @@
                                 <span class="text-pink-600">+11.00 zł</span>
                             </label>
                             <label class="flex items-center justify-between bg-white p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:border-pink-500 transition-all">
-                                <span class="flex items-center gap-2"><input type="radio" name="dostawa" value="KURIER" onchange="aktualizujCeneWysylki()"> 🚛 Kurier (Dostawa pod drzwi)</span>
+                                <span class="flex items-center gap-2"><input type="radio" name="dostawa" value="KURIER" onchange="aktualizujCeneWysylki()"> 7 🚛 Kurier (Dostawa pod drzwi)</span>
                                 <span class="text-pink-600">+16.00 zł</span>
                             </label>
                         </div>
@@ -245,7 +245,8 @@
                 if (data && data.length > 0) {
                     const lastSeen = new Date(data[0].last_seen);
                     const now = new Date();
-                    if (now - lastSeen < 35000) {
+                    // Math.abs chroni przed minimalnymi przesunięciami zegarów w urządzeniach
+                    if (Math.abs(now - lastSeen) < 35000) {
                         statusDot.className = "w-2 h-2 rounded-full bg-emerald-500 animate-pulse";
                         statusText.innerText = "JESTEM AKTYWNY — NAPISZ DO MNIE";
                         return;
@@ -269,7 +270,6 @@
                 
                 msgs.forEach(m => {
                     const isAdmin = m.sender === 'admin';
-                    // DODANO WIDOK STATUSU: WYSŁANO / ODCZYTANO
                     const statusText = !isAdmin ? `<span class="text-[9px] text-slate-400 block mt-0.5 pl-1 font-bold">${m.is_read ? 'Odczytano ✓' : 'Wysłano'}</span>` : '';
                     
                     area.innerHTML += `
@@ -394,7 +394,7 @@
                     <div onclick="otworzModal('${p.id}')" class="group bg-slate-800/40 border border-slate-800 rounded-2xl overflow-hidden hover:border-pink-500/30 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col cursor-pointer">
                         <div class="aspect-[4/3] w-full bg-slate-800 overflow-hidden relative">${logoOverlay}<img src="${fotka}" class="w-full h-full object-cover opacity-90 group-hover:scale-102 transition-all duration-500"><span class="absolute top-3 left-3 bg-pink-600 text-white text-[9px] font-bold px-2.5 py-1 rounded-lg uppercase tracking-widest shadow-md">GRADE: ${p.condition_grade || 'A'}</span></div>
                         <div class="p-5 flex flex-col flex-1 justify-between">
-                            <div><p class="text-[9px] font-bold uppercase tracking-widest text-pink-500 mb-1">PAKIET: ${p.size}</p><h3 class="font-bold text-white text-base tracking-tight group-hover:text-pink-500">${p.name}</h3></div>
+                            <div><p class="text-[9px] font-bold uppercase tracking-wildest text-pink-500 mb-1">PAKIET: ${p.size}</p><h3 class="font-bold text-white text-base tracking-tight group-hover:text-pink-500">${p.name}</h3></div>
                             <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between"><div><p class="text-[9px] text-slate-500 font-bold uppercase tracking-widest">Cena brutto</p><span class="text-lg font-black text-white">${parseFloat(p.price).toFixed(2)} PLN</span></div><button class="bg-pink-600 text-white font-bold text-[10px] uppercase tracking-widest px-4 py-2.5 rounded-lg group-hover:bg-pink-700 transition-colors">ZAMÓW BOX</button></div>
                         </div>
                     </div>`;
@@ -407,7 +407,6 @@
             const produkt = zapamiętaneProdukty.find(p => p.id == id);
             if(!produkt) return;
             aktywnyProduktId = id;
-            textType = produkt.type;
             aktualnaCenaProduktu = parseFloat(produkt.price);
 
             document.getElementById('modal-name').innerText = produkt.name;
@@ -469,7 +468,7 @@
         function zamknijModal() { document.getElementById('product-modal').classList.add('hidden'); document.body.style.overflow = 'auto'; }
 
         async function uruchomPlatnosc() {
-            const produkt = zapamięzaneProdukty.find(p => p.id == aktywnyProduktId);
+            const produkt = zapamiętaneProdukty.find(p => p.id == aktywnyProduktId);
             if(!produkt) return;
             const metoda = document.querySelector('input[name="dostawa"]:checked').value;
             const paczkomatKod = document.getElementById('paczkomat-input').value.trim();
