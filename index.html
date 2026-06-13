@@ -28,10 +28,11 @@
                 <div class="w-[1px] h-5 bg-slate-200"></div>
                 <span class="text-base font-black tracking-widest uppercase text-slate-900">STYLOWNIE</span>
             </div>
-            <nav class="flex items-center gap-4 sm:gap-6 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-600">
+            <nav class="flex items-center gap-3 sm:gap-6 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-600">
                 <button onclick="zmienSekcjeWidoku('BUTY')" class="hover:text-pink-600 transition-colors py-2 cursor-pointer">Buty</button>
                 <button onclick="zmienSekcjeWidoku('ODZIEZ')" class="hover:text-pink-600 transition-colors py-2 cursor-pointer">Odzież</button>
-                <button onclick="zmienSekcjeWidoku('HURT')" class="bg-slate-900 text-white px-3.5 sm:px-5 py-2 rounded-lg hover:bg-pink-600 transition-all duration-300 cursor-pointer">Boxy Hurt</button>
+                <button onclick="zmienSekcjeWidoku('ABOUT')" class="hover:text-pink-600 transition-colors py-2 cursor-pointer text-pink-600">O nas</button>
+                <button onclick="zmienSekcjeWidoku('HURT')" class="bg-slate-900 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-pink-600 transition-all duration-300 cursor-pointer">Boxy Hurt</button>
             </nav>
         </div>
     </header>
@@ -49,9 +50,10 @@
             <p class="mt-4 text-sm sm:text-base text-slate-500 max-w-xl mx-auto font-medium leading-relaxed px-2">
                 Wyselekcjonowane perełki vintage, odświeżone klasyki i potężne pakiety hurtowe dla resellerów. Prosto z zaplecza w Nisku.
             </p>
-            <div class="mt-8 flex flex-wrap justify-center gap-3.5">
-                <button onclick="zmienSekcjeWidoku('BUTY')" class="bg-pink-600 text-white font-bold px-6 py-3 rounded-xl shadow-md hover:bg-pink-700 transition-all uppercase tracking-wider text-[11px] cursor-pointer">Zobacz Buty</button>
-                <button onclick="zmienSekcjeWidoku('ODZIEZ')" class="bg-slate-900 text-white font-bold px-6 py-3 rounded-xl shadow-md hover:bg-slate-800 transition-all uppercase tracking-wider text-[11px] cursor-pointer">Zobacz Odzież</button>
+            <div class="mt-8 flex flex-wrap justify-center gap-3">
+                <button onclick="zmienSekcjeWidoku('BUTY')" class="bg-pink-600 text-white font-bold px-5 py-3.5 rounded-xl shadow-md hover:bg-pink-700 transition-all uppercase tracking-wider text-[11px] cursor-pointer">Zobacz Buty</button>
+                <button onclick="zmienSekcjeWidoku('ODZIEZ')" class="bg-slate-900 text-white font-bold px-5 py-3.5 rounded-xl shadow-md hover:bg-slate-800 transition-all uppercase tracking-wider text-[11px] cursor-pointer">Zobacz Odzież</button>
+                <button onclick="zmienSekcjeWidoku('HURT')" class="bg-purple-600 text-white font-bold px-5 py-3.5 rounded-xl shadow-md hover:bg-purple-700 transition-all uppercase tracking-wider text-[11px] cursor-pointer">Zobacz Boxy</button>
             </div>
         </div>
     </section>
@@ -81,7 +83,6 @@
             <h2 class="text-2xl sm:text-3xl font-black text-slate-900 uppercase tracking-tight mt-1">Obuwie Premium</h2>
         </div>
         <div id="buty-filters-container" class="flex flex-wrap gap-2 mb-6 justify-center sm:justify-start overflow-x-auto pb-2"></div>
-        
         <div id="buty-container" class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-8">
             <p class="text-slate-400 col-span-full text-center py-6 font-medium text-xs animate-pulse">ŁADOWANIE OBUWIA...</p>
         </div>
@@ -96,12 +97,77 @@
             <h2 class="text-2xl sm:text-3xl font-black text-slate-900 uppercase tracking-tight mt-1">Odzież i ubrania</h2>
         </div>
         <div id="odziez-filters-container" class="flex flex-wrap gap-2 mb-6 justify-center sm:justify-start overflow-x-auto pb-2"></div>
-        
         <div id="odziez-container" class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-8">
             <p class="text-slate-400 col-span-full text-center py-6 font-medium text-xs animate-pulse">ŁADOWANIE ODZIEŻY...</p>
         </div>
         <div id="more-odziez-wrapper" class="hidden text-center mt-10">
             <button id="more-odziez-btn" onclick="toggleOdziezView()" class="bg-white text-slate-900 border border-slate-200 hover:border-pink-500 hover:text-pink-600 font-bold text-xs uppercase tracking-widest px-8 py-4 rounded-xl transition-all shadow-xs cursor-pointer">Pokaż więcej odzieży</button>
+        </div>
+    </section>
+
+    <section id="o nas-sekcja" class="hidden max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <span class="text-pink-600 text-xs font-bold uppercase tracking-widest block mb-2">Kim jesteśmy?</span>
+            <h2 class="text-3xl sm:text-4xl font-black text-slate-900 uppercase tracking-tight">Bezpośredni Importer z Anglii i Irlandii</h2>
+            <div class="w-12 h-1 bg-pink-500 mx-auto mt-4 rounded-full"></div>
+            <p class="text-slate-500 text-sm font-medium mt-4 leading-relaxed">
+                Działamy na rynku od ponad dwóch lat, dostarczając starannie wyselekcjonowaną odzież i obuwie klasy Premium. Nasza główna siedziba i zaplecze logistyczne znajdują się w Nisku, skąd realizujemy wysyłki na całą Polskę.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 text-center md:text-left">
+            <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-xs">
+                <div class="text-3xl mb-3">🇬🇧 🇮🇪</div>
+                <h3 class="font-bold text-slate-950 text-base mb-1.5 uppercase tracking-tight">Legalny, Pewny Import</h3>
+                <p class="text-slate-500 text-xs font-medium leading-relaxed">Dzięki bezpośrednim, długofalowym kontraktom z brytyjskimi i irlandzkimi sortowniami e-commerce omijamy jakichkolwiek pośredników. Masz gwarancję najniższej ceny.</p>
+            </div>
+            <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-xs">
+                <div class="text-3xl mb-3">🏷️</div>
+                <h3 class="font-bold text-slate-950 text-base mb-1.5 uppercase tracking-tight">Wysoki Udział Towaru z Metkami</h3>
+                <p class="text-slate-500 text-xs font-medium leading-relaxed">Nasz asortyment charakteryzuje się ogromnym procentem ubrań w stanie Cream oraz fabrycznie nowym Outlecie z oryginalnymi metkami (m.in. Marks & Spencer, Bershka, F&F).</p>
+            </div>
+            <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-xs">
+                <div class="text-3xl mb-3">🤝</div>
+                <h3 class="font-bold text-slate-950 text-base mb-1.5 uppercase tracking-tight">Tysiące Zadowolonych Klientów</h3>
+                <p class="text-slate-500 text-xs font-medium leading-relaxed">Zaufali nam zarówno klienci detaliczni szukający perełek 1/1, jak i setki butików oraz resellerów z całej Polski, którzy zaopatrują u nas swoje sklepy za pomocą Mystery Boxów.</p>
+            </div>
+        </div>
+
+        <div class="mb-6"><h3 class="text-xs font-black uppercase tracking-wider text-slate-400 mb-4">Galeria z naszego zaplecza logistycznego</h3></div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            
+            <div class="bg-white border border-slate-200 rounded-2xl p-2 shadow-xs flex flex-col justify-between">
+                <div class="aspect-[4/3] w-full bg-slate-100 rounded-xl overflow-hidden mb-3">
+                    <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=600" class="w-full h-full object-cover">
+                </div>
+                <p class="text-[10px] font-bold uppercase text-slate-400 px-1">Prosto z portu: Dostawa kontenerowa bel</p>
+            </div>
+
+            <div class="bg-white border border-slate-200 rounded-2xl p-2 shadow-xs flex flex-col justify-between">
+                <div class="aspect-[4/3] w-full bg-slate-100 rounded-xl overflow-hidden mb-3">
+                    <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=600" class="w-full h-full object-cover">
+                </div>
+                <p class="text-[10px] font-bold uppercase text-slate-400 px-1">Nienaruszone pakiety ubrań z metkami</p>
+            </div>
+
+            <div class="bg-white border border-slate-200 rounded-2xl p-2 shadow-xs flex flex-col justify-between">
+                <div class="aspect-[4/3] w-full bg-slate-100 rounded-xl overflow-hidden mb-3">
+                    <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=600" class="w-full h-full object-cover">
+                </div>
+                <p class="text-[10px] font-bold uppercase text-slate-400 px-1">Rozładunek i prace magazynowe w Nisku</p>
+            </div>
+
+            <div class="bg-white border border-slate-200 rounded-2xl p-2 shadow-xs flex flex-col justify-between sm:col-span-2 lg:col-span-1">
+                <div class="aspect-[4/3] w-full bg-slate-100 rounded-xl overflow-hidden mb-3">
+                    <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=600" class="w-full h-full object-cover">
+                </div>
+                <p class="text-[10px] font-bold uppercase text-slate-400 px-1">Markowe obuwie sportowe i sneakersy</p>
+            </div>
+            
+            <div class="bg-slate-900 text-white p-6 rounded-2xl flex flex-col justify-between sm:col-span-2">
+                <p class="text-sm font-medium italic leading-relaxed">"W biznesie modowym vintage nie ma miejsca na kompromisy. Nasi klienci otrzymują dokładnie taki towar, jaki zjeżdża z zagranicznych palet – bez podbierania najdroższych sztuk, bez sortowania detalicznego na zapleczu. Czysty, pewny zysk."</p>
+                <div class="mt-4 pt-3 border-t border-slate-800 text-right"><p class="text-[10px] font-black uppercase tracking-widest text-pink-500">Zarząd STYLOWNIE.PL</p></div>
+            </div>
         </div>
     </section>
 
@@ -160,7 +226,7 @@
                                 <span class="text-pink-600">+11.00 zł</span>
                             </label>
                             <label class="flex items-center justify-between bg-white p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:border-pink-500 transition-all">
-                                <span class="flex items-center gap-2"><input type="radio" name="dostawa" value="KURIER" onchange="aktualizujCeneWysylki()"> ⛟ Kurier (Dostawa pod drzwi)</span>
+                                <span class="flex items-center gap-2"><input type="radio" name="dostawa" value="KURIER" onchange="aktualizujCeneWysylki()"> 🚛 Kurier (Dostawa pod drzwi)</span>
                                 <span class="text-pink-600">+16.00 zł</span>
                             </label>
                         </div>
@@ -240,10 +306,8 @@
         
         let limitButow = 4;
         let limitOdziezy = 4;
-        let widokObecny = 'ALL'; // Obsługiwane tryby: 'ALL', 'BUTY', 'ODZIEZ', 'HURT'
-        let adminActive = false;
+        let widokObecny = 'ALL';
 
-        let acronymSizes = 'WSZYSTKIE';
         let aktywnyRozmiarButy = 'WSZYSTKIE';
         let aktywnyRozmiarOdziez = 'WSZYSTKIE';
 
@@ -339,57 +403,47 @@
         function ustawFiltrButow(r) { aktywnyRozmiarButy = r; limitButow = (widokObecny === 'BUTY' ? 12 : 4); renderujWszystko(); }
         function ustawFiltrOdziezy(r) { aktywnyRozmiarOdziez = r; limitOdziezy = (widokObecny === 'ODZIEZ' ? 12 : 4); renderujWszystko(); }
 
-        // 🔥 DWUKIERUNKOWA OBSŁUGA ROZWIJANIA I ZWIJANIA (POKAŻ MNIEJ) Z PŁYNNYM SCROLLEM
         function toggleButyView() {
-            const btn = document.getElementById('more-buty-btn');
-            if (limitButow === 4 || limitButow === 12) {
-                limitButow = 999;
-            } else {
-                limitButow = (widokObecny === 'BUTY' ? 12 : 4);
-                document.getElementById('detal-buty-sekcja').scrollIntoView({ behavior: 'smooth' });
-            }
+            if (limitButow === 4 || limitButow === 12) { limitButow = 999; } 
+            else { limitButow = (widokObecny === 'BUTY' ? 12 : 4); document.getElementById('detal-buty-sekcja').scrollIntoView({ behavior: 'smooth' }); }
             renderujWszystko();
         }
 
         function toggleOdziezView() {
-            const btn = document.getElementById('more-odziez-btn');
-            if (limitOdziezy === 4 || limitOdziezy === 12) {
-                limitOdziezy = 999;
-            } else {
-                limitOdziezy = (widokObecny === 'ODZIEZ' ? 12 : 4);
-                document.getElementById('detal-odziez-sekcja').scrollIntoView({ behavior: 'smooth' });
-            }
+            if (limitOdziezy === 4 || limitOdziezy === 12) { limitOdziezy = 999; } 
+            else { limitOdziezy = (widokObecny === 'ODZIEZ' ? 12 : 4); document.getElementById('detal-odziez-sekcja').scrollIntoView({ behavior: 'smooth' }); }
             renderujWszystko();
         }
 
-        // 🔥 SYSTEM WIRTUALNYCH PODSTRON - UKRYWANIE SEKCJI BEZ PRZEŁADOWANIA
+        // 🔥 ROZBUDOWANY SYSTEM ZMIANY WIRTUALNYCH PODSTRON (W TYM 'ABOUT')
         function zmienSekcjeWidoku(tryb) {
             widokObecny = tryb;
-            
             const hero = document.getElementById('hero-section');
             const info = document.getElementById('info-section');
             const sekcjaButy = document.getElementById('detal-buty-sekcja');
             const sekcjaOdziez = document.getElementById('detal-odziez-sekcja');
             const sekcjaHurt = document.getElementById('hurt-sekcja');
+            const sekcjaO_nas = document.getElementById('o nas-sekcja');
 
-            // Resetujemy limity na wartości domyślne dla wybranego podglądu
             limitButow = (tryb === 'BUTY' ? 12 : 4);
             limitOdziezy = (tryb === 'ODZIEZ' ? 12 : 4);
 
             if (tryb === 'BUTY') {
-                hero.classList.add('hidden'); info.classList.add('hidden');
+                hero.classList.add('hidden'); info.classList.add('hidden'); sekcjaO_nas.classList.add('hidden');
                 sekcjaButy.classList.remove('hidden'); sekcjaOdziez.classList.add('hidden'); sekcjaHurt.classList.add('hidden');
             } else if (tryb === 'ODZIEZ') {
-                hero.classList.add('hidden'); info.classList.add('hidden');
+                hero.classList.add('hidden'); info.classList.add('hidden'); sekcjaO_nas.classList.add('hidden');
                 sekcjaButy.classList.add('hidden'); sekcjaOdziez.classList.remove('hidden'); sekcjaHurt.classList.add('hidden');
             } else if (tryb === 'HURT') {
-                hero.classList.add('hidden'); info.classList.add('hidden');
+                hero.classList.add('hidden'); info.classList.add('hidden'); sekcjaO_nas.classList.add('hidden');
                 sekcjaButy.classList.add('hidden'); sekcjaOdziez.classList.add('hidden'); sekcjaHurt.classList.remove('hidden');
+            } else if (tryb === 'ABOUT') {
+                hero.classList.add('hidden'); info.classList.add('hidden'); sekcjaO_nas.classList.remove('hidden');
+                sekcjaButy.classList.add('hidden'); sekcjaOdziez.classList.add('hidden'); sekcjaHurt.classList.add('hidden');
             } else { // 'ALL' - STRONA GŁÓWNA
-                hero.classList.remove('hidden'); info.classList.remove('hidden');
+                hero.classList.remove('hidden'); info.classList.remove('hidden'); sekcjaO_nas.classList.add('hidden');
                 sekcjaButy.classList.remove('hidden'); sekcjaOdziez.classList.remove('hidden'); sekcjaHurt.classList.remove('hidden');
             }
-            
             renderujWszystko();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -418,7 +472,6 @@
             const wyswietlaneButy = filtrowaneButy.slice(0, limitButow);
             const wyswietlaneOdziez = filtrowanaOdziez.slice(0, limitOdziezy);
 
-            // Aktualizacja przycisków Pokaż więcej / Zwiń
             const moreButyWrapper = document.getElementById('more-buty-wrapper');
             if(moreButyWrapper) {
                 moreButyWrapper.classList.toggle('hidden', filtrowaneButy.length <= limitButow && limitButow !== 999);
@@ -455,12 +508,8 @@
                     </div>`;
             };
 
-            if(butyContainer && document.getElementById('detal-buty-sekcja').classList.contains('hidden') === false) {
-                wyswietlaneButy.forEach(p => mapujProdukt(p, butyContainer));
-            }
-            if(odziezContainer && document.getElementById('detal-odziez-sekcja').classList.contains('hidden') === false) {
-                wyswietlaneOdziez.forEach(p => mapujProdukt(p, odziezContainer));
-            }
+            if(butyContainer && document.getElementById('detal-buty-sekcja').classList.contains('hidden') === false) { wyswietlaneButy.forEach(p => mapujProdukt(p, butyContainer)); }
+            if(odziezContainer && document.getElementById('detal-odziez-sekcja').classList.contains('hidden') === false) { wyswietlaneOdziez.forEach(p => mapujProdukt(p, odziezContainer)); }
 
             if(hurtContainer && document.getElementById('hurt-sekcja').classList.contains('hidden') === false) {
                 hurtowe.forEach(p => {
