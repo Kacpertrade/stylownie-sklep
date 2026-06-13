@@ -58,7 +58,25 @@
         </div>
     </section>
 
-    <section id="news-container" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 hidden">
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <div id="dynamic-announcement-box">
+            <div class="bg-white border border-slate-100 rounded-2xl p-5 sm:p-6 shadow-xs flex items-center justify-center h-full min-h-[112px]">
+                <p class="text-slate-400 text-xs font-medium animate-pulse">Ładowanie najnowszych komunikatów...</p>
+            </div>
+        </div>
+
+        <div class="bg-white border border-slate-100 rounded-2xl p-5 sm:p-6 shadow-xs flex items-start gap-4 border-l-2 border-l-pink-500 h-full">
+            <div class="bg-pink-50 text-pink-600 p-3 rounded-xl font-bold text-xl shrink-0">📍</div>
+            <div>
+                <h4 class="text-xs font-black uppercase tracking-wider text-slate-400">Odwiedź nas na żywo</h4>
+                <p class="text-sm font-bold text-slate-900 mt-0.5">Butik Stacjonarny STYLOWNIE</p>
+                <p class="text-xs text-slate-800 font-bold mt-1 tracking-wide uppercase">ul. Rzeszowska 8, 37-400 Nisko</p>
+                <p class="text-xs text-slate-500 mt-1 font-medium leading-relaxed">
+                    Zapraszamy na zakupy stacjonarne, przymiarki oraz darmowy odbiór osobisty zamówień złożonych na stronie. Jesteśmy legalnie działającą, polską firmą.
+                </p>
+            </div>
+        </div>
     </section>
 
     <section id="detal-sekcja" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative">
@@ -177,15 +195,17 @@
             <p>STYLOWNIE — ul. Rzeszowska 8, 37-400 Nisko</p>
             <p class="tracking-wide">NIP: 6020149091 &nbsp;|&nbsp; REGON: 528846076</p>
         </div>
+        
         <div class="mt-6 flex justify-center gap-6 text-[10px] text-slate-400 font-bold uppercase tracking-widest">
             <button onclick="otworzLegal('regulamin')" class="hover:text-pink-500 transition-colors cursor-pointer">Zasady Sklepu & Zwroty</button>
+            <button onclick="otworzLegal('polityka')" class="hover:text-pink-500 transition-colors cursor-pointer">Polityka Prywatności</button>
         </div>
     </footer>
 
     <div id="legal-modal" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[80vh] shadow-2xl relative p-6 md:p-8 flex flex-col border border-slate-100">
             <button onclick="zamknijLegal()" class="absolute top-4 right-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold h-10 w-10 rounded-full flex items-center justify-center text-sm cursor-pointer">✕</button>
-            <h2 id="legal-title" class="text-base font-bold text-slate-900 uppercase tracking-widest mb-4 border-b border-slate-100 pb-3">Regulamin</h2>
+            <h2 id="legal-title" class="text-base font-bold text-slate-900 uppercase tracking-widest mb-4 border-b border-slate-100 pb-3">Dokument</h2>
             <div id="legal-content" class="text-xs text-slate-500 space-y-4 font-medium leading-relaxed overflow-y-auto pr-2"></div>
         </div>
     </div>
@@ -201,7 +221,6 @@
         let limitDetalu = 8; 
         const defaultImg = "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=600&auto=format&fit=crop";
 
-        // OBSŁUGA PO ZAKUPIE (KOMUNIKAT + AUTO-KASOWANIE Z BAZY)
         const urlParams = new URLSearchParams(window.location.search);
         const status = urlParams.get('status');
         const kupionyProduktId = urlParams.get('productId');
@@ -233,28 +252,27 @@
             window.location.href = "/";
         }
 
-        // POBIERANIE AKTUALNOŚCI Z OSOBNEJ TABELI SUPABASE
+        // POBIERANIE AKTUALNOŚCI Z OSOBNEJ TABELI SUPABASE (UKŁAD 2-KOLUMNOWY)
         async function pobierzAktualnosci() {
             try {
                 const response = await fetch(`${SUPABASE_URL}/rest/v1/announcements?select=*&order=created_at.desc&limit=1`, {
                     headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
                 });
                 const data = await response.json();
+                const container = document.getElementById('dynamic-announcement-box');
                 
                 if (data && data.length > 0) {
                     const wpis = data[0];
-                    const container = document.getElementById('news-container');
-                    
                     let fotoHtml = '';
                     if (wpis.image_url && wpis.image_url.trim() !== '') {
-                        fotoHtml = `<img src="${wpis.image_url}" class="w-20 h-20 sm:w-28 sm:h-28 object-cover rounded-xl border border-slate-100 shadow-xs shrink-0 bg-white" alt="Aktualności">`;
+                        fotoHtml = `<img src="${wpis.image_url}" class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-xl border border-slate-100 shadow-xs shrink-0 bg-white" alt="Aktualności">`;
                     } else {
                         fotoHtml = `<div class="bg-pink-50 text-pink-600 p-3 rounded-xl font-bold text-xl shrink-0 h-12 w-12 flex items-center justify-center">📢</div>`;
                     }
 
                     container.innerHTML = `
-                        <div class="bg-white border border-slate-100 rounded-2xl p-5 sm:p-6 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-5">
-                            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full">
+                        <div class="bg-white border border-slate-100 rounded-2xl p-5 sm:p-6 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 h-full">
+                            <div class="flex items-start sm:items-center gap-4 w-full">
                                 ${fotoHtml}
                                 <div class="flex-1">
                                     <h4 class="text-xs font-black uppercase tracking-wider text-slate-400">${wpis.title || 'Aktualności'}</h4>
@@ -262,12 +280,21 @@
                                     <p class="text-xs text-slate-500 mt-1 font-medium leading-relaxed">${wpis.subtext || ''}</p>
                                 </div>
                             </div>
-                            <div class="shrink-0 flex gap-2 self-start md:self-center">
+                            <div class="shrink-0 flex gap-2 mt-2 sm:mt-0">
                                 <span class="bg-slate-100 text-slate-700 text-[10px] font-bold px-3 py-1.5 rounded-lg uppercase tracking-wider">${wpis.status_badge || 'Status: Aktywny'}</span>
                             </div>
                         </div>
                     `;
-                    container.classList.remove('hidden');
+                } else {
+                    container.innerHTML = `
+                        <div class="bg-white border border-slate-100 rounded-2xl p-5 sm:p-6 shadow-xs flex items-start gap-4 h-full">
+                            <div class="bg-pink-50 text-pink-600 p-3 rounded-xl font-bold text-xl shrink-0">📢</div>
+                            <div>
+                                <h4 class="text-xs font-black uppercase tracking-wider text-slate-400">Aktualności</h4>
+                                <p class="text-sm font-bold text-slate-900 mt-0.5">Witaj w STYLOWNIE.PL</p>
+                                <p class="text-xs text-slate-500 mt-1 font-medium leading-relaxed">Śledź nasz profil, wkrótce z poziomu panelu administratora opublikujemy tu nową wiadomość!</p>
+                            </div>
+                        </div>`;
                 }
             } catch (err) { console.error("Błąd aktualności:", err); }
         }
@@ -491,20 +518,26 @@
                 
                 <p class="font-bold text-slate-900 text-sm mt-6">ZASADY ZAMÓWIEŃ HURTOWYCH (MYSTERY BOXY)</p>
                 <p>1. Transakcje hurtowe (zakup pakietów typu Mystery Box) realizowane są w formule B2B (dla podmiotów gospodarczych lub resellerów) i **nie podlegają przepisom o zwrotach konsumenckich**. Towar hurtowy nie jest zwrotny.</p>
-                <p>2. Zawartość pakietów typu Mystery Box może cechować się zróżnicowanym stanem wizualnym poszczególnych sztuk odzieży lub butów, co jest naturalne dla selekcjonowanego asortymentu vintage. Stan ubrań nigdy jednak nie odbiega rażąco od kategorii (Grade A/Grade B) opisanej bezpośrednio na karcie wybranej oferta sprzedaży.</p>
+                <p>2. Zawartość pakietów typu Mystery Box może cechować się zróżnicowanym stanem wizualnym poszczególnych sztuk odzieży lub butów, co jest naturalne dla selekcjonowanego asortymentu vintage. Stan ubrań nigdy jednak nie odbiega rażąco od kategorii (Grade A/Grade B) opisanej bezpośrednio na karcie wybranej oferty sprzedaży.</p>
                 <p>3. Gwarantujemy, że zawartość pakietów nie podlega wstępnej selekcji pod kątem sprzedaży detalicznej 1/1. Pakiety są w 100% nienaruszone i kompletne.</p>
+            `,
+            polityka: `
+                <p class="font-bold text-slate-900 text-sm">POLITYKA PRYWATNOŚCI & OCHRONA DANYCH OSOBOWYCH</p>
+                <p>1. Sklep STYLOWNIE przywiązuje najwyższą wagę do bezpieczeństwa i ochrony prywatności swoich użytkowników. Wszystkie dane osobowe zbierane podczas wypełniania formularza płatności (imię, nazwisko, adres wysyłki, numer telefonu oraz e-mail) są przetwarzane w 100% zgodnie z prawem.</p>
+                <p>2. Dane te są wykorzystywane wyłącznie przez system Stripe w celu poprawnego przetworzenia bezpiecznej płatności oraz przekazywane operatorom dostaw (InPost / DPD) w celu prawidłowego zaadresowania i nadania paczki.</p>
+                <p>3. Dane kontaktowe nie są odsprzedawane ani przekazywane firmom trzecim do celów marketingowych. Każdemu użytkownikowi przysługuje prawo do wglądu w swoje dane, ich edycji lub żądania ich całkowitego usunięcia.</p>
             `
         };
 
         function otworzLegal(typ) {
-            document.getElementById('legal-title').innerText = 'Regulamin Sklepu & Zwroty';
+            document.getElementById('legal-title').innerText = typ === 'regulamin' ? 'Regulamin Sklepu & Zwroty' : 'Polityka Prywatności';
             document.getElementById('legal-content').innerHTML = TEKSTY_PRAWNE[typ];
             document.getElementById('legal-modal').classList.remove('hidden');
             document.body.style.overflow = 'hidden';
         }
         function zamknijLegal() { document.getElementById('legal-modal').classList.add('hidden'); document.body.style.overflow = 'auto'; }
 
-        // WYWOŁANIE SYSTEMOWE OBU STRUMIENI DANYCH
+        // WYWOŁANIE SYSTEMOWE STRUMIENI DANYCH
         pobierzAktualnosci();
         pobierzProdukty();
     </script>
