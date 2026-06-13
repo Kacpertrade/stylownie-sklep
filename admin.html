@@ -15,7 +15,7 @@
                 <div class="space-y-1">
                     <h4 class="text-[10px] font-black uppercase tracking-wider text-slate-400">Klienci na stronie</h4>
                     <p id="stats-online-count" class="text-3xl font-black text-white tracking-tight">0</p>
-                    <p class="text-[9px] text-slate-500 font-medium">Aktywni w ciągu 20 sekund</p>
+                    <p class="text-[9px] text-slate-500 font-medium">Aktywni w ciągu 45 sekund</p>
                 </div>
                 <div class="h-10 w-12 bg-emerald-500/10 rounded-xl border border-emerald-500/20 flex items-center justify-center relative text-xl">
                     <span class="absolute top-3 right-3 flex h-2 w-2">
@@ -223,11 +223,11 @@
         let selectedSessionId = null;
         let listaZdjecProduktu = [];
 
-        // 👥 FUNKCJA SPRAWDZANIA LICZBY OSÓB ONLINE NA ŻYWO (ZABEZPIECZONA)
+        // 👥 FUNKCJA SPRAWDZANIA LICZBY OSÓB ONLINE NA ŻYWO (ZABEZPIECZONA - BUFOR 45 SEKUND)
         async function pobierzUzytkownikowOnline() {
             try {
-                const dwadziesciaSekundTemu = new Date(Date.now() - 20000).toISOString();
-                const response = await fetch(`${SUPABASE_URL}/rest/v1/visitor_presence?last_seen=gt.${dwadziesciaSekundTemu}&select=session_id`, {
+                const marginesCzasu = new Date(Date.now() - 45000).toISOString();
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/visitor_presence?last_seen=gt.${marginesCzasu}&select=session_id`, {
                     headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
                 });
                 const data = await response.json();
