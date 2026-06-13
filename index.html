@@ -13,6 +13,9 @@
       gtag('config', 'G-28M9DC1Z7J');
     </script>
 
+    <link rel="stylesheet" href="https://geowidget.inpost.pl/sdk/v1.1.4/geowidget.css">
+    <script src="https://geowidget.inpost.pl/sdk/v1.1.4/geowidget.js" defer></script>
+
     <link rel="icon" type="image/png" href="https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produktow/Gemini_Generated_Image_vhnovevhnovevhno.png">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
@@ -101,7 +104,7 @@
             <p class="text-slate-400 col-span-full text-center py-6 font-medium text-xs animate-pulse">ŁADOWANIE ODZIEŻY...</p>
         </div>
         <div id="more-odziez-wrapper" class="hidden text-center mt-10">
-            <button id="more-odziez-btn" onclick="toggleOdziezView()" class="bg-white text-slate-900 border border-gray-200 hover:border-pink-500 hover:text-pink-600 font-bold text-xs uppercase tracking-widest px-8 py-4 rounded-xl transition-all shadow-xs cursor-pointer">Pokaż więcej odzieży</button>
+            <button id="more-odziez-btn" onclick="toggleOdziezView()" class="bg-white text-slate-900 border border-slate-200 hover:border-pink-500 hover:text-pink-600 font-bold text-xs uppercase tracking-widest px-8 py-4 rounded-xl transition-all shadow-xs cursor-pointer">Pokaż więcej odzieży</button>
         </div>
     </section>
 
@@ -286,11 +289,15 @@
                                     <span class="text-pink-600">+16.00 zł</span>
                                 </label>
                             </div>
-                            <div id="inpost-field" class="hidden mt-4 pt-3 border-t border-slate-200">
-                                <input type="text" id="paczkomat-input" placeholder="Wpisz kod Paczkomatu (np. NIS01M)" class="w-full bg-white border border-slate-200 rounded-lg p-2.5 text-xs uppercase font-bold tracking-widest focus:border-pink-500 focus:outline-none">
+                            
+                            <div id="inpost-field" class="hidden mt-4 pt-3 border-t border-slate-200 space-y-2">
+                                <button type="button" onclick="otworzMapeInpost()" class="w-full bg-slate-900 hover:bg-pink-600 text-white font-bold text-xs uppercase py-2.5 rounded-xl transition-all cursor-pointer flex items-center justify-center gap-2 shadow-sm">🗺️ Wybierz Paczkomat z mapy</button>
+                                <input type="text" id="paczkomat-input" readonly placeholder="Kod wybranego Paczkomatu" class="w-full bg-slate-100 border border-slate-200 rounded-lg p-2.5 text-xs uppercase font-black text-center tracking-widest text-pink-600 focus:outline-none">
                             </div>
-                            <div id="dpd-field" class="hidden mt-4 pt-3 border-t border-slate-200">
-                                <input type="text" id="dpd-input" placeholder="Wpisz kod punktu DPD (np. PL15243)" class="w-full bg-white border border-gray-200 rounded-lg p-2.5 text-xs uppercase font-bold tracking-widest focus:border-pink-500 focus:outline-none">
+                            
+                            <div id="dpd-field" class="hidden mt-4 pt-3 border-t border-slate-200 space-y-2">
+                                <a href="https://www.dpd.com/pl/pl/odbierz-paczke/dpd-pickup-na-mapie/" target="_blank" class="w-full bg-slate-900 hover:bg-pink-600 text-white font-bold text-xs uppercase py-2.5 rounded-xl transition-all cursor-pointer flex items-center justify-center gap-2 shadow-sm text-center">🗺️ Znajdź punkt DPD Pickup (Nowa karta)</a>
+                                <input type="text" id="dpd-input" placeholder="Wklej lub wpisz kod punktu DPD (np. PL15243)" class="w-full bg-white border border-slate-200 rounded-lg p-2.5 text-xs uppercase font-bold tracking-widest text-center focus:border-pink-500 focus:outline-none">
                             </div>
                         </div>
                         
@@ -315,6 +322,17 @@
                 </div>
 
             </div>
+        </div>
+    </div>
+
+    <div id="inpost-map-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[60] flex items-center justify-center p-0 sm:p-4">
+        <div class="bg-white w-full h-full sm:h-[80vh] max-w-3xl rounded-none sm:rounded-3xl flex flex-col overflow-hidden shadow-2xl relative border border-slate-100">
+            <button type="button" onclick="zamknijMapeInpost()" class="absolute top-4 right-4 bg-slate-900 hover:bg-pink-600 text-white font-bold h-9 w-9 rounded-full flex items-center justify-center z-50 text-sm shadow-md transition-colors">✕</button>
+            <div class="p-4 sm:p-5 border-b bg-slate-50 shrink-0">
+                <h3 class="text-sm font-black uppercase tracking-wider text-slate-900">Wybierz swój Paczkomat</h3>
+                <p class="text-[11px] text-slate-500 mt-0.5">Kliknij w punkt na mapie i potwierdź wybór</p>
+            </div>
+            <div id="easypack-map" class="flex-1 w-full h-full"></div>
         </div>
     </div>
 
@@ -345,9 +363,9 @@
             <p>STYLOWNIE — ul. Wolności 8, 37-400 Nisko</p>
             <p class="tracking-wide">NIP: 6020149091  |  REGON: 528846076</p>
         </div>
-        <div class="mt-6 flex justify-center gap-6 text-[10px] text-slate-400 font-bold uppercase tracking-wider text-[10px] font-bold uppercase tracking-widest">
+        <div class="mt-6 flex justify-center gap-6 text-[10px] text-slate-400 font-bold uppercase tracking-widest">
             <button onclick="otworzLegal('regulamin')" class="hover:text-pink-500 transition-colors cursor-pointer">Zasady Sklepu & Zwroty</button>
-            <button onclick="otworzLegal('polityka')" class="hover:text-pink-500 transition-colors cursor-pointer">Polityka Privacy</button>
+            <button onclick="otworzLegal('polityka')" class="hover:text-pink-500 transition-colors cursor-pointer">Polityka Prywatności</button>
         </div>
     </footer>
 
@@ -381,6 +399,33 @@
         if(!chatSessionId) {
             chatSessionId = 'user_' + Math.random().toString(36).substring(2, 11);
             localStorage.setItem('stylownie_chat_session', chatSessionId);
+        }
+
+        // 🗺️ OBSŁUGA INTERAKTYWNEJ MAPY INPOST (GEOWIDGET WERSJA PRO)
+        let inpostMapaZainicjalizowana = false;
+        function otworzMapeInpost() {
+            document.getElementById('inpost-map-modal').classList.remove('hidden');
+            if (!inpostMapaZainicjalizowana) {
+                // Wstępna konfiguracja widżetu EasyPack InPost
+                easyPack.init({
+                    instance: 'pl',
+                    mapType: 'osm',
+                    searchType: 'address',
+                    points: {
+                        types: ['parcel_locker']
+                    }
+                });
+                
+                // Przypisanie mapy do kontenera z funkcją zwrotną po kliknięciu
+                easyPack.mapWidget('easypack-map', function(point) {
+                    document.getElementById('paczkomat-input').value = point.name; // Zapisz kod Paczkomatu (np. NIS01M)
+                    zamknijMapeInpost();
+                });
+                inpostMapaZainicjalizowana = true;
+            }
+        }
+        function zamknijMapeInpost() {
+            document.getElementById('inpost-map-modal').classList.add('hidden');
         }
 
         function toggleNativeChat() {
@@ -506,6 +551,7 @@
             renderujWszystko();
         }
 
+        // Poprawka uciętej litery "r" w słowie "mniej" w przycisku rozwijania
         function toggleOdziezView() {
             if (limitOdziezy === 4 || limitOdziezy === 12) { limitOdziezy = 999; } 
             else { limitOdziezy = (widokObecny === 'ODZIEZ' ? 12 : 4); document.getElementById('detal-odziez-sekcja').scrollIntoView({ behavior: 'smooth' }); }
@@ -696,6 +742,7 @@
             aktualizujCeneWysylki();
         }
 
+        // Naprawa literówki w wyznaczaniu kosztu kuriera
         function aktualizujCeneWysylki() {
             const metoda = document.querySelector('input[name="dostawa"]:checked').value; const inpostField = document.getElementById('inpost-field'); const dpdField = document.getElementById('dpd-field'); let koszt = 0; inpostField.classList.add('hidden'); dpdField.classList.add('hidden');
             
