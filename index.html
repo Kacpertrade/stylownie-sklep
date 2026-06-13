@@ -201,7 +201,7 @@
                     <div>
                         <h4 class="text-sm font-black uppercase tracking-widest text-pink-500">Gwarancja 100% Nienaruszonych Boxów</h4>
                         <h3 class="text-lg font-bold text-white mt-1">U nas NIE MA selekcji ani podbierania najlepszych par!</h3>
-                        <p class="text-xs text-slate-400 font-medium mt-3 leading-relaxed">Nasz asortyment detaliczny (1/1) pochodzi wyłącznie z indywidualnego odkupu gotówkowego od osób prywatnych i kolekcjonerów w unserem punkcie stacjonarnym. Z kolei Mystery Boxy przyjeżdżają do nas w zapieczętowanych, fabrycznych paletach zbiorczych bezpośrednio z zagranicznych sortowni e-commerce i trafiają do Ciebie w dokładnie takim samym, nienaruszonym składzie.</p>
+                        <p class="text-xs text-slate-400 font-medium mt-3 leading-relaxed">Nasz asortyment detaliczny (1/1) pochodzi wyłącznie z indywidualnego odkupu gotówkowego od osób prywatnych i kolekcjonerów w naszym punkcie stacjonarnym. Z kolei Mystery Boxy przyjeżdżają do nas w zapieczętowanych, fabrycznych paletach zbiorczych bezpośrednio z zagranicznych sortowni e-commerce i trafiają do Ciebie w dokładnie takim samym, nienaruszonym składzie.</p>
                     </div>
                 </div>
             </div>
@@ -313,7 +313,7 @@
                     </div>
                 </div>
 
-                <div class="flex md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 p-4 items-center justify-between gap-4 z-40 shadow-[0_-4px_12px_rgba(0,0,0,0.08)] pb-[calc(16px+env(safe-area-inset-bottom))]">
+                <div class="flex md:hidden absolute bottom-0 left-0 right-0 bg-white border-t border-slate-100 p-4 items-center justify-between gap-4 z-40 shadow-[0_-4px_12px_rgba(0,0,0,0.08)] pb-[calc(16px+env(safe-area-inset-bottom))]">
                     <div>
                         <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Cena z dostawą</p>
                         <span id="modal-price-mobile" class="text-lg font-black text-slate-900 tracking-tight">0.00 PLN</span>
@@ -332,7 +332,7 @@
                 <h3 class="text-sm font-black uppercase tracking-wider text-slate-900">Wybierz swój Paczkomat</h3>
                 <p class="text-[11px] text-slate-500 mt-0.5">Kliknij w punkt na mapie i potwierdź wybór</p>
             </div>
-            <div id="easypack-map" class="flex-1 w-full h-full"></div>
+            <div id="easypack-map" class="w-full h-[450px] sm:h-[550px]"></div>
         </div>
     </div>
 
@@ -401,23 +401,27 @@
             localStorage.setItem('stylownie_chat_session', chatSessionId);
         }
 
-        // 🗺️ MAPA INPOST
+        // 🗺️ OBSŁUGA INTERAKTYWNEJ MAPY INPOST (Z TIMEOUTEM ROZWIĄZUJĄCYM PROBLEM BIAŁEGO EKRANU)
         let inpostMapaZainicjalizowana = false;
         function otworzMapeInpost() {
             document.getElementById('inpost-map-modal').classList.remove('hidden');
-            if (!inpostMapaZainicjalizowana) {
-                easyPack.init({
-                    instance: 'pl',
-                    mapType: 'osm',
-                    searchType: 'address',
-                    points: { types: ['parcel_locker'] }
-                });
-                easyPack.mapWidget('easypack-map', function(point) {
-                    document.getElementById('paczkomat-input').value = point.name;
-                    zamknijMapeInpost();
-                });
-                inpostMapaZainicjalizowana = true;
-            }
+            
+            // Wstrzymujemy start silnika o 150ms, żeby przeglądarka zdążyła otworzyć i wyliczyć okno
+            setTimeout(() => {
+                if (!inpostMapaZainicjalizowana) {
+                    easyPack.init({
+                        instance: 'pl',
+                        mapType: 'osm',
+                        searchType: 'address',
+                        points: { types: ['parcel_locker'] }
+                    });
+                    easyPack.mapWidget('easypack-map', function(point) {
+                        document.getElementById('paczkomat-input').value = point.name;
+                        zamknijMapeInpost();
+                    });
+                    inpostMapaZainicjalizowana = true;
+                }
+            }, 150);
         }
         function zamknijMapeInpost() {
             document.getElementById('inpost-map-modal').classList.add('hidden');
@@ -801,7 +805,7 @@
                     <p>2. Zgodnie z polskim prawem, konsumentowi kupującemu w asortymencie detalicznym przysługuje **prawo do odstąpienia od umowy bez podania przyczyny w terminie 14 dni** od dnia odebrania przesyłki.</p>
                     <p>3. **Warunki zwrotu detalicznego:** Zwracany towar musi zostać odesłany w stanie nienaruszonym. Koszt odesłania towaru pokrywa kupujący.</p>
                     <p class="font-bold text-slate-800 pt-2">§3. Zamówienia hurtowe B2B (Mystery Boxy dla Resellerów)</p>
-                    <p>1. Sprzedaż pakietów zbiorczych w sekcji "Oferta Hurtowa B2B" (Mystery Boxy) realizowana jest wyłącznie na rzecz podmiotów gospodarczych (resellerów, firm handlowych) w formule biznesowej B2B.</p>
+                    <p>1. Sprzedaż pakietów zbiorczych w sekcji "Oferta Hurtowa B2B" (Mystery Boxy) realizowana jest wyłącznie na triage podmiotów gospodarczych (resellerów, firm handlowych) w formule biznesowej B2B.</p>
                     <p>2. **Całkowite wyłączenie prawa do zwrotu:** Ze względu na specyfikę transakcji hurtowych oraz nienaruszony charakter dostaw, **Mystery Boxy są w całości wyłączone z możliwości odstąpienia od umowy, zwrotów, wymian oraz rezygnacji po opłaceniu zamówienia**.</p>
                 </div>`,
             polityka: `
@@ -841,7 +845,7 @@
                         <li>Prawo do wniesienia oficjalnej skargi do organu nadzorczego – Prezesa Urzędu Ochrony Danych Osobowych (ul. Stawki 2, 00-193 Warszawa), jeżeli uznasz, że przetwarzanie danych narusza aktualne przepisy prawne.</li>
                     </ul>
                     
-                    <p class="font-bold text-slate-800 pt-2">5. Pliki Cookies (Ciasteczka) i Technologies Śledzące</p>
+                    <p class="font-bold text-slate-800 pt-2">5. Pliki Cookies (Ciasteczka) i Technologie Śledzące</p>
                     <p>Nasz sklep internetowy wykorzystuje pliki cookies (małe pliki tekstowe zapisywane na Twoim urządzeniu końcowym). Wykorzystujemy je w celach:</p>
                     <ul class="list-disc pl-4 space-y-1">
                         <li><strong>Funkcjonalnych:</strong> Zapewnienie stabilnego działania strony, utrzymanie ciągłości sesji czatu oraz zapamiętywanie konfiguracji filtrów.</li>
