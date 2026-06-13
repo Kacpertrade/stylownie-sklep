@@ -18,13 +18,31 @@
 
             <form id="admin-form" class="space-y-5">
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2 uppercase">Typ sprzedaży</label>
+                    <label class="block text-sm font-bold text-gray-700 mb-2 uppercase">1. Typ sprzedaży</label>
                     <div class="grid grid-cols-2 gap-4">
                         <label class="border-2 border-pink-600 bg-pink-50 p-4 rounded-xl flex items-center justify-center cursor-pointer font-bold text-pink-700" id="label-detal">
-                            <input type="radio" name="type" value="DETAL" checked class="hidden" onchange="toggleType('DETAL')"> DETAL (B2C)
+                            <input type="radio" name="type" value="DETAL" checked class="hidden" onchange="toggleType('DETAL')"> DETAL (1/1)
                         </label>
                         <label class="border-2 border-gray-200 p-4 rounded-xl flex items-center justify-center cursor-pointer font-bold text-gray-500" id="label-hurt">
                             <input type="radio" name="type" value="HURT" class="hidden" onchange="toggleType('HURT')"> HURT (B2B Box)
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-2 uppercase">2. Kategoria i przeznaczenie towaru</label>
+                    <div class="grid grid-cols-3 gap-3">
+                        <label class="border-2 border-pink-600 bg-pink-50 p-3 rounded-xl flex flex-col items-center justify-center cursor-pointer font-bold text-pink-700 text-xs text-center transition-all" id="label-cat-buty">
+                            <input type="radio" name="category_radio" value="buty" checked class="hidden" onchange="toggleCategory('buty')">
+                            <span class="text-lg mb-1">👟</span> BUTY DETAL
+                        </label>
+                        <label class="border-2 border-gray-200 p-3 rounded-xl flex flex-col items-center justify-center cursor-pointer font-bold text-gray-500 text-xs text-center transition-all" id="label-cat-odziez">
+                            <input type="radio" name="category_radio" value="odziez" class="hidden" onchange="toggleCategory('odziez')">
+                            <span class="text-lg mb-1">👕</span> ODZIEŻ DETAL
+                        </label>
+                        <label class="border-2 border-gray-200 p-3 rounded-xl flex flex-col items-center justify-center cursor-pointer font-bold text-gray-500 text-xs text-center transition-all opacity-40" id="label-cat-box">
+                            <input type="radio" name="category_radio" value="mystery-box" class="hidden" onchange="toggleCategory('mystery-box')">
+                            <span class="text-lg mb-1">📦</span> MYSTERY BOX
                         </label>
                     </div>
                 </div>
@@ -40,17 +58,9 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-1">Kategoria</label>
-                        <select id="category" class="w-full border border-gray-300 rounded-xl p-3 focus:outline-none focus:border-pink-600">
-                            <option value="buty">Buty</option>
-                            <option value="odziez">Odzież</option>
-                            <option value="mystery-box">Mystery Box</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold text-gray-700 mb-1">Rozmiar</label>
+                        <label class="block text-sm font-bold text-gray-700 mb-1">Rozmiar (np. 41 lub M)</label>
                         <input type="text" id="size" required placeholder="np. 37.5 lub L" class="w-full border border-gray-300 rounded-xl p-3 focus:outline-none focus:border-pink-600">
                     </div>
                     <div>
@@ -75,7 +85,6 @@
                         <input type="file" id="image" accept="image/*" multiple required class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
                         <div class="space-y-1">
                             <p class="text-sm font-bold text-gray-700">Kliknij, aby dodać lub zrobić zdjęcia</p>
-                            <p class="text-xs text-gray-500">Pierwsze wybrane zdjęcie będzie zdjęciem głównym</p>
                         </div>
                     </div>
                     <div id="preview-container" class="grid grid-cols-4 gap-3 mt-4"></div>
@@ -112,7 +121,6 @@
         <div class="bg-white rounded-3xl shadow-xl p-6 md:p-8">
             <div class="border-b border-gray-100 pb-4 mb-6">
                 <h2 class="text-xl font-black tracking-tight text-gray-900 uppercase">💬 Panel Dowodzenia Czatem</h2>
-                <p class="text-xs text-gray-400 mt-1 font-bold">Wybierz sesję klienta i odpowiedz mu na żywo</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 h-96">
                 <div id="chat-sessions-list" class="border border-gray-200 rounded-2xl p-2 overflow-y-auto space-y-2 text-xs font-bold text-gray-700 bg-gray-50 flex flex-col">
@@ -144,16 +152,11 @@
         const SUPABASE_KEY = "sb_publishable_feyl5lfAJkE2FhXKJUb4WA_9ya9cSAw";
         let selectedSessionId = null;
 
-        // ULTRA-STABILNY I NIEZAWODNY PATCH WYMUSZAJĄCY AKTUALIZACJĘ SYSTEMU STATUSÓW
         async function sendAdminHeartbeat() {
             try {
                 await fetch(`${SUPABASE_URL}/rest/v1/admin_status?id=eq.current`, {
                     method: 'PATCH',
-                    headers: {
-                        'apikey': SUPABASE_KEY,
-                        'Authorization': `Bearer ${SUPABASE_KEY}`,
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' },
                     body: JSON.stringify({ last_seen: new Date().toISOString() })
                 });
             } catch(e) {}
@@ -163,24 +166,47 @@
 
         document.getElementById('image').addEventListener('change', function(e) {
             const container = document.getElementById('preview-container');
-            container.innerHTML = '';
-            const files = e.target.files;
+            container.innerHTML = ''; const files = e.target.files;
             for (let i = 0; i < files.length; i++) {
                 container.innerHTML += `<div class="relative aspect-square rounded-xl overflow-hidden border shadow-sm"><img src="${URL.createObjectURL(files[i])}" class="w-full h-full object-cover"></div>`;
             }
         });
-        document.getElementById('news-image-file').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if(file) {
-                document.getElementById('news-img-preview-tag').src = URL.createObjectURL(file);
-                document.getElementById('news-preview-container').classList.remove('hidden');
-            }
-        });
 
+        // REAKCJA NA WYBÓR TYPU SPRZEDAŻY ORAZ AUTOMATYKA KATEGORII
         function toggleType(type) {
             const lDetal = document.getElementById('label-detal'); const lHurt = document.getElementById('label-hurt');
-            if(type === 'DETAL') { lDetal.className = "border-2 border-pink-600 bg-pink-50 p-4 rounded-xl flex items-center justify-center cursor-pointer font-bold text-pink-700"; lHurt.className = "border-2 border-gray-200 p-4 rounded-xl flex items-center justify-center cursor-pointer font-bold text-gray-500"; } 
-            else { lHurt.className = "border-2 border-pink-600 bg-pink-50 p-4 rounded-xl flex items-center justify-center cursor-pointer font-bold text-pink-700"; lDetal.className = "border-2 border-gray-200 p-4 rounded-xl flex items-center justify-center cursor-pointer font-bold text-gray-500"; }
+            if(type === 'DETAL') {
+                lDetal.className = "border-2 border-pink-600 bg-pink-50 p-4 rounded-xl flex items-center justify-center cursor-pointer font-bold text-pink-700";
+                lHurt.className = "border-2 border-gray-200 p-4 rounded-xl flex items-center justify-center cursor-pointer font-bold text-gray-500";
+                document.getElementById('label-cat-box').classList.add('opacity-40');
+                document.getElementById('label-cat-buty').classList.remove('opacity-40');
+                document.getElementById('label-cat-odziez').classList.remove('opacity-40');
+                document.querySelector('input[name="category_radio"][value="buty"]').click();
+            } else {
+                lHurt.className = "border-2 border-pink-600 bg-pink-50 p-4 rounded-xl flex items-center justify-center cursor-pointer font-bold text-pink-700";
+                lDetal.className = "border-2 border-gray-200 p-4 rounded-xl flex items-center justify-center cursor-pointer font-bold text-gray-500";
+                document.getElementById('label-cat-buty').classList.add('opacity-40');
+                document.getElementById('label-cat-odziez').classList.add('opacity-40');
+                document.getElementById('label-cat-box').classList.remove('opacity-40');
+                document.querySelector('input[name="category_radio"][value="mystery-box"]').click();
+            }
+        }
+
+        // WYBÓR KATEGORII TOWARU (OSOBNE PRZYCISKI)
+        function toggleCategory(cat) {
+            const klucze = ['buty', 'odziez', 'mystery-box'];
+            klucze.forEach(k => {
+                const el = document.getElementById(`label-cat-${k === 'mystery-box' ? 'box' : k}`);
+                if (k === cat) {
+                    el.className = "border-2 border-pink-600 bg-pink-50 p-3 rounded-xl flex flex-col items-center justify-center cursor-pointer font-bold text-pink-700 text-xs text-center transition-all";
+                } else {
+                    el.className = "border-2 border-gray-200 p-3 rounded-xl flex flex-col items-center justify-center cursor-pointer font-bold text-gray-500 text-xs text-center transition-all";
+                    // Zachowanie przezroczystości dla nieaktywnych trybów
+                    const saleType = document.querySelector('input[name="type"]:checked').value;
+                    if (saleType === 'DETAL' && k === 'mystery-box') el.classList.add('opacity-40');
+                    if (saleType === 'HURT' && k !== 'mystery-box') el.classList.add('opacity-40');
+                }
+            });
         }
 
         document.getElementById('admin-form').addEventListener('submit', async (e) => {
@@ -191,15 +217,20 @@
                     btn.innerText = `Wgrywanie zdjęcia ${i + 1} z ${files.length}...`;
                     const file = files[i]; const fileExt = file.name.split('.').pop(); const fileName = `${Math.random()}.${fileExt}`;
                     const uploadResponse = await fetch(`${SUPABASE_URL}/storage/v1/object/zdjecia-produktow/${fileName}`, { method: 'POST', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': file.type }, body: file });
-                    if(!uploadResponse.ok) throw new Error("Błąd zapisu.");
+                    if(!uploadResponse.ok) throw new Error("Błąd zapisu zdjęcia.");
                     uploadedUrls.push(`${SUPABASE_URL}/storage/v1/object/public/zdjecia-produktow/${fileName}`);
                 }
-                const productData = { name: document.getElementById('name').value, type: document.querySelector('input[name="type"]:checked').value, price: parseFloat(document.getElementById('price').value), category: document.getElementById('category').value, size: document.getElementById('size').value, condition_grade: document.getElementById('condition_grade').value, brands: document.getElementById('brands').value, description: document.getElementById('description').value, image_url: uploadedUrls[0], image_urls: uploadedUrls };
+                
+                // POBIERANIE DANYCH Z NOWYCH PRZYCISKÓW KATEGORII
+                const wybranaKategoria = document.querySelector('input[name="category_radio"]:checked').value;
+
+                const productData = { name: document.getElementById('name').value, type: document.querySelector('input[name="type"]:checked').value, price: parseFloat(document.getElementById('price').value), category: wybranaKategoria, size: document.getElementById('size').value, condition_grade: document.getElementById('condition_grade').value, brands: document.getElementById('brands').value, description: document.getElementById('description').value, image_url: uploadedUrls[0], image_urls: uploadedUrls };
                 const dbResponse = await fetch(`${SUPABASE_URL}/rest/v1/products`, { method: 'POST', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' }, body: JSON.stringify(productData) });
-                if(dbResponse.ok) { alert("Wystawiono towar!"); document.getElementById('admin-form').reset(); document.getElementById('preview-container').innerHTML = ''; }
+                if(dbResponse.ok) { alert("Wystawiono towar!"); document.getElementById('admin-form').reset(); document.getElementById('preview-container').innerHTML = ''; toggleType('DETAL'); }
             } catch (err) { alert(err.message); } finally { btn.disabled = false; btn.innerText = "Wystaw produkt na sklep"; }
         });
 
+        // SKRYPTY OBSŁUGI OGŁOSZEŃ I CZATU (BEZ ZMIAN)
         document.getElementById('announcement-form').addEventListener('submit', async (e) => {
             e.preventDefault(); const btn = document.getElementById('news-submit-btn'); btn.disabled = true;
             const newsFile = document.getElementById('news-image-file').files[0]; let finalUrl = null;
@@ -211,88 +242,30 @@
                 }
                 const payload = { title: document.getElementById('news-title').value, status_badge: document.getElementById('news-status-badge').value, content: document.getElementById('news-content').value, subtext: document.getElementById('news-subtext').value, image_url: finalUrl };
                 await fetch(`${SUPABASE_URL}/rest/v1/announcements`, { method: 'POST', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                alert("📢 Ogłoszenie opublikowane!"); document.getElementById('announcement-form').reset(); document.getElementById('news-preview-container').classList.add('hidden');
+                alert("📢 Ogłoszenie opublikowane!"); document.getElementById('announcement-form').reset();
             } catch (err) { alert(err.message); } finally { btn.disabled = false; btn.innerText = "Opublikuj ogłoszenie"; }
         });
 
         async function fetchChatSessions() {
             try {
-                const res = await fetch(`${SUPABASE_URL}/rest/v1/chat_messages?select=session_id,sender,is_read&order=created_at.desc`, {
-                    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
-                });
-                const data = await res.json();
-                const uniqueSessions = [...new Set(data.map(item => item.session_id))];
+                const res = await fetch(`${SUPABASE_URL}/rest/v1/chat_messages?select=session_id,sender,is_read&order=created_at.desc`, { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } });
+                const data = await res.json(); const uniqueSessions = [...new Set(data.map(item => item.session_id))];
                 const unreadSessions = new Set(data.filter(m => m.sender === 'client' && !m.is_read).map(m => m.session_id));
-                const list = document.getElementById('chat-sessions-list');
-                list.innerHTML = '';
-                
-                if(uniqueSessions.length === 0) {
-                    list.innerHTML = '<p class="text-gray-400 text-center py-4 font-medium">Brak aktywnych czatów...</p>';
-                    return;
-                }
-
+                const list = document.getElementById('chat-sessions-list'); list.innerHTML = '';
+                if(uniqueSessions.length === 0) { list.innerHTML = '<p class="text-gray-400 text-center py-4 font-medium">Brak czatów...</p>'; return; }
                 uniqueSessions.forEach(s => {
-                    const isSelected = s === selectedSessionId;
-                    const hasUnread = unreadSessions.has(s);
-                    let bgClass = 'bg-white border-gray-200 hover:bg-gray-100 text-gray-700';
-                    if (isSelected) { bgClass = 'bg-pink-600 text-white border-pink-700'; } 
-                    else if (hasUnread) { bgClass = 'bg-amber-100 text-amber-900 border-amber-300 animate-pulse font-black shadow-xs'; }
+                    const isSelected = s === selectedSessionId; const hasUnread = unreadSessions.has(s);
+                    let bgClass = isSelected ? 'bg-pink-600 text-white border-pink-700' : (hasUnread ? 'bg-amber-100 text-amber-900 border-amber-300 animate-pulse font-black' : 'bg-white border-gray-200 text-gray-700');
                     const badge = hasUnread && !isSelected ? `<span class="bg-red-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full ml-auto animate-bounce">NOWA</span>` : '';
-
-                    list.innerHTML += `
-                        <div onclick="selectChatSession('${s}')" class="p-3 rounded-xl cursor-pointer transition-all border flex items-center gap-2 ${bgClass}">
-                            <span>💬 Klient: ${s.substring(5)}</span>${badge}
-                        </div>`;
+                    list.innerHTML += `<div onclick="selectChatSession('${s}')" class="p-3 rounded-xl cursor-pointer transition-all border flex items-center gap-2 ${bgClass}"><span>💬 Klient: ${s.substring(5)}</span>${badge}</div>`;
                 });
             } catch(e) {}
         }
 
-        async function selectChatSession(id) {
-            selectedSessionId = id;
-            document.getElementById('active-session-title').innerText = `Rozmowa z: ${id.substring(5)}`;
-            document.getElementById('admin-chat-input').disabled = false;
-            document.getElementById('admin-chat-send-btn').disabled = false;
-            fetchChatSessions();
-            loadAdminMessages();
-        }
-
-        async function loadAdminMessages() {
-            if(!selectedSessionId) return;
-            try {
-                await fetch(`${SUPABASE_URL}/rest/v1/chat_messages?session_id=eq.${selectedSessionId}&sender=eq.client&is_read=eq.false`, {
-                    method: 'PATCH',
-                    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ is_read: true })
-                });
-                const res = await fetch(`${SUPABASE_URL}/rest/v1/chat_messages?session_id=eq.${selectedSessionId}&order=created_at.asc`, {
-                    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
-                });
-                const msgs = await res.json();
-                const area = document.getElementById('admin-chat-messages-area');
-                area.innerHTML = '';
-                msgs.forEach(m => {
-                    const isAdmin = m.sender === 'admin';
-                    area.innerHTML += `<div class="p-3 rounded-xl max-w-[85%] shadow-xs ${isAdmin ? 'bg-pink-600 text-white self-end' : 'bg-white border text-gray-700 self-start'}">${m.message}</div>`;
-                });
-                area.scrollTop = area.scrollHeight;
-            } catch(e) {}
-        }
-
-        async function sendAdminReply(e) {
-            e.preventDefault();
-            const input = document.getElementById('admin-chat-input');
-            const msg = input.value.trim();
-            if(!msg || !selectedSessionId) return;
-            input.value = '';
-            try {
-                await fetch(`${SUPABASE_URL}/rest/v1/chat_messages`, { method: 'POST', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ session_id: selectedSessionId, sender: 'admin', message: msg, is_read: true }) });
-                loadAdminMessages();
-            } catch(err) {}
-        }
-
-        setInterval(fetchChatSessions, 4000);
-        setInterval(loadAdminMessages, 3000);
-        fetchChatSessions();
+        async function selectChatSession(id) { selectedSessionId = id; document.getElementById('active-session-title').innerText = `Rozmowa z: ${id.substring(5)}`; document.getElementById('admin-chat-input').disabled = false; document.getElementById('admin-chat-send-btn').disabled = false; fetchChatSessions(); loadAdminMessages(); }
+        async function loadAdminMessages() { if(!selectedSessionId) return; try { await fetch(`${SUPABASE_URL}/rest/v1/chat_messages?session_id=eq.${selectedSessionId}&sender=eq.client&is_read=eq.false`, { method: 'PATCH', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ is_read: true }) }); const res = await fetch(`${SUPABASE_URL}/rest/v1/chat_messages?session_id=eq.${selectedSessionId}&order=created_at.asc`, { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }); const msgs = await res.json(); const area = document.getElementById('admin-chat-messages-area'); area.innerHTML = ''; msgs.forEach(m => { const isAdmin = m.sender === 'admin'; area.innerHTML += `<div class="p-3 rounded-xl max-w-[85%] shadow-xs ${isAdmin ? 'bg-pink-600 text-white self-end' : 'bg-white border text-gray-700 self-start'}">${m.message}</div>`; }); area.scrollTop = area.scrollHeight; } catch(e) {} }
+        async function sendAdminReply(e) { e.preventDefault(); const input = document.getElementById('admin-chat-input'); const msg = input.value.trim(); if(!msg || !selectedSessionId) return; input.value = ''; try { await fetch(`${SUPABASE_URL}/rest/v1/chat_messages`, { method: 'POST', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ session_id: selectedSessionId, sender: 'admin', message: msg, is_read: true }) }); loadAdminMessages(); } catch(err) {} }
+        setInterval(fetchChatSessions, 4000); setInterval(loadAdminMessages, 3000); fetchChatSessions();
     </script>
 </body>
 </html>
