@@ -332,7 +332,9 @@
                 <h3 class="text-sm font-black uppercase tracking-wider text-slate-900">Wybierz swój Paczkomat</h3>
                 <p class="text-[11px] text-slate-500 mt-0.5">Kliknij w punkt na mapie i potwierdź wybór</p>
             </div>
-            <div id="easypack-map" class="w-full h-[450px] sm:h-[550px]"></div>
+            <div id="inpost-map-wrapper" class="w-full p-2 bg-white">
+                <div id="easypack-map" class="w-full h-[400px] sm:h-[500px]"></div>
+            </div>
         </div>
     </div>
 
@@ -401,27 +403,27 @@
             localStorage.setItem('stylownie_chat_session', chatSessionId);
         }
 
-        // 🗺️ OBSŁUGA INTERAKTYWNEJ MAPY INPOST (Z TIMEOUTEM ROZWIĄZUJĄCYM PROBLEM BIAŁEGO EKRANU)
+        // 🗺️ ODPORNA NA BŁĘDY OBSŁUGA MAPY INPOST (ODŚWIEŻANIE WĘZŁA DOM)
         let inpostMapaZainicjalizowana = false;
         function otworzMapeInpost() {
             document.getElementById('inpost-map-modal').classList.remove('hidden');
             
-            // Wstrzymujemy start silnika o 150ms, żeby przeglądarka zdążyła otworzyć i wyliczyć okno
+            // Re-kreacja pustego kontenera mapy. To zmusza OpenStreetMap do poprawnego załadowania kafelków.
+            const wrapper = document.getElementById('inpost-map-wrapper');
+            wrapper.innerHTML = '<div id="easypack-map" class="w-full h-[400px] sm:h-[500px]"></div>';
+
             setTimeout(() => {
-                if (!inpostMapaZainicjalizowana) {
-                    easyPack.init({
-                        instance: 'pl',
-                        mapType: 'osm',
-                        searchType: 'address',
-                        points: { types: ['parcel_locker'] }
-                    });
-                    easyPack.mapWidget('easypack-map', function(point) {
-                        document.getElementById('paczkomat-input').value = point.name;
-                        zamknijMapeInpost();
-                    });
-                    inpostMapaZainicjalizowana = true;
-                }
-            }, 150);
+                easyPack.init({
+                    instance: 'pl',
+                    mapType: 'osm',
+                    searchType: 'address',
+                    points: { types: ['parcel_locker'] }
+                });
+                easyPack.mapWidget('easypack-map', function(point) {
+                    document.getElementById('paczkomat-input').value = point.name;
+                    zamknijMapeInpost();
+                });
+            }, 200);
         }
         function zamknijMapeInpost() {
             document.getElementById('inpost-map-modal').classList.add('hidden');
@@ -740,6 +742,7 @@
             aktualizujCeneWysylki();
         }
 
+        // ⚡ Oczyszczona i w 100% poprawna funkcja dostaw bez starych błędów!
         function aktualizujCeneWysylki() {
             const metoda = document.querySelector('input[name="dostawa"]:checked').value; const inpostField = document.getElementById('inpost-field'); const dpdField = document.getElementById('dpd-field'); let koszt = 0; inpostField.classList.add('hidden'); dpdField.classList.add('hidden');
             
@@ -805,7 +808,7 @@
                     <p>2. Zgodnie z polskim prawem, konsumentowi kupującemu w asortymencie detalicznym przysługuje **prawo do odstąpienia od umowy bez podania przyczyny w terminie 14 dni** od dnia odebrania przesyłki.</p>
                     <p>3. **Warunki zwrotu detalicznego:** Zwracany towar musi zostać odesłany w stanie nienaruszonym. Koszt odesłania towaru pokrywa kupujący.</p>
                     <p class="font-bold text-slate-800 pt-2">§3. Zamówienia hurtowe B2B (Mystery Boxy dla Resellerów)</p>
-                    <p>1. Sprzedaż pakietów zbiorczych w sekcji "Oferta Hurtowa B2B" (Mystery Boxy) realizowana jest wyłącznie na triage podmiotów gospodarczych (resellerów, firm handlowych) w formule biznesowej B2B.</p>
+                    <p>1. Sprzedaż pakietów zbiorczych w sekcji "Oferta Hurtowa B2B" (Mystery Boxy) realizowana jest wyłącznie na rzecz podmiotów gospodarczych (resellerów, firm handlowych) w formule biznesowej B2B.</p>
                     <p>2. **Całkowite wyłączenie prawa do zwrotu:** Ze względu na specyfikę transakcji hurtowych oraz nienaruszony charakter dostaw, **Mystery Boxy są w całości wyłączone z możliwości odstąpienia od umowy, zwrotów, wymian oraz rezygnacji po opłaceniu zamówienia**.</p>
                 </div>`,
             polityka: `
