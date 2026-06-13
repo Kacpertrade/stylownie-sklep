@@ -431,11 +431,13 @@
                         'apikey': SUPABASE_KEY,
                         'Authorization': `Bearer ${SUPABASE_KEY}`,
                         'Content-Type': 'application/json',
-                        'Prefer': 'resolution=merge'
+                        'Prefer': 'on-conflict=session_id'
                     },
                     body: JSON.stringify({ session_id: chatSessionId, last_seen: new Date().toISOString() })
                 });
-            } catch(e) {}
+            } catch(e) {
+                console.error("Błąd wysyłania obecności:", e);
+            }
         }
 
         async function pobierzAktualnosci() {
@@ -565,13 +567,13 @@
             const moreButyWrapper = document.getElementById('more-buty-wrapper');
             if(moreButyWrapper) {
                 moreButyWrapper.classList.toggle('hidden', filtrowaneButy.length <= limitButow && limitButow !== 999);
-                document.getElementById('more-buty-btn').innerText = limitButow === 999 ? "Zwiń produkty (Pokaż mniej)" : "Pokaż więcej obuwia";
+                document.getElementById('more-buty-btn').innerText = limitButow === 999 ? "Zwiń produkty (Pokaż mindre)" : "Pokaż więcej obuwia";
             }
 
             const moreOdziezWrapper = document.getElementById('more-odziez-wrapper');
             if(moreOdziezWrapper) {
                 moreOdziezWrapper.classList.toggle('hidden', filtrowanaOdziez.length <= limitOdziezy && limitOdziezy !== 999);
-                document.getElementById('more-odziez-btn').innerText = limitOdziezy === 999 ? "Zwiń produkty (Pokaż mniej)" : "Pokaż więcej odzieży";
+                document.getElementById('more-odziez-btn').innerText = limitOdziezy === 999 ? "Zwiń produkty (Pokaż mindre)" : "Pokaż więcej odzieży";
             }
 
             if(butyContainer && wyswietlaneButy.length === 0) butyContainer.innerHTML = `<p class="text-slate-400 col-span-full text-center py-4 text-xs font-semibold">Brak butów w tym rozmiarze.</p>`;
@@ -798,7 +800,7 @@
                     <p class="font-bold text-slate-800 pt-2">5. Pliki Cookies (Ciasteczka) i Technologie Śledzące</p>
                     <p>Nasz sklep internetowy wykorzystuje pliki cookies (małe pliki tekstowe zapisywane na Twoim urządzeniu końcowym). Wykorzystujemy je w celach:</p>
                     <ul class="list-disc pl-4 space-y-1">
-                        <li><strong>Functionalnych:</strong> Zapewnienie stabilnego działania strony, utrzymanie ciągłości sesji czatu oraz zapamiętywanie konfiguracji filtrów.</li>
+                        <li><strong>Funkcjonalnych:</strong> Zapewnienie stabilnego działania strony, utrzymanie ciągłości sesji czatu oraz zapamiętywanie konfiguracji filtrów.</li>
                         <li><strong>Statystycznych:</strong> Analiza zachowań użytkowników za pomocą platformy Google Analytics w celu ulepszania nawigacji i asortymentu sklepu.</li>
                         <li><strong>Marketingowych:</strong> Precyzyjne wyświetlanie kampanii reklamowych za pośrednictwem Meta Ads (Facebook/Instagram) dla osób, które odwiedziły naszą witrynę.</li>
                     </ul>
