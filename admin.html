@@ -115,7 +115,7 @@
                 <p class="text-xs text-gray-400 mt-1 font-bold">Wybierz sesję klienta i odpowiedz mu na żywo</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 h-96">
-                <div id="chat-sessions-list" class="border border-gray-200 rounded-2xl p-2 overflow-y-auto space-y-1 text-xs font-bold text-gray-700 bg-gray-50">
+                <div id="chat-sessions-list" class="border border-gray-200 rounded-2xl p-2 overflow-y-auto space-y-2 text-xs font-bold text-gray-700 bg-gray-50 flex flex-col">
                     <p class="text-gray-400 text-center py-4 font-medium">Brak aktywnych czatów...</p>
                 </div>
                 <div class="md:col-span-2 border border-gray-200 rounded-2xl flex flex-col overflow-hidden bg-white">
@@ -145,22 +145,15 @@
         const SUPABASE_KEY = "sb_publishable_feyl5lfAJkE2FhXKJUb4WA_9ya9cSAw";
         let selectedSessionId = null;
 
-        // NOWOŚĆ: SYSTEM BIECIA SERCA (HEARTBEAT) ADMINISTRATORA
         async function sendAdminHeartbeat() {
             try {
                 await fetch(`${SUPABASE_URL}/rest/v1/admin_status`, {
                     method: 'POST',
-                    headers: {
-                        'apikey': SUPABASE_KEY,
-                        'Authorization': `Bearer ${SUPABASE_KEY}`,
-                        'Content-Type': 'application/json',
-                        'Prefer': 'resolution=merge' // Automatyczny Upsert na kluczu głównym "id"
-                    },
+                    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'resolution=merge' },
                     body: JSON.stringify({ id: 'current', last_seen: new Date().toISOString() })
                 });
             } catch(e) {}
         }
-        // Uruchamiaj wysyłanie sygnału co 10 sekund tylko gdy admin ma aktywny panel
         setInterval(sendAdminHeartbeat, 10000);
         sendAdminHeartbeat();
 
@@ -218,13 +211,20 @@
             } catch (err) { alert(err.message); } finally { btn.disabled = false; btn.innerText = "Opublikuj ogłoszenie"; }
         });
 
+        // INTELIGNETNE AKTUALIZOWANIE I PODŚWIETLANIE LISTY CZATÓW
         async function fetchChatSessions() {
             try {
-                const res = await fetch(`${SUPABASE_URL}/rest/v1/chat_messages?select=session_id`, {
+                const res = await fetch(`${SUPABASE_URL}/rest/v1/chat_messages?select=session_id,sender,is_read&order=created_at.desc`, {
                     headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
                 });
                 const data = await res.json();
                 const uniqueSessions = [...new Set(data.map(item => item.session_id))];
+                
+                // Wyodrębnienie id sesji z nieprzeczytanymi wiadomościami od klienta
+                const unreadSessions = new Set(
+                    data.filter(m => m.sender === 'client' && !m.is_read).map(m => m.session_id)
+                );
+
                 const list = document.getElementById('chat-sessions-list');
                 list.innerHTML = '';
                 
@@ -235,7 +235,23 @@
 
                 uniqueSessions.forEach(s => {
                     const isSelected = s === selectedSessionId;
-                    list.innerHTML += `<div onclick="selectChatSession('${s}')" class="p-2.5 rounded-xl cursor-pointer transition-colors border ${isSelected ? 'bg-pink-600 text-white border-pink-700' : 'bg-white hover:bg-gray-100 border-gray-200'}">💬 Klient: ${s.substring(5)}</div>`;
+                    const hasUnread = unreadSessions.has(s);
+                    
+                    let bgClass = 'bg-white border-gray-200 hover:bg-gray-100 text-gray-700';
+                    if (isSelected) {
+                        bgClass = 'bg-pink-600 text-white border-pink-700';
+                    } else if (hasUnread) {
+                        // POMARAŃCZOWY ALARM ORAZ PULSOWANIE DLA FORMULARZA NIEODCZYTANEGO
+                        bgClass = 'bg-amber-100 text-amber-900 border-amber-300 animate-pulse font-black shadow-xs';
+                    }
+
+                    const badge = hasUnread && !isSelected ? `<span class="bg-red-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full ml-auto animate-bounce">NOWA</span>` : '';
+
+                    list.innerHTML += `
+                        <div onclick="selectChatSession('${s}')" class="p-3 rounded-xl cursor-pointer transition-all border flex items-center gap-2 ${bgClass}">
+                            <span>💬 Klient: ${s.substring(5)}</span>
+                            ${badge}
+                        </div>`;
                 });
             } catch(e) {}
         }
@@ -252,6 +268,13 @@
         async function loadAdminMessages() {
             if(!selectedSessionId) return;
             try {
+                // JEŚLI ADMIN PRZEGLĄDA CZAT, AUTOMATYCZNIE CZYŚCI I ZMIENIA STATUS NA "ODCZYTANO ✓"
+                await fetch(`${SUPABASE_URL}/rest/v1/chat_messages?session_id=eq.${selectedSessionId}&sender=eq.client&is_read=eq.false`, {
+                    method: 'PATCH',
+                    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ is_read: true })
+                });
+
                 const res = await fetch(`${SUPABASE_URL}/rest/v1/chat_messages?session_id=eq.${selectedSessionId}&order=created_at.asc`, {
                     headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
                 });
@@ -281,13 +304,13 @@
                 await fetch(`${SUPABASE_URL}/rest/v1/chat_messages`, {
                     method: 'POST',
                     headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ session_id: selectedSessionId, sender: 'admin', message: msg })
+                    body: JSON.stringify({ session_id: selectedSessionId, sender: 'admin', message: msg, is_read: true })
                 });
                 loadAdminMessages();
             } catch(err) {}
         }
 
-        setInterval(fetchChatSessions, 5000);
+        setInterval(fetchChatSessions, 4000);
         setInterval(loadAdminMessages, 3000);
         fetchChatSessions();
     </script>
