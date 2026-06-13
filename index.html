@@ -141,7 +141,7 @@
                                 <span class="text-pink-600">+11.00 zł</span>
                             </label>
                             <label class="flex items-center justify-between bg-white p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:border-pink-500 transition-all">
-                                <span class="flex items-center gap-2"><input type="radio" name="dostawa" value="KURIER" onchange="aktualizujCeneWysylki()"> 7 🚛 Kurier (Dostawa pod drzwi)</span>
+                                <span class="flex items-center gap-2"><input type="radio" name="dostawa" value="KURIER" onchange="aktualizujCeneWysylki()"> 7 ⛟ Kurier (Dostawa pod drzwi)</span>
                                 <span class="text-pink-600">+16.00 zł</span>
                             </label>
                         </div>
@@ -181,7 +181,7 @@
             <button onclick="toggleNativeChat()" class="text-slate-400 hover:text-white font-bold text-xs cursor-pointer">✕</button>
         </div>
         <div id="chat-messages-area" class="flex-1 p-4 overflow-y-auto space-y-4 bg-slate-50 text-xs font-medium flex flex-col">
-            <div class="bg-white border border-slate-100 p-3 rounded-xl max-w-[85%] self-start shadow-xs text-slate-700">Dzień dobry! W czym możemy pomóc? Napisz nam wiadomość, a odpowiemy najszybciej jak to możliwe prosto z zaplecza w Nisku.</div>
+            <div class="bg-white border border-slate-100 p-3 rounded-xl max-w-[85%] self-start shadow-xs text-slate-700">Dzień dobry! W czym możemy pomóc? Napisz nam wiadomość, a odpowiemy najszycące jak to możliwe prosto z zaplecza w Nisku.</div>
         </div>
         <form onsubmit="sendChatMessage(event)" class="p-2 bg-white border-t border-slate-100 flex gap-2">
             <input type="text" id="chat-input-field" placeholder="Wpisz wiadomość..." required class="flex-1 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-pink-600">
@@ -233,9 +233,10 @@
             if(!box.classList.contains('hidden')) { loadChatMessages(); }
         }
 
+        // DODANO ANTY-CACHE (&t=...) ORAZ TOLERANCJĘ CZASOWĄ (60 SEKUND) DLA PEWNOŚCI POŁĄCZENIA
         async function checkAdminPresence() {
             try {
-                const response = await fetch(`${SUPABASE_URL}/rest/v1/admin_status?id=eq.current`, {
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/admin_status?id=eq.current&t=${Date.now()}`, {
                     headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
                 });
                 const data = await response.json();
@@ -245,8 +246,7 @@
                 if (data && data.length > 0) {
                     const lastSeen = new Date(data[0].last_seen);
                     const now = new Date();
-                    // Math.abs chroni przed minimalnymi przesunięciami zegarów w urządzeniach
-                    if (Math.abs(now - lastSeen) < 35000) {
+                    if (Math.abs(now - lastSeen) < 60000) {
                         statusDot.className = "w-2 h-2 rounded-full bg-emerald-500 animate-pulse";
                         statusText.innerText = "JESTEM AKTYWNY — NAPISZ DO MNIE";
                         return;
@@ -375,7 +375,7 @@
                         </div>
                         <div class="p-5 flex flex-col flex-1 justify-between">
                             <div>
-                                <div class="flex items-center justify-between mb-1"><p class="text-[9px] font-bold uppercase tracking-widest text-pink-600">${p.brands || 'Vintage'}</p><span class="text-[9px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">R. ${p.size}</span></div>
+                                <div class="flex items-center justify-between mb-1"><p class="text-[9px] font-bold uppercase tracking-wildest text-pink-600">${p.brands || 'Vintage'}</p><span class="text-[9px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">R. ${p.size}</span></div>
                                 <h3 class="font-bold text-slate-900 text-sm tracking-tight group-hover:text-pink-600 line-clamp-1">${p.name}</h3>
                             </div>
                             <div class="mt-4 pt-3 border-t border-slate-50 flex items-center justify-between"><span class="text-base font-black text-slate-900">${parseFloat(p.price).toFixed(2)} PLN</span>
@@ -392,10 +392,10 @@
 
                 hurtContainer.innerHTML += `
                     <div onclick="otworzModal('${p.id}')" class="group bg-slate-800/40 border border-slate-800 rounded-2xl overflow-hidden hover:border-pink-500/30 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col cursor-pointer">
-                        <div class="aspect-[4/3] w-full bg-slate-800 overflow-hidden relative">${logoOverlay}<img src="${fotka}" class="w-full h-full object-cover opacity-90 group-hover:scale-102 transition-all duration-500"><span class="absolute top-3 left-3 bg-pink-600 text-white text-[9px] font-bold px-2.5 py-1 rounded-lg uppercase tracking-widest shadow-md">GRADE: ${p.condition_grade || 'A'}</span></div>
+                        <div class="aspect-[4/3] w-full bg-slate-800 overflow-hidden relative">${logoOverlay}<img src="${fotka}" class="w-full h-full object-cover opacity-90 group-hover:scale-102 transition-all duration-500"><span class="absolute top-3 left-3 bg-pink-600 text-white text-[9px] font-bold px-2.5 py-1 rounded-lg uppercase tracking-wildest shadow-md">GRADE: ${p.condition_grade || 'A'}</span></div>
                         <div class="p-5 flex flex-col flex-1 justify-between">
                             <div><p class="text-[9px] font-bold uppercase tracking-wildest text-pink-500 mb-1">PAKIET: ${p.size}</p><h3 class="font-bold text-white text-base tracking-tight group-hover:text-pink-500">${p.name}</h3></div>
-                            <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between"><div><p class="text-[9px] text-slate-500 font-bold uppercase tracking-widest">Cena brutto</p><span class="text-lg font-black text-white">${parseFloat(p.price).toFixed(2)} PLN</span></div><button class="bg-pink-600 text-white font-bold text-[10px] uppercase tracking-widest px-4 py-2.5 rounded-lg group-hover:bg-pink-700 transition-colors">ZAMÓW BOX</button></div>
+                            <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between"><div><p class="text-[9px] text-slate-500 font-bold uppercase tracking-wildest">Cena brutto</p><span class="text-lg font-black text-white">${parseFloat(p.price).toFixed(2)} PLN</span></div><button class="bg-pink-600 text-white font-bold text-[10px] uppercase tracking-wildest px-4 py-2.5 rounded-lg group-hover:bg-pink-700 transition-colors">ZAMÓW BOX</button></div>
                         </div>
                     </div>`;
             });
@@ -407,6 +407,7 @@
             const produkt = zapamiętaneProdukty.find(p => p.id == id);
             if(!produkt) return;
             aktywnyProduktId = id;
+            textType = produkt.type;
             aktualnaCenaProduktu = parseFloat(produkt.price);
 
             document.getElementById('modal-name').innerText = produkt.name;
