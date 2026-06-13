@@ -10,7 +10,7 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-XXXXXX'); // <-- TUTAJ TEŻ WPISZ SWÓJ KOD G-XXXXXX
+      gtag('config', 'G-28M9DC1Z7J');
     </script>
 
     <link rel="icon" type="image/png" href="https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produktow/Gemini_Generated_Image_vhnovevhnovevhno.png">
@@ -23,24 +23,26 @@
 
     <header class="border-b border-slate-100 sticky top-0 bg-white/90 backdrop-blur-xl z-50 transition-all">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between">
-            <div class="flex items-center gap-4 h-full">
-                <img src="https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produktow/Gemini_Generated_Image_vhnovevhnovevhno.png" class="h-14 w-auto object-contain rounded-xl border border-slate-100 shadow-sm bg-white" alt="Logo">
-                <div class="w-[1px] h-8 bg-slate-200"></div>
-                <span class="text-xl font-light tracking-widest uppercase text-slate-900 flex items-center">
+            
+            <div class="flex items-center gap-2 sm:gap-4 h-full">
+                <img src="https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produktow/Gemini_Generated_Image_vhnovevhnovevhno.png" class="h-12 sm:h-14 w-auto object-contain rounded-xl border border-slate-100 shadow-xs bg-white" alt="Logo">
+                <div class="hidden sm:block w-[1px] h-8 bg-slate-200"></div>
+                <span class="text-sm sm:text-xl font-light tracking-widest uppercase text-slate-900">
                     STYL<span class="text-pink-600 font-black">OWNIE</span>
                 </span>
             </div>
-            <nav class="flex items-center gap-8 text-xs font-semibold uppercase tracking-widest text-slate-600">
+            
+            <nav class="flex items-center gap-4 sm:gap-8 text-[11px] sm:text-xs font-bold uppercase tracking-widest text-slate-600">
                 <a href="#detal" class="hover:text-pink-600 transition-colors py-2"><span class="hidden sm:inline">Drop </span>Detal</a>
                 <a href="#hurt" class="bg-slate-900 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl hover:bg-pink-600 transition-all duration-300">Hurt<span class="hidden sm:inline"> (Boxy)</span></a>
             </nav>
         </div>
     </header>
 
-    <section class="relative bg-gradient-to-b from-slate-100 via-white to-slate-50 py-20 sm:py-28 lg:py-40 overflow-hidden border-b border-slate-100">
+    <section class="relative bg-gradient-to-b from-slate-100 via-white to-slate-50 py-24 sm:py-32 lg:py-40 overflow-hidden border-b border-slate-100">
         <div class="absolute inset-0 bg-[linear-gradient(to_right,#00000003_1px,transparent_1px),linear-gradient(to_bottom,#00000003_1px,transparent_1px)] bg-[size:24px_24px]"></div>
         <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
-            <span class="inline-flex items-center bg-pink-50 text-pink-700 text-[9px] sm:text-[10px] font-bold uppercase tracking-widest px-3.5 py-1.5 rounded-full border border-pink-100/60 mb-6 shadow-xs">
+            <span class="inline-flex items-center bg-pink-50 text-pink-700 text-[9px] sm:text-[10px] font-bold uppercase tracking-widest px-4 py-2 rounded-full border border-pink-100/60 mb-6 shadow-xs">
                 🔥 NOWY DROP JUŻ DOSTĘPNY
             </span>
             <h1 class="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-slate-900 uppercase leading-none break-words">
@@ -57,15 +59,23 @@
         </div>
     </section>
 
-    <section id="detal" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div class="mb-12 text-center sm:text-left flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-100 pb-6">
+    <section id="detal" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative">
+        <div class="mb-12 text-center sm:text-left flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-200 pb-6">
             <div>
                 <span class="text-pink-600 text-xs font-bold uppercase tracking-widest">Kolekcja detaliczna</span>
                 <h2 class="text-2xl sm:text-3xl font-black text-slate-900 uppercase tracking-tight mt-1">Pojedyncze Perełki</h2>
             </div>
+            <p class="text-slate-400 text-xs font-semibold uppercase tracking-wider hidden sm:block">Unikalne sztuki 1/1</p>
         </div>
+        
         <div id="detal-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             <p class="text-slate-400 col-span-full text-center py-10 font-medium tracking-wider text-xs animate-pulse">ŁADOWANIE NAJNOWSZEGO DROPU...</p>
+        </div>
+
+        <div id="more-products-wrapper" class="hidden text-center mt-14">
+            <button onclick="pokazWszystkieProdukty()" class="bg-white text-slate-900 border border-slate-200 hover:border-pink-500 hover:text-pink-600 font-bold text-xs uppercase tracking-widest px-8 py-4 rounded-xl transition-all shadow-xs cursor-pointer">
+                Pokaż więcej produktów
+            </button>
         </div>
     </section>
 
@@ -174,17 +184,19 @@
         let zapamiętaneProdukty = [];
         let aktualnaCenaProduktu = 0; 
         let aktywnyProduktId = null;
+        let limitDetalu = 8; // POCZĄTKOWY LIMIT WIDOCZNYCH PRODUKTÓW NA GŁÓWNEJ
         const defaultImg = "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=600&auto=format&fit=crop";
 
+        // OBSŁUGA KOMUNIKATÓW I AUTOMATYCZNEGO USUWANIA ASORTYMENTU PO ZAKUPIE
         const urlParams = new URLSearchParams(window.location.search);
         const status = urlParams.get('status');
         const kupionyProduktId = urlParams.get('productId');
 
         if (status === 'success') {
             if (kupionyProduktId) {
-                // ŚLEDZENIE ZAKUPU DLA GOOGLE (Wysyła info, że ktoś kupił)
+                // ŚLEDZENIE UDANEGO ZAKUPU DLA GOOGLE ANALYTICS
                 if(typeof gtag === 'function') {
-                    gtag('event', 'purchase', { "transaction_id": urlParams.get('productId'), "value": 1.0, "currency": "PLN" });
+                    gtag('event', 'purchase', { "transaction_id": kupionyProduktId, "value": 1.0, "currency": "PLN" });
                 }
 
                 fetch(`${SUPABASE_URL}/rest/v1/products?id=eq.${kupionyProduktId}`, {
@@ -215,42 +227,91 @@
                     headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
                 });
                 zapamiętaneProdukty = await response.json();
-
-                const detalContainer = document.getElementById('detal-container');
-                const hurtContainer = document.getElementById('hurt-container');
-                detalContainer.innerHTML = ''; hurtContainer.innerHTML = '';
-
-                zapamiętaneProdukty.forEach(p => {
-                    let fotka = defaultImg;
-                    if(p.image_urls && p.image_urls.length > 0) { fotka = p.image_urls[0]; }
-                    else if(p.image_url) { fotka = p.image_url; }
-
-                    const logoOverlay = `<img src="${LINK_DO_LOGO_FIRMY}" class="absolute top-4 right-4 h-7 w-auto bg-white/90 backdrop-blur-xs p-1 rounded-lg shadow-xs z-10 object-contain border border-slate-100">`;
-
-                    if(p.type === 'DETAL') {
-                        detalContainer.innerHTML += `
-                            <div onclick="otworzModal('${p.id}')" class="group relative bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col cursor-pointer">
-                                <div class="aspect-square w-full bg-slate-50 overflow-hidden relative">${logoOverlay}<img src="${fotka}" class="w-full h-full object-cover group-hover:scale-103 transition-all duration-500"><span class="absolute bottom-4 left-4 bg-slate-900/80 text-white text-[9px] font-bold tracking-wider px-3 py-1.5 rounded-lg border border-white/5">SZCZEGÓŁY</span></div>
-                                <div class="p-5 flex flex-col flex-1 justify-between">
-                                    <div>
-                                        <div class="flex items-center justify-between mb-1"><p class="text-[9px] font-bold uppercase tracking-widest text-pink-600">${p.brands || 'Vintage'}</p><span class="text-[9px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-md">R. ${p.size}</span></div>
-                                        <h3 class="font-bold text-slate-900 text-sm tracking-tight group-hover:text-pink-600 line-clamp-1">${p.name}</h3>
-                                    </div>
-                                    <div class="mt-5 pt-4 border-t border-slate-50 flex items-center justify-between"><span class="text-base font-black text-slate-900">${parseFloat(p.price).toFixed(2)} PLN</span><div class="bg-slate-900 text-white p-2 rounded-lg group-hover:bg-pink-600"><svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg></div></div>
-                                </div>
-                            </div>`;
-                    } else {
-                        hurtContainer.innerHTML += `
-                            <div onclick="otworzModal('${p.id}')" class="group bg-slate-800/50 border border-slate-800 rounded-2xl overflow-hidden hover:border-pink-500/30 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col cursor-pointer">
-                                <div class="aspect-[4/3] w-full bg-slate-800 overflow-hidden relative">${logoOverlay}<img src="${fotka}" class="w-full h-full object-cover opacity-90"><span class="absolute top-4 left-4 bg-pink-600 text-white text-[9px] font-bold px-2.5 py-1 rounded-lg uppercase tracking-widest shadow-md">GRADE: ${p.condition_grade || 'A'}</span></div>
-                                <div class="p-5 flex flex-col flex-1 justify-between">
-                                    <div><p class="text-[9px] font-bold uppercase tracking-widest text-pink-500 mb-1">PAKIET: ${p.size}</p><h3 class="font-bold text-white text-base tracking-tight group-hover:text-pink-500">${p.name}</h3></div>
-                                    <div class="mt-5 pt-4 border-t border-slate-800 flex items-center justify-between"><div><p class="text-[9px] text-slate-500 font-bold uppercase tracking-widest">Cena brutto</p><span class="text-lg font-black text-white">${parseFloat(p.price).toFixed(2)} PLN</span></div><button class="bg-pink-600 text-white font-bold text-[10px] uppercase tracking-widest px-4 py-2.5 rounded-lg group-hover:bg-pink-700">ZAMÓW BOX</button></div>
-                                </div>
-                            </div>`;
-                    }
-                });
+                renderujWszystko();
             } catch (err) { console.error(err); }
+        }
+
+        function renderujWszystko() {
+            const detalContainer = document.getElementById('detal-container');
+            const hurtContainer = document.getElementById('hurt-container');
+            const buttonWrapper = document.getElementById('more-products-wrapper');
+            
+            detalContainer.innerHTML = ''; 
+            hurtContainer.innerHTML = '';
+
+            // Podział asortymentu
+            const produktyDetaliczne = zapamiętaneProdukty.filter(p => p.type === 'DETAL');
+            const produktyHurtowe = zapamiętaneProdukty.filter(p => p.type !== 'DETAL');
+
+            // Wycinamy produkty według aktualnego limitu
+            const wyswietlaneDetaliczne = produktyDetaliczne.slice(0, limitDetalu);
+
+            // Sterowanie widocznością przycisku "Pokaż więcej"
+            if (produktyDetaliczne.length > limitDetalu) {
+                buttonWrapper.classList.remove('hidden');
+            } else {
+                buttonWrapper.classList.add('hidden');
+            }
+
+            // RENDEROWANIE KOLEKCJI DETALICZNEJ
+            if(wyswietlaneDetaliczne.length === 0) {
+                detalContainer.innerHTML = `<p class="text-slate-400 col-span-full text-center py-6 font-medium text-xs">Aktualnie cały drop wyprzedany. Wróć niebawem!</p>`;
+            }
+
+            wyswietlaneDetaliczne.forEach(p => {
+                let fotka = defaultImg;
+                if(p.image_urls && p.image_urls.length > 0) { fotka = p.image_urls[0]; }
+                else if(p.image_url) { fotka = p.image_url; }
+
+                const logoOverlay = `<img src="${LINK_DO_LOGO_FIRMY}" class="absolute top-3 right-3 h-7 w-auto bg-white/95 backdrop-blur-xs p-1 rounded-lg shadow-xs z-10 object-contain border border-slate-100">`;
+
+                detalContainer.innerHTML += `
+                    <div onclick="otworzModal('${p.id}')" class="group relative bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col cursor-pointer">
+                        <div class="aspect-square w-full bg-slate-50 overflow-hidden relative">
+                            ${logoOverlay}
+                            <img src="${fotka}" class="w-full h-full object-cover group-hover:scale-103 transition-all duration-500">
+                            <span class="absolute bottom-3 left-3 bg-slate-900/80 text-white text-[9px] font-bold tracking-wider px-2.5 py-1.5 rounded-md border border-white/5 backdrop-blur-xs">SZCZEGÓŁY</span>
+                        </div>
+                        <div class="p-5 flex flex-col flex-1 justify-between">
+                            <div>
+                                <div class="flex items-center justify-between mb-1">
+                                    <p class="text-[9px] font-bold uppercase tracking-widest text-pink-600">${p.brands || 'Vintage'}</p>
+                                    <span class="text-[9px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">R. ${p.size}</span>
+                                </div>
+                                <h3 class="font-bold text-slate-900 text-sm tracking-tight group-hover:text-pink-600 line-clamp-1">${p.name}</h3>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-slate-50 flex items-center justify-between">
+                                <span class="text-base font-black text-slate-900">${parseFloat(p.price).toFixed(2)} PLN</span>
+                                <div class="bg-slate-900 text-white p-2 rounded-lg group-hover:bg-pink-600 transition-colors">
+                                    <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+            });
+
+            // RENDEROWANIE KOLEKCJI HURTOWEJ
+            produktyHurtowe.forEach(p => {
+                let fotka = defaultImg;
+                if(p.image_urls && p.image_urls.length > 0) { fotka = p.image_urls[0]; }
+                else if(p.image_url) { fotka = p.image_url; }
+
+                const logoOverlay = `<img src="${LINK_DO_LOGO_FIRMY}" class="absolute top-3 right-3 h-7 w-auto bg-white/90 backdrop-blur-xs p-1 rounded-lg shadow-xs z-10 object-contain border border-slate-100">`;
+
+                hurtContainer.innerHTML += `
+                    <div onclick="otworzModal('${p.id}')" class="group bg-slate-800/40 border border-slate-800 rounded-2xl overflow-hidden hover:border-pink-500/30 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col cursor-pointer">
+                        <div class="aspect-[4/3] w-full bg-slate-800 overflow-hidden relative">${logoOverlay}<img src="${fotka}" class="w-full h-full object-cover opacity-90 group-hover:scale-102 transition-all duration-500"><span class="absolute top-3 left-3 bg-pink-600 text-white text-[9px] font-bold px-2.5 py-1 rounded-lg uppercase tracking-widest shadow-md">GRADE: ${p.condition_grade || 'A'}</span></div>
+                        <div class="p-5 flex flex-col flex-1 justify-between">
+                            <div><p class="text-[9px] font-bold uppercase tracking-widest text-pink-500 mb-1">PAKIET: ${p.size}</p><h3 class="font-bold text-white text-base tracking-tight group-hover:text-pink-500">${p.name}</h3></div>
+                            <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between"><div><p class="text-[9px] text-slate-500 font-bold uppercase tracking-widest">Cena brutto</p><span class="text-lg font-black text-white">${parseFloat(p.price).toFixed(2)} PLN</span></div><button class="bg-pink-600 text-white font-bold text-[10px] uppercase tracking-widest px-4 py-2.5 rounded-lg group-hover:bg-pink-700 transition-colors">ZAMÓW BOX</button></div>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        function pokazWszystkieProdukty() {
+            limitDetalu = 999; // Podbicie limitu, żeby odsłonić cały asortyment
+            renderujWszystko();
         }
 
         function otworzModal(id) {
@@ -332,7 +393,7 @@
             else if (metoda === 'KURIER') { kosztWysylki = 16; nazwaWysylki = "Kurier (Do domu)"; }
             else { kosztWysylki = 0; nazwaWysylki = "Odbiór osobisty w Nisku"; }
 
-            // ŚLEDZENIE PRZEJŚCIA DO KASY DLA GOOGLE
+            // ŚLEDZENIE ZAINICJOWANIA KASY DLA GOOGLE ANALYTICS
             if(typeof gtag === 'function') {
                 gtag('event', 'begin_checkout', { "items": [{ "item_id": produkt.id, "item_name": produkt.name, "price": produkt.price }] });
             }
