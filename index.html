@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>STYLOWNIE.PL - Premium Vintage Boutique</title>
+    <link rel="icon" type="image/png" href="https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produktow/Gemini_Generated_Image_vhnovevhnovevhno.png">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
         html { scroll-behavior: smooth; }
@@ -14,8 +15,8 @@
     <header class="border-b border-slate-100 sticky top-0 bg-white/80 backdrop-blur-xl z-50 transition-all">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between">
             <div class="flex items-center gap-4 h-full py-2">
-                <img src="" id="main-nav-logo" class="h-16 w-auto object-contain hidden rounded-lg border border-slate-100 shadow-sm bg-white" alt="Logo">
-                <div id="logo-divider" class="w-[1px] h-10 bg-slate-200 hidden"></div>
+                <img src="https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produktow/Gemini_Generated_Image_vhnovevhnovevhno.png" class="h-16 w-auto object-contain rounded-xl border border-slate-100 shadow-sm bg-white" alt="Logo">
+                <div class="w-[1px] h-10 bg-slate-200"></div>
                 <span class="text-2xl font-black tracking-tighter uppercase text-slate-900">STYL<span class="text-pink-600 font-extrabold text-3xl">OWNIE</span></span>
             </div>
             <nav class="flex items-center gap-6 text-xs font-black uppercase tracking-widest text-slate-600">
@@ -30,7 +31,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
             <span class="inline-flex items-center bg-pink-50 text-pink-700 text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full border border-pink-100/50 mb-6 shadow-sm">🔥 NOWY DROP JUŻ DOSTĘPNY</span>
             <h1 class="text-6xl sm:text-8xl font-black tracking-tighter text-slate-900 uppercase leading-none">
-                CURATED <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-purple-600">STREETWEAR</span>
+                UNIKALNY <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-purple-600">STREETWEAR</span>
             </h1>
             <p class="mt-6 text-base sm:text-lg text-slate-500 max-w-xl mx-auto font-medium leading-relaxed">
                 Wyselekcjonowane perełki vintage, odświeżone klasyki i potężne pakiety hurtowe dla resellerów. Prosto z zaplecza w Nisku.
@@ -121,33 +122,12 @@
         const SUPABASE_URL = "https://bcizrlemxdecnzkzcxfi.supabase.co";
         const SUPABASE_KEY = "sb_publishable_feyl5lfAJkE2FhXKJUb4WA_9ya9cSAw";
         
-        // PAMIĘTAJ, ABY W TYM MIEJSCU WKLEIĆ LINK DO SWOJEGO REALNEGO LOGO Z SUPABASE
+        // Link do znaku wodnego na produktach
         const LINK_DO_LOGO_FIRMY = "https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produktow/Gemini_Generated_Image_vhnovevhnovevhno.png";
 
         let zapamiętaneProdukty = [];
         let aktywnyProduktId = null;
         const defaultImg = "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=600&auto=format&fit=crop";
-
-        // Dynamiczne zarządzanie logotypem oraz ikoną karty (Favicon)
-        if(LINK_DO_LOGO_FIRMY && !LINK_DO_LOGO_FIRMY.includes('logo-placeholder.png')) {
-            // 1. Pokazujemy duże logo w menu głównym
-            const navLogo = document.getElementById('main-nav-logo');
-            if(navLogo) {
-                navLogo.src = LINK_DO_LOGO_FIRMY;
-                navLogo.classList.remove('hidden');
-            }
-            // 2. Pokazujemy linię podziału
-            const divider = document.getElementById('logo-divider');
-            if(divider) {
-                divider.classList.remove('hidden');
-            }
-            // 3. Wstrzykujemy ikonkę bezpośrednio do karty przeglądarki (Favicon)
-            const favicon = document.createElement('link');
-            favicon.rel = 'icon';
-            favicon.type = 'image/png';
-            favicon.href = LINK_DO_LOGO_FIRMY;
-            document.head.appendChild(favicon);
-        }
 
         async function pobierzProdukty() {
             try {
@@ -166,9 +146,7 @@
                     else if(p.image_url) { fotka = p.image_url; }
 
                     // Znak wodny / logo firmy w rogu każdego zdjęcia produktu
-                    const logoOverlay = LINK_DO_LOGO_FIRMY && !LINK_DO_LOGO_FIRMY.includes('logo-placeholder.png') 
-                        ? `<img src="${LINK_DO_LOGO_FIRMY}" class="absolute top-4 right-4 h-8 w-auto bg-white/95 backdrop-blur p-1.5 rounded-lg shadow-sm z-10 object-contain border border-slate-100">`
-                        : '';
+                    const logoOverlay = `<img src="${LINK_DO_LOGO_FIRMY}" class="absolute top-4 right-4 h-8 w-auto bg-white/95 backdrop-blur p-1.5 rounded-lg shadow-sm z-10 object-contain border border-slate-100">`;
 
                     if(p.type === 'DETAL') {
                         detalContainer.innerHTML += `
@@ -225,7 +203,6 @@
             } catch (err) { console.error("Błąd ładowania:", err); }
         }
 
-        // POZOSTAŁE FUNKCJE MODALI I PŁATNOŚCI
         function otworzModal(id) {
             const produkt = zapamiętaneProdukty.find(p => p.id == id);
             if(!produkt) return;
