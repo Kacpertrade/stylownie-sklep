@@ -61,7 +61,7 @@
     <section id="info-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
         <div id="dynamic-announcement-box" class="h-full">
             <div class="bg-white border border-slate-100 rounded-2xl p-5 sm:p-6 shadow-xs flex items-center justify-center h-full min-h-[112px]">
-                <p class="text-slate-400 text-xs font-medium animate-pulse">Ładowanie najnowszych komunikatów...</p>
+                <p class="text-slate-400 text-xs font-medium animate-pulse">ŁADOWANIE KOMUNIKATÓW...</p>
             </div>
         </div>
         <div class="bg-white border border-slate-100 rounded-2xl p-5 sm:p-6 shadow-xs flex items-start gap-4 border-l-2 border-l-pink-500 h-full">
@@ -198,7 +198,7 @@
                     <div>
                         <h4 class="text-sm font-black uppercase tracking-widest text-pink-500">Gwarancja 100% Nienaruszonych Boxów</h4>
                         <h3 class="text-lg font-bold text-white mt-1">U nas NIE MA selekcji ani podbierania najlepszych par!</h3>
-                        <p class="text-xs text-slate-400 font-medium mt-3 leading-relaxed">Nasz asortyment detaliczny (1/1) pochodzi wyłącznie z gastronomicznego odkupu gotówkowego od osób prywatnych i kolekcjonerów w naszym punkcie stacjonarnym. Z kolei Mystery Boxy przyjeżdżają do nas w zapieczętowanych, fabrycznych paletach zbiorczych bezpośrednio z zagranicznych sortowni e-commerce i trafiają do Ciebie w dokładnie takim samym, nienaruszonym składzie.</p>
+                        <p class="text-xs text-slate-400 font-medium mt-3 leading-relaxed">Nasz asortyment detaliczny (1/1) pochodzi wyłącznie z gotówkowego odkupu gotówkowego od osób prywatnych i kolekcjonerów w naszym punkcie stacjonarnym. Z kolei Mystery Boxy przyjeżdżają do nas w zapieczętowanych, fabrycznych paletach zbiorczych bezpośrednio z zagranicznych sortowni e-commerce i trafiają do Ciebie w dokładnie takim samym, nienaruszonym składzie.</p>
                     </div>
                 </div>
             </div>
@@ -218,7 +218,7 @@
                 allowfullscreen="" 
                 loading="lazy" 
                 referrerpolicy="no-referrer-when-downgrade">
-            </iframe>
+            </footer>
         </div>
         <div class="mt-6 p-4 bg-slate-50 rounded-xl border border-slate-100 text-center text-xs font-semibold text-slate-700 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6">
             <span class="flex items-center gap-1">📍 Salon Stacjonarny STYLOWNIE — ul. Wolności 8, 37-400 Nisko</span>
@@ -227,8 +227,8 @@
         </div>
     </section>
 
-    <div id="product-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 flex items-center justify-center p-0 sm:p-4 overflow-y-auto">
-        <div class="bg-white rounded-none sm:rounded-3xl max-w-4xl w-full min-h-screen sm:min-h-0 sm:h-auto sm:max-h-[90vh] overflow-y-auto md:overflow-hidden shadow-2xl relative flex flex-col md:flex-row border border-slate-100 animate-in fade-in zoom-in-95 duration-200 pb-[100px] md:pb-0">
+    <div id="product-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 flex items-start sm:items-center justify-center p-0 sm:p-4 overflow-y-auto">
+        <div class="bg-white rounded-none sm:rounded-3xl max-w-4xl w-full min-h-screen sm:min-h-0 sm:h-auto sm:max-h-[90vh] relative flex flex-col md:flex-row border border-slate-100 animate-in fade-in zoom-in-95 duration-200 pb-[100px] md:pb-0 md:overflow-hidden">
             
             <button onclick="zamknijModal()" class="fixed sm:absolute top-4 right-4 bg-slate-900/80 hover:bg-slate-900 text-white font-bold h-10 w-10 rounded-full flex items-center justify-center z-50 text-sm cursor-pointer shadow-md">✕</button>
             
@@ -308,7 +308,7 @@
                     </div>
                 </div>
 
-                <div class="flex md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 p-4 items-center justify-between gap-4 z-40 shadow-[0_-4px_12px_rgba(0,0,0,0.08)] pb-[calc(16px+env(safe-area-inset-bottom))]">
+                <div class="flex md:hidden absolute bottom-0 left-0 right-0 bg-white border-t border-slate-100 p-4 items-center justify-between gap-4 z-40 shadow-[0_-4px_12px_rgba(0,0,0,0.08)] pb-[calc(16px+env(safe-area-inset-bottom))]">
                     <div>
                         <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Cena z dostawą</p>
                         <span id="modal-price-mobile" class="text-lg font-black text-slate-900 tracking-tight">0.00 PLN</span>
@@ -651,7 +651,6 @@
             }
         }
 
-        // 🔥 Oczyszczona funkcja otwierania modala – dane i zdjęcia załadują się natychmiast bez zawieszania!
         function otworzModal(id) {
             const produkt = zapamiętaneProdukty.find(p => p.id == id); if(!produkt) return;
             aktywnyProduktId = id; aktualnaCenaProduktu = parseFloat(produkt.price);
@@ -686,7 +685,6 @@
             document.getElementById('paczkomat-input').value = ''; 
             document.getElementById('dpd-input').value = ''; 
             
-            // Uruchomienie wyliczeń ceny dostawy bez błędów składni!
             aktualizujCeneWysylki();
             
             const gradeBadge = document.getElementById('modal-grade'); if(produkt.condition_grade) { gradeBadge.innerText = `Klasa: ${produkt.condition_grade}`; gradeBadge.classList.remove('hidden'); } else { gradeBadge.classList.add('hidden'); }
@@ -709,7 +707,6 @@
             aktualizujCeneWysylki();
         }
 
-        // ⚡ Oczyszczona i w 100% sprawna funkcja dostaw bez wadliwych linijek!
         function aktualizujCeneWysylki() {
             const metoda = document.querySelector('input[name="dostawa"]:checked').value; const inpostField = document.getElementById('inpost-field'); const dpdField = document.getElementById('dpd-field'); let koszt = 0; inpostField.classList.add('hidden'); dpdField.classList.add('hidden');
             
