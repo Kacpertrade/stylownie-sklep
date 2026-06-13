@@ -1,28 +1,31 @@
 module.exports = async (req, res) => {
     if (req.method !== 'POST') return res.status(405).send('Method Not Allowed');
     
-    const { name, price, imageUrl, deliveryMethod, deliveryName, deliveryCost, pointCode } = req.body;
+    // Pobieramy id produktu przesłane ze strony głównej
+    const { id, name, price, imageUrl, deliveryMethod, deliveryName, deliveryCost, pointCode } = req.body;
     
     const params = new URLSearchParams();
     
-    // Wracamy do sprawdzonych, w 100% bezpiecznych metod płatności kompatybilnych z każdą wersją Stripe
+    // Sprawdzone metody płatności kompatybilne z każdą wersją konta Stripe
     params.append('payment_method_types[0]', 'blik');
     params.append('payment_method_types[1]', 'card');
     
     params.append('mode', 'payment');
-    params.append('success_url', `${req.headers.origin}/?status=success`);
+    
+    // Ważne: doklejamy ID produktu do linku sukcesu, żeby sklep wiedział co skasować po zapłacie
+    params.append('success_url', `${req.headers.origin}/?status=success&productId=${id}`);
     params.append('cancel_url', `${req.headers.origin}/?status=canceled`);
     
-    // Wymuszamy numer telefonu do kontaktu dla kurierów i powiadomień paczkomatowych
+    // Wymuszamy numer telefonu kontaktowego
     params.append('phone_number_collection[enabled]', 'true');
     
-    // Zapisujemy metodę dostawy i kod wybranego punktu bezpośrednio w metadanych Stripe
+    // Zapisujemy kompletne informacje dla Ciebie w panelu Stripe (w sekcji Metadata)
     params.append('metadata[metoda_dostawy]', deliveryMethod);
     if (pointCode) {
         params.append('metadata[kod_punktu_odbioru]', pointCode.toUpperCase());
     }
     
-    // POZYCJA 1: Zakupiony produkt (buty / box)
+    // POZYCJA 1: Zakupiona rzecz
     params.append('line_items[0][price_data][currency]', 'pln');
     params.append('line_items[0][price_data][unit_amount]', Math.round(price * 100)); 
     params.append('line_items[0][price_data][product_data][name]', name);
@@ -32,7 +35,7 @@ module.exports = async (req, res) => {
         params.append('line_items[0][price_data][product_data][images][0]', imageUrl);
     }
     
-    // POZYCJA 2: Koszt wybranej wysyłki (dodawany automatycznie, o ile wynosi więcej niż 0 zł)
+    // POZYCJA 2: Koszt wybranej wysyłki (o ile jest większy niż 0 zł)
     if (deliveryCost > 0) {
         params.append('line_items[1][price_data][currency]', 'pln');
         params.append('line_items[1][price_data][unit_amount]', Math.round(deliveryCost * 100));
@@ -40,7 +43,7 @@ module.exports = async (req, res) => {
         params.append('line_items[1][quantity]', '1');
     }
     
-    // Jeśli klient wybrał tradycyjnego kuriera pod drzwi - Stripe wyświetli formularz na pełny adres domowy
+    // Jeśli wybrano tradycyjnego kuriera domowego - Stripe poprosi klienta o pełny adres
     if (deliveryMethod === 'KURIER') {
         params.append('shipping_address_collection[allowed_countries][0]', 'PL');
     }
