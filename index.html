@@ -74,10 +74,14 @@
     </section>
 
     <section id="detal-sekcja" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative">
-        <div class="mb-10 text-center sm:text-left border-b border-slate-200 pb-6">
+        <div class="mb-6 text-center sm:text-left border-b border-slate-200 pb-6">
             <span class="text-pink-600 text-xs font-bold uppercase tracking-widest">Kolekcja detaliczna</span>
             <h2 class="text-2xl sm:text-3xl font-black text-slate-900 uppercase tracking-tight mt-1">Pojedyncze Perełki 1/1</h2>
         </div>
+
+        <div id="size-filters-container" class="flex flex-wrap gap-2 mb-8 justify-center sm:justify-start overflow-x-auto pb-2">
+            </div>
+
         <div id="detal-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             <p class="text-slate-400 col-span-full text-center py-10 font-medium tracking-wider text-xs animate-pulse">ŁADOWANIE NAJNOWSZEGO DROPU...</p>
         </div>
@@ -141,7 +145,7 @@
                                 <span class="text-pink-600">+11.00 zł</span>
                             </label>
                             <label class="flex items-center justify-between bg-white p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:border-pink-500 transition-all">
-                                <span class="flex items-center gap-2"><input type="radio" name="dostawa" value="KURIER" onchange="aktualizujCeneWysylki()"> ⛟ Kurier (Dostawa pod drzwi)</span>
+                                <span class="flex items-center gap-2"><input type="radio" name="dostawa" value="KURIER" onchange="aktualizujCeneWysylki()"> 🚛 Kurier (Dostawa pod drzwi)</span>
                                 <span class="text-pink-600">+16.00 zł</span>
                             </label>
                         </div>
@@ -218,8 +222,12 @@
         let zapamiętaneProdukty = [];
         let aktualnaCenaProduktu = 0; 
         let aktywnyProduktId = null;
-        let limitDetalu = 8; 
-        const defaultImg = "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=600&auto=format&fit=crop";
+        
+        // ZMIENNE ODPOWIADAJĄCE ZA FILTROWANIE I LIMIT WYŚWIETLANIA
+        let limitDetalu = 4; // Początkowo widzimy tylko 4 produkty (1 pełny rząd)
+        let aktywnyRozmiar = 'WSZYSTKIE';
+
+        let defaultImg = "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=600&auto=format&fit=crop";
 
         let chatSessionId = localStorage.getItem('stylownie_chat_session');
         if(!chatSessionId) {
@@ -378,19 +386,68 @@
             } catch (err) { console.error(err); }
         }
 
+        // 🎨 GENEROWANIE AUTOMATYCZNYCH FILTRÓW ROZMIARÓW
+        function generujFiltryRozmiarow(wszystkieDetaliczne) {
+            const filterContainer = document.getElementById('size-filters-container');
+            if (!filterContainer) return;
+            
+            // Pobieramy unikalne rozmiary, odrzucamy puste i sortujemy je numerycznie
+            const unikalneRozmiary = [...new Set(wszystkieDetaliczne.map(p => p.size))]
+                .filter(r => r && r.trim() !== '')
+                .sort((a, b) => parseFloat(a) - parseFloat(b));
+            
+            let html = `
+                <button onclick="ustawFiltrRozmiaru('WSZYSTKIE')" class="px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-xl border transition-all cursor-pointer shadow-xs shrink-0 ${aktywnyRozmiar === 'WSZYSTKIE' ? 'bg-pink-600 text-white border-pink-600' : 'bg-white text-slate-700 border-slate-200 hover:border-pink-500 hover:text-pink-600'}">
+                    Wszystkie
+                </button>
+            `;
+            
+            unikalneRozmiary.forEach(r => {
+                const iActive = aktywnyRozmiar === r;
+                html += `
+                    <button onclick="ustawFiltrRozmiaru('${r}')" class="px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-xl border transition-all cursor-pointer shadow-xs shrink-0 ${iActive ? 'bg-pink-600 text-white border-pink-600' : 'bg-white text-slate-700 border-slate-200 hover:border-pink-500 hover:text-pink-600'}">
+                        R. ${r}
+                    </button>
+                `;
+            });
+            
+            filterContainer.innerHTML = html;
+        }
+
+        // ZMIANA FILTRA PRZEZ UŻYTKOWNIKA
+        function ustawFiltrRozmiaru(rozmiar) {
+            aktywnyRozmiar = rozmiar;
+            limitDetalu = 4; // Po zmianie filtra resetujemy widok do 1 rzędu
+            renderujWszystko();
+        }
+
         function renderujWszystko() {
             const detalContainer = document.getElementById('detal-container');
             const hurtContainer = document.getElementById('hurt-container');
             const buttonWrapper = document.getElementById('more-products-wrapper');
             detalContainer.innerHTML = ''; hurtContainer.innerHTML = ''; buttonWrapper.classList.add('hidden');
 
-            const detaliczne = zapamiętaneProdukty.filter(p => p.type === 'DETAL');
+            const wszystkieDetaliczne = zapamiętaneProdukty.filter(p => p.type === 'DETAL');
             const hurtowe = zapamiętaneProdukty.filter(p => p.type !== 'DETAL');
-            const wyswietlaneDetaliczne = detaliczne.slice(0, limitDetalu);
-            if (detaliczne.length > limitDetalu) buttonWrapper.classList.remove('hidden');
+            
+            // Renderuj przyciski filtrowania na bazie bazy produktów
+            generujFiltryRozmiarow(wszystkieDetaliczne);
+
+            // Filtrujemy listę detaliczną zależnie od wybranego przycisku
+            const filtrowaneDetaliczne = aktywnyRozmiar === 'WSZYSTKIE'
+                ? wszystkieDetaliczne
+                : wszystkieDetaliczne.filter(p => p.size === aktywnyRozmiar);
+
+            // Wycinamy tylko tyle produktów, na ile pozwala obecny limit
+            const wyswietlaneDetaliczne = filtrowaneDetaliczne.slice(0, limitDetalu);
+            
+            // Pokazujemy przycisk "Pokaż więcej" tylko wtedy, gdy w bazie jest więcej pasujących butów niż limit
+            if (filtrowaneDetaliczne.length > limitDetalu) {
+                buttonWrapper.classList.remove('hidden');
+            }
 
             if(wyswietlaneDetaliczne.length === 0) {
-                detalContainer.innerHTML = `<p class="text-slate-400 col-span-full text-center py-6 font-medium text-xs">Aktualnie cały drop wyprzedany. Wróć niebawem!</p>`;
+                detalContainer.innerHTML = `<p class="text-slate-400 col-span-full text-center py-10 font-semibold text-xs">Aktualnie brak dostępnych butów w rozmiarze ${aktywnyRozmiar}.</p>`;
             }
 
             wyswietlaneDetaliczne.forEach(p => {
@@ -400,7 +457,7 @@
                 const logoOverlay = `<img src="${LINK_DO_LOGO_FIRMY}" class="absolute top-3 right-3 h-7 w-auto bg-white/95 backdrop-blur-xs p-1 rounded-lg shadow-xs z-10 object-contain border border-slate-100">`;
 
                 detalContainer.innerHTML += `
-                    <div onclick="otworzModal('${p.id}')" class="group relative bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col cursor-pointer">
+                    <div onclick="otworzModal('${p.id}')" class="group relative bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col cursor-pointer animate-in fade-in duration-200">
                         <div class="aspect-square w-full bg-slate-50 overflow-hidden relative">
                             ${logoOverlay}<img src="${fotka}" class="w-full h-full object-cover group-hover:scale-103 transition-all duration-500">
                             <span class="absolute bottom-3 left-3 bg-slate-900/80 text-white text-[9px] font-bold tracking-wider px-2.5 py-1.5 rounded-md border border-white/5 backdrop-blur-xs">SZCZEGÓŁY</span>
@@ -434,7 +491,11 @@
             });
         }
 
-        function pokazWszystkieProdukty() { limitDetalu = 999; renderujWszystko(); }
+        // AKCJA KLIKNIĘCIA "POKAŻ WIĘCEJ" - USUWA LIMIT I POKAZUJE KREACJE DO KOŃCA
+        function pokazWszystkieProdukty() { 
+            limitDetalu = 999; 
+            renderujWszystko(); 
+        }
 
         function otworzModal(id) {
             const produkt = zapamiętaneProdukty.find(p => p.id == id);
@@ -449,7 +510,7 @@
             
             const policyNotice = document.getElementById('modal-policy-notice');
             if (produkt.type === 'DETAL') {
-                policyNotice.innerHTML = `<div class="bg-amber-50 border border-amber-100 text-amber-900 p-3 rounded-xl text-[10px] font-semibold leading-relaxed">🛡️ <strong>Zasady zwrotu:</strong> Masz prawo do zwrotu towaru w ciągu 14 dni. Pamiętaj, że product musi wrócić do nas w stanie nienaruszonym.</div>`;
+                policyNotice.innerHTML = `<div class="bg-amber-50 border border-amber-100 text-amber-900 p-3 rounded-xl text-[10px] font-semibold leading-relaxed">🛡️ <strong>Zasady zwrotu:</strong> Masz prawo do zwrotu towaru w ciągu 14 dni. Pamiętaj, że produkt musi wrócić do nas w stanie nienaruszonym.</div>`;
             } else {
                 policyNotice.innerHTML = `<div class="bg-red-50 border border-red-100 text-red-900 p-3 rounded-xl text-[10px] font-semibold leading-relaxed">🚫 <strong>Zakup hurtowy B2B:</strong> Mystery Boxy są pakietami nienaruszonymi, wyłączonymi z możliwości zwrotów.</div>`;
             }
@@ -538,7 +599,6 @@
             }
         }
 
-        // 🔥 INTELIGENTNY INTERCEPTOR STATUSU PŁATNOŚCI STRIPE Checkout
         async function obsluzStatusPlatnosci() {
             const urlParams = new URLSearchParams(window.location.search);
             const status = urlParams.get('status');
@@ -548,7 +608,6 @@
                 alert("🎉 Dziękujemy za zakup! Twoje zamówienie zostało pomyślnie opłacone. Oficjalna faktura PDF z potwierdzeniem została wysłana na Twój adres e-mail.");
                 
                 try {
-                    // Automatycznie wyrzucamy sprzedany produkt z bazy Supabase (drop 1/1)
                     await fetch(`${SUPABASE_URL}/rest/v1/products?id=eq.${productId}`, {
                         method: 'DELETE',
                         headers: { 
@@ -556,13 +615,10 @@
                             'Authorization': `Bearer ${SUPABASE_KEY}` 
                         }
                     });
-                    // Błyskawicznie przeładowujemy drop na stronie
                     pobierzProdukty();
                 } catch (e) {
                     console.error("Błąd podczas zdejmowania produktu ze stanu:", e);
                 }
-                
-                // Czyścimy link w przeglądarce, by po odświeżeniu komunikat nie wyskakiwał ponownie
                 window.history.replaceState({}, document.title, window.location.pathname);
             } else if (status === 'canceled') {
                 alert("❌ Transakcja została anulowana przez użytkownika. Jeśli to błąd, spróbuj dokonać zakupu ponownie.");
@@ -581,7 +637,6 @@
         pobierzAktualnosci();
         pobierzProdukty();
         checkAdminPresence();
-        // Odpalenie weryfikacji powrotu ze Stripe
         obsluzStatusPlatnosci();
     </script>
 </body>
