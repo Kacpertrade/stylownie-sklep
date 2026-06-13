@@ -218,7 +218,7 @@
                 allowfullscreen="" 
                 loading="lazy" 
                 referrerpolicy="no-referrer-when-downgrade">
-            </footer>
+            </iframe>
         </div>
         <div class="mt-6 p-4 bg-slate-50 rounded-xl border border-slate-100 text-center text-xs font-semibold text-slate-700 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6">
             <span class="flex items-center gap-1">📍 Salon Stacjonarny STYLOWNIE — ul. Wolności 8, 37-400 Nisko</span>
@@ -653,7 +653,7 @@
 
             const policyNotice = document.getElementById('modal-policy-notice');
             if (produkt.type === 'DETAL') { policyNotice.innerHTML = `<div class="bg-amber-50 border border-amber-100 text-amber-900 p-3 rounded-xl text-[10px] font-semibold leading-relaxed">🛡️ <strong>Zasady zwrotu:</strong> Masz prawo do zwrotu towaru w ciągu 14 dni. Pamiętaj, że produkt musi wrócić do nas w stanie nienaruszonym.</div>`; } 
-            else { policyNotice.innerHTML = `<div class="bg-red-50 border border-red-100 text-red-900 p-3 rounded-xl text-[10px] font-semibold leading-relaxed">🚫 <strong>Zakup hurtowy B2B:</strong> Mystery Boxy są pakietami nienaruszonymi, wyłączonymi z możliwości zwrotów.</div>`; }
+            else { policyNotice.innerHTML = `<div class="bg-red-50 border border-red-100 text-red-900 p-3 rounded-xl text-[10px] font-semibold leading-relaxed">🚫 <strong>Zakup hurtowy B2B:</strong> Mystery Boxy are pakietami nienaruszonymi, wyłączonymi z możliwości zwrotów.</div>`; }
             document.getElementsByName('dostawa')[0].checked = true; document.getElementById('paczkomat-input').value = ''; document.getElementById('dpd-input').value = ''; aktualizujCeneWysylki();
             const gradeBadge = document.getElementById('modal-grade'); if(produkt.condition_grade) { gradeBadge.innerText = `Klasa: ${produkt.condition_grade}`; gradeBadge.classList.remove('hidden'); } else { gradeBadge.classList.add('hidden'); }
             const mainImg = document.getElementById('modal-main-img'); const thumbContainer = document.getElementById('modal-thumbnails'); thumbContainer.innerHTML = '';
@@ -681,7 +681,7 @@
             if (metoda === 'INPOST_BOX') { koszt = 12; inpostField.classList.remove('hidden'); } else if (metoda === 'DPD_BOX') { koszt = 11; dpdField.classList.remove('hidden'); } else if (metoda === 'KURIER') { koszt = 16; }
             
             const qty = parseInt(document.getElementById('modal-qty-input').value) || 1;
-            const suma = (aktualnaCenaProduktu * qty) + koszt; 
+            const suma = (aktualnaCenaProduktu * qty) + sizeof = koszt; 
             
             document.getElementById('modal-price-desktop').innerText = `${suma.toFixed(2)} PLN`;
             document.getElementById('modal-price-mobile').innerText = `${suma.toFixed(2)} PLN`;
