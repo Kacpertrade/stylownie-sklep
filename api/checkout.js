@@ -4,19 +4,25 @@ module.exports = async (req, res) => {
     const { name, price, imageUrl } = req.body;
     
     const params = new URLSearchParams();
-    params.append('payment_method_types[0]', 'blik');
-    params.append('payment_method_types[1]', 'p24');
-    params.append('payment_method_types[2]', 'card');
+    
+    params.append('automatic_payment_methods[enabled]', 'true');
     params.append('mode', 'payment');
     params.append('success_url', `${req.headers.origin}/?status=success`);
     params.append('cancel_url', `${req.headers.origin}/?status=canceled`);
     
+    // WYMUSZENIE NUMERU TELEFONU (Potrzebne dla InPost)
+    params.append('phone_number_collection[enabled]', 'true');
+    
+    // DODATKOWE POLE NA KOD PACZKOMATU
+    params.append('custom_fields[0][key]', 'paczkomat_inpost');
+    params.append('custom_fields[0][label][type]', 'custom');
+    params.append('custom_fields[0][label][custom]', 'Kod Paczkomatu InPost (np. NIS01M)');
+    params.append('custom_fields[0][type]', 'text');
+    
     // Dane o produkcie i cenie
     params.append('line_items[0][price_data][currency]', 'pln');
-    params.append('line_items[0][price_data][unit_amount]', Math.round(price * 100)); // Stripe liczy w groszach
+    params.append('line_items[0][price_data][unit_amount]', Math.round(price * 100)); 
     params.append('line_items[0][price_data][product_data][name]', name);
-    
-    // TA LINIJKA NAPRAWIA PROBLEM (Ilość: 1 sztuka)
     params.append('line_items[0][quantity]', '1');
     
     if (imageUrl) {
