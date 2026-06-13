@@ -218,7 +218,7 @@
                 allowfullscreen="" 
                 loading="lazy" 
                 referrerpolicy="no-referrer-when-downgrade">
-            </iframe>
+            </footer>
         </div>
         <div class="mt-6 p-4 bg-slate-50 rounded-xl border border-slate-100 text-center text-xs font-semibold text-slate-700 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6">
             <span class="flex items-center gap-1">📍 Salon Stacjonarny STYLOWNIE — ul. Wolności 8, 37-400 Nisko</span>
@@ -526,8 +526,6 @@
         function renderujWszystko() {
             const butyContainer = document.getElementById('buty-container');
             const odziezContainer = document.getElementById('odziez-container');
-            
-            // 🔥 NAPRAWIONO BŁĄD SKŁADNI: Usunięto złośliwą spację ze zmiennej hurtContainer
             const hurtContainer = document.getElementById('hurt-container');
             
             if(butyContainer) butyContainer.innerHTML = '';
@@ -605,7 +603,7 @@
                     
                     if (isClothingBox) {
                         badgePogladowe = `<span class="absolute bottom-2 right-2 bg-slate-950/80 text-[8px] font-bold text-slate-400 px-2 py-0.5 rounded border border-slate-800/60 tracking-wide">ZDJĘCIE POGLĄDOWE</span>`;
-                        tekstPogladowy = `<p class="text-[9px] text-slate-500 mt-1 font-semibold italic">Zdjęcia przedstawiają przykładowy styl ubrań z dostaw (nie kupujesz fizycznego worka ze zdjęcia).</p>`;
+                        tekstPogladowy = `<p class="text-[9px] text-slate-500 mt-1 font-semibold italic">Zdjęcia przedstawiają przykładowy style ubrań z dostaw (nie kupujesz fizycznego worka ze zdjęcia).</p>`;
                     } else {
                         badgePogladowe = `<span class="absolute bottom-2 right-2 bg-emerald-600/90 text-[8px] font-bold text-white px-2 py-0.5 rounded tracking-wide">REAL FOTO (KUPUJESZ TO CO WIDZISZ)</span>`;
                     }
@@ -680,7 +678,6 @@
         function aktualizujCeneWysylki() {
             const metoda = document.querySelector('input[name="dostawa"]:checked').value; const inpostField = document.getElementById('inpost-field'); const dpdField = document.getElementById('dpd-field'); let koszt = 0; inpostField.classList.add('hidden'); dpdField.classList.add('hidden');
             
-            // 🔥 POPRAWIONO BŁĄD PRZYPISANIA: Usunięto wadliwy kod 'sizeof ='
             if (metoda === 'INPOST_BOX') { koszt = 12; inpostField.classList.remove('hidden'); } else if (metoda === 'DPD_BOX') { koszt = 11; dpdField.classList.remove('hidden'); } else if (metoda === 'KURIER') { koszt = 16; }
             
             const qty = parseInt(document.getElementById('modal-qty-input').value) || 1;
@@ -739,7 +736,7 @@
                     <p>1. Sklep internetowy działający pod adresem STYLOWNIE.PL prowadzony jest przez firmę STYLOWNIE z salonem stacjonarnym w Nisku przy ul. Wolności 8. NIP: 6020149091, REGON: 528846076.</p>
                     <p>2. Niniejszy regulamin określa zasady korzystania ze sklepu, składania zamówień oraz realizacji procedur reklamacyjnych i zwrotów.</p>
                     <p class="font-bold text-slate-800 pt-2">§2. Zamówienia detaliczne (Kolekcja 1/1)</p>
-                    <p>1. Wszystkie produkty w sekcjach "Obuwie Premium" oraz "Odzież i ubrania" są unikalnymi artykułami vintage lub selekcjonowanymi (Perełki 1/1).</p>
+                    <p>1. Wszystkie produkty w sekcjach "Obuwie Premium" oraz "Odzież i ubrania" are unikalnymi artykułami vintage lub selekcjonowanymi (Perełki 1/1).</p>
                     <p>2. Zgodnie z polskim prawem, konsumentowi kupującemu w asortymencie detalicznym przysługuje **prawo do odstąpienia od umowy bez podania przyczyny w terminie 14 dni** od dnia odebrania przesyłki.</p>
                     <p>3. **Warunki zwrotu detalicznego:** Zwracany towar musi zostać odesłany w stanie nienaruszonym. Koszt odesłania towaru pokrywa kupujący.</p>
                     <p class="font-bold text-slate-800 pt-2">§3. Zamówienia hurtowe B2B (Mystery Boxy dla Resellerów)</p>
@@ -749,10 +746,48 @@
             polityka: `
                 <div class="space-y-4 text-slate-600 text-xs leading-relaxed">
                     <p class="font-black text-slate-900 text-sm border-b pb-1 uppercase tracking-wider">POLITYKA PRYWATNOŚCI & OCHRONA DANYCH (RODO)</p>
-                    <p class="font-bold text-slate-800">1. Kto jest administratorem Twoich danych?</p>
-                    <p>Administratorem danych osobowych zbieranych za pośrednictwem sklepu STYLOWNIE.PL jest firma STYLOWNIE z siedzibą w Nisku przy ul. Wolności 8.</p>
-                    <p class="font-bold text-slate-800 pt-2">2. Jakie dane przetwarzamy i w jakim celu?</p>
-                    <p>Przetwarzamy wyłącznie dane niezbędne do prawidłowej obsługi transakcji i komunikacji: Imię, nazwisko, adres wysyłkowy, numer telefonu oraz e-mail.</p>
+                    
+                    <p class="font-bold text-slate-800">1. Administrator Danych Osobowych</p>
+                    <p>Administratorem danych osobowych zbieranych za pośrednictwem sklepu internetowego STYLOWNIE.PL jest firma <strong>STYLOWNIE</strong> z siedzibą pod adresem: ul. Wolności 8, 37-400 Nisko, posiadająca NIP: 6020149091 oraz REGON: 528846076.</p>
+                    <p>W sprawach związanych z ochroną danych osobowych oraz realizacją swoich praw możesz skontaktować się z nami osobiście w salonie stacjonarnym lub bezpośrednio za pośrednictwem czatu dostępnego na stronie.</p>
+                    
+                    <p class="font-bold text-slate-800 pt-2">2. Cel, Podstawa Prawna i Okres Przetwarzania Danych</p>
+                    <p>Twoje dane osobowe są przetwarzane w następujących celach:</p>
+                    <ul class="list-disc pl-4 space-y-1">
+                        <li><strong>Realizacja zamówień i umowy sprzedaży (Art. 6 ust. 1 lit. b RODO):</strong> Dane takie jak imię, nazwisko, adres, e-mail oraz telefon są niezbędne do realizacji transakcji. Dane są przechowywane przez okres niezbędny do realizacji i finalizacji zamówienia.</li>
+                        <li><strong>Wypełnienie obowiązków prawnych i podatkowo-księgowych (Art. 6 ust. 1 lit. c RODO):</strong> Wystawianie faktur, rachunków oraz prowadzenie sprawozdawczości finansowej. Okres przechowywania wynosi 5 lat, licząc od końca roku kalendarzowego, w którym upłynął termin płatności podatku związanego z transakcją.</li>
+                        <li><strong>Prawnie uzasadniony interes Administratora (Art. 6 ust. 1 lit. f RODO):</strong> Monitorowanie ruchu, prowadzenie wewnętrznych statystyk za pomocą narzędzi analitycznych, obsługa systemu czatu z klientem oraz prowadzenie działań marketingu bezpośredniego (w tym optymalizacja kampanii reklamowych). Dane są przechowywane do momentu wniesienia skutecznego sprzeciwu lub przedawnienia roszczeń prawnych.</li>
+                    </ul>
+                    
+                    <p class="font-bold text-slate-800 pt-2">3. Odbiorcy Danych Osobowych</p>
+                    <p>W celu prawidłowego funkcjonowania sklepu oraz sprawnego dostarczenia Twoich zakupów, dane mogą być udostępniane wyspecjalizowanym podmiotom zewnętrznym, z których usług korzystamy:</p>
+                    <ul class="list-disc pl-4 space-y-1">
+                        <li><strong>Krajowi operatorzy logistyczni i firmy kurierskie:</strong> InPost Sp. z o.o. oraz DPD Polska Sp. z o.o. – w celu wygenerowania etykiety i dostarczenia przesyłki do wskazanego Paczkomatu lub pod adres domowy.</li>
+                        <li><strong>Systemy płatności online:</strong> Stripe – w celu bezpiecznego, zewnętrznego procesowania transakcji internetowych (obsługa kart oraz płatności BLIK).</li>
+                        <li><strong>Dostawcy infrastruktury technologicznej i hostingu:</strong> Supabase Inc. – podmiot utrzymujący bazę danych sklepu i system archiwizacji zamówień.</li>
+                        <li><strong>Narzędzia analityczne i marketingowe:</strong> Google LLC (Google Analytics) oraz Meta Platforms Ireland Limited (Meta Pixel / Facebook Ads) – w celu gromadzenia danych statystycznych oraz emisji dopasowanych reklam.</li>
+                    </ul>
+                    
+                    <p class="font-bold text-slate-800 pt-2">4. Prawa Użytkownika, Którego Dane Dotyczą</p>
+                    <p>Zgodnie z unijnym rozporządzeniem RODO, każdemu użytkownikowi przysługuje pełne prawo do kontroli swoich danych osobowych:</p>
+                    <ul class="list-disc pl-4 space-y-1">
+                        <li>Prawo dostępu do treści swoich danych oraz żądania wydania ich kopii.</li>
+                        <li>Prawo do sprostowania (poprawiania) swoich danych, jeśli są nieprawidłowe lub niekompletne.</li>
+                        <li>Prawo do usunięcia danych ("prawo do bycia zapomnianym") – w sytuacjach, gdy dane nie są już niezbędne do celów, dla których zostały zebrane, lub brak jest podstawy prawnej do ich przetwarzania.</li>
+                        <li>Prawo do żądania ograniczenia przetwarzania danych osobowych.</li>
+                        <li>Prawo do przenoszenia danych osobowych do innego administratora usług.</li>
+                        <li>Prawo do wniesienia sprzeciwu wobec przetwarzania danych realizowanego na podstawie prawnie uzasadnionego interesu (np. w celach marketingu).</li>
+                        <li>Prawo do wniesienia oficjalnej skargi do organu nadzorczego – Prezesa Urzędu Ochrony Danych Osobowych (ul. Stawki 2, 00-193 Warszawa), jeżeli uznasz, że przetwarzanie danych narusza aktualne przepisy prawne.</li>
+                    </ul>
+                    
+                    <p class="font-bold text-slate-800 pt-2">5. Pliki Cookies (Ciasteczka) i Technologie Śledzące</p>
+                    <p>Nasz sklep internetowy wykorzystuje pliki cookies (małe pliki tekstowe zapisywane na Twoim urządzeniu końcowym). Wykorzystujemy je w celach:</p>
+                    <ul class="list-disc pl-4 space-y-1">
+                        <li><strong>Funkcjonalnych:</strong> Zapewnienie stabilnego działania strony, utrzymanie ciągłości sesji czatu oraz zapamiętywanie konfiguracji filtrów.</li>
+                        <li><strong>Statystycznych:</strong> Analiza zachowań użytkowników za pomocą platformy Google Analytics w celu ulepszania nawigacji i asortymentu sklepu.</li>
+                        <li><strong>Marketingowych:</strong> Precyzyjne wyświetlanie kampanii reklamowych za pośrednictwem Meta Ads (Facebook/Instagram) dla osób, które odwiedziły naszą witrynę.</li>
+                    </ul>
+                    <p>W każdej chwili możesz samodzielnie zarządzać plikami cookies poziomu ustawień swojej przeglądarkki internetowej (wyłączając je, blokując lub usuwając). Pamiętaj jednak, że całkowite zablokowanie ciasteczek może uniemożliwić korzystanie z niektórych interaktywnych funkcji sklepu.</p>
                 </div>`
         };
 
