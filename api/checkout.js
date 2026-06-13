@@ -1,7 +1,7 @@
 module.exports = async (req, res) => {
     if (req.method !== 'POST') return res.status(405).send('Method Not Allowed');
     
-    const { name, price, imageUrl, deliveryMethod, deliveryName, deliveryCost, paczkomatCode } = req.body;
+    const { name, price, imageUrl, deliveryMethod, deliveryName, deliveryCost, pointCode } = req.body;
     
     const params = new URLSearchParams();
     
@@ -10,16 +10,16 @@ module.exports = async (req, res) => {
     params.append('success_url', `${req.headers.origin}/?status=success`);
     params.append('cancel_url', `${req.headers.origin}/?status=canceled`);
     
-    // Wymagamy telefonu (zawsze przydatne do kontaktu)
+    // Wymuszamy numer telefonu do kontaktu kurierskiego/paczkomatowego
     params.append('phone_number_collection[enabled]', 'true');
     
-    // ZAPISZ METODĘ DOSTAWY I KOD PACZKOMATU W TRANSPARENTNYCH METADANYCH STRIPE
+    // ZAPIS METADANYCH W STRIPE DLA LOCKERÓW / PUNKTÓW ODBIORU
     params.append('metadata[metoda_dostawy]', deliveryMethod);
-    if (paczkomatCode) {
-        params.append('metadata[kod_paczkomatu]', paczkomatCode.toUpperCase());
+    if (pointCode) {
+        params.append('metadata[kod_punktu_odbioru]', pointCode.toUpperCase());
     }
     
-    // POZYCJA 1: Twój produkt (buty lub box)
+    // POZYCJA 1: Zakupiony produkt (buty / paczka hurtowa)
     params.append('line_items[0][price_data][currency]', 'pln');
     params.append('line_items[0][price_data][unit_amount]', Math.round(price * 100)); 
     params.append('line_items[0][price_data][product_data][name]', name);
@@ -29,16 +29,16 @@ module.exports = async (req, res) => {
         params.append('line_items[0][price_data][product_data][images][0]', imageUrl);
     }
     
-    // POZYCJA 2: Koszt wysyłki (dodawany automatycznie, o ile jest większy niż 0)
+    // POZYCJA 2: Koszt wybranej wysyłki (o ile jest większy niż 0 zł)
     if (deliveryCost > 0) {
         params.append('line_items[1][price_data][currency]', 'pln');
         params.append('line_items[1][price_data][unit_amount]', Math.round(deliveryCost * 100));
-        params.append('line_items[1][price_data][product_data][name]', `Dostawa: ${deliveryName}`);
+        params.append('line_items[1][price_data][product_data][name]', `Wysyłka: ${deliveryName}`);
         params.append('line_items[1][quantity]', '1');
     }
     
-    // JEŚLI KLIENT WYBRAŁ KURIERA DPD - ZMUŚ STRIPE DO ZEBRANIA ADRESU DOMOWEGO W PL
-    if (deliveryMethod === 'DPD') {
+    // JEŚLI KURIER POD DRZWI - WYMUŚ NA STRIPE ZBIERANIE FORMULARZA ADRESOWEGO W PL
+    if (deliveryMethod === 'KURIER') {
         params.append('shipping_address_collection[allowed_countries][0]', 'PL');
     }
 
