@@ -82,7 +82,7 @@
             <p class="text-slate-400 col-span-full text-center py-10 font-medium tracking-wider text-xs animate-pulse">ŁADOWANIE NAJNOWSZEGO DROPU...</p>
         </div>
         <div id="more-products-wrapper" class="hidden text-center mt-14">
-            <button onclick="pokazWszystkieProdukty()" class="bg-white text-slate-900 border border-slate-200 hover:border-pink-500 hover:text-pink-600 font-bold text-xs uppercase tracking-wildest px-8 py-4 rounded-xl transition-all shadow-xs cursor-pointer">Pokaż więcej produktów</button>
+            <button onclick="pokazWszystkieProdukty()" class="bg-white text-slate-900 border border-slate-200 hover:border-pink-500 hover:text-pink-600 font-bold text-xs uppercase tracking-widest px-8 py-4 rounded-xl transition-all shadow-xs cursor-pointer">Pokaż więcej produktów</button>
         </div>
     </section>
 
@@ -141,7 +141,7 @@
                                 <span class="text-pink-600">+11.00 zł</span>
                             </label>
                             <label class="flex items-center justify-between bg-white p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:border-pink-500 transition-all">
-                                <span class="flex items-center gap-2"><input type="radio" name="dostawa" value="KURIER" onchange="aktualizujCeneWysylki()"> 7 🚛 Kurier (Dostawa pod drzwi)</span>
+                                <span class="flex items-center gap-2"><input type="radio" name="dostawa" value="KURIER" onchange="aktualizujCeneWysylki()"> 🚛 Kurier (Dostawa pod drzwi)</span>
                                 <span class="text-pink-600">+16.00 zł</span>
                             </label>
                         </div>
@@ -176,7 +176,7 @@
         <div class="bg-slate-900 text-white p-4 flex items-center justify-between">
             <div class="flex items-center gap-2">
                 <span id="chat-status-dot" class="w-2 h-2 rounded-full bg-amber-500"></span>
-                <span id="chat-status-text" class="text-xs font-black uppercase tracking-wider">Czat Stylownie (Sprawdzanie...)</span>
+                <span id="chat-status-text" class="text-[10px] font-black uppercase tracking-wider">Sprawdzanie dostępności...</span>
             </div>
             <button onclick="toggleNativeChat()" class="text-slate-400 hover:text-white font-bold text-xs cursor-pointer">✕</button>
         </div>
@@ -198,7 +198,7 @@
         </div>
         <div class="mt-6 flex justify-center gap-6 text-[10px] text-slate-400 font-bold uppercase tracking-widest">
             <button onclick="otworzLegal('regulamin')" class="hover:text-pink-500 transition-colors cursor-pointer">Zasady Sklepu & Zwroty</button>
-            <button onclick="otworzLegal('polityka')" class="hover:text-pink-500 transition-colors cursor-pointer">Polityka Prywatności</button>
+            <button onclick="otworzLegal('polityka')" class="hover:text-pink-500 transition-colors cursor-pointer">Polityka Privacy</button>
         </div>
     </footer>
 
@@ -213,7 +213,7 @@
     <script>
         const SUPABASE_URL = "https://bcizrlemxdecnzkzcxfi.supabase.co";
         const SUPABASE_KEY = "sb_publishable_feyl5lfAJkE2FhXKJUb4WA_9ya9cSAw";
-        const LINK_DO_LOGO_FIRMY = "https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produktow/Gemini_Generated_Image_vhnovevhnovevhno.png";
+        const LINK_DO_LOGO_FIRMY = "https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produkton/Gemini_Generated_Image_vhnovevhnovevhno.png";
 
         let zapamiętaneProdukty = [];
         let aktualnaCenaProduktu = 0; 
@@ -233,7 +233,7 @@
             if(!box.classList.contains('hidden')) { loadChatMessages(); }
         }
 
-        // FUNKCJA DYNAMICZNEGO WYKRYWANIA CZY ADMIN JEST W PANELU
+        // POPRAWIONA LOGIKA WYŚWIETLANIA INTUICYJNYCH STATUSÓW TEKSTOWYCH
         async function checkAdminPresence() {
             try {
                 const response = await fetch(`${SUPABASE_URL}/rest/v1/admin_status?id=eq.current`, {
@@ -246,15 +246,14 @@
                 if (data && data.length > 0) {
                     const lastSeen = new Date(data[0].last_seen);
                     const now = new Date();
-                    // Jeśli sygnał był wysłany mniej niż 35 sekund temu
                     if (now - lastSeen < 35000) {
                         statusDot.className = "w-2 h-2 rounded-full bg-emerald-500 animate-pulse";
-                        statusText.innerText = "Czat Stylownie (Online)";
+                        statusText.innerText = "JESTEM AKTYWNY — NAPISZ DO MNIE";
                         return;
                     }
                 }
                 statusDot.className = "w-2 h-2 rounded-full bg-amber-500";
-                statusText.innerText = "Czat Stylownie (Napisz wiadomość)";
+                statusText.innerText = "AKTUALNIE NIE MA NIKOGO NA CZACIE";
             } catch(e) {}
         }
         setInterval(checkAdminPresence, 15000);
@@ -371,7 +370,7 @@
                         </div>
                         <div class="p-5 flex flex-col flex-1 justify-between">
                             <div>
-                                <div class="flex items-center justify-between mb-1"><p class="text-[9px] font-bold uppercase tracking-widest text-pink-600">${p.brands || 'Vintage'}</p><span class="text-[9px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">R. ${p.size}</span></div>
+                                <div class="flex items-center justify-between mb-1"><p class="text-[9px] font-bold uppercase tracking-wildest text-pink-600">${p.brands || 'Vintage'}</p><span class="text-[9px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">R. ${p.size}</span></div>
                                 <h3 class="font-bold text-slate-900 text-sm tracking-tight group-hover:text-pink-600 line-clamp-1">${p.name}</h3>
                             </div>
                             <div class="mt-4 pt-3 border-t border-slate-50 flex items-center justify-between"><span class="text-base font-black text-slate-900">${parseFloat(p.price).toFixed(2)} PLN</span>
