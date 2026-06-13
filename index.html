@@ -201,7 +201,7 @@
                     <div>
                         <h4 class="text-sm font-black uppercase tracking-widest text-pink-500">Gwarancja 100% Nienaruszonych Boxów</h4>
                         <h3 class="text-lg font-bold text-white mt-1">U nas NIE MA selekcji ani podbierania najlepszych par!</h3>
-                        <p class="text-xs text-slate-400 font-medium mt-3 leading-relaxed">Nasz asortyment detaliczny (1/1) pochodzi wyłącznie z indywidualnego odkupu gotówkowego od osób prywatnych i kolekcjonerów w naszym punkcie stacjonarnym. Z kolei Mystery Boxy przyjeżdżają do nas w zapieczętowanych, fabrycznych paletach zbiorczych bezpośrednio z zagranicznych sortowni e-commerce i trafiają do Ciebie w dokładnie takim samym, nienaruszonym składzie.</p>
+                        <p class="text-xs text-slate-400 font-medium mt-3 leading-relaxed">Nasz asortyment detaliczny (1/1) pochodzi wyłącznie z indywidualnego odkupu gotówkowego od osób prywatnych i kolekcjonerów w unserem punkcie stacjonarnym. Z kolei Mystery Boxy przyjeżdżają do nas w zapieczętowanych, fabrycznych paletach zbiorczych bezpośrednio z zagranicznych sortowni e-commerce i trafiają do Ciebie w dokładnie takim samym, nienaruszonym składzie.</p>
                     </div>
                 </div>
             </div>
@@ -230,12 +230,12 @@
         </div>
     </section>
 
-    <div id="product-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 flex items-center justify-center p-0 sm:p-4">
-        <div class="bg-white rounded-none sm:rounded-3xl max-w-4xl w-full h-full sm:h-auto sm:max-h-[90vh] overflow-hidden shadow-2xl relative flex flex-col md:flex-row border border-slate-100 animate-in fade-in zoom-in-95 duration-200">
+    <div id="product-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 flex items-center justify-center p-0 sm:p-4 overflow-y-auto">
+        <div class="bg-white rounded-none sm:rounded-3xl max-w-4xl w-full min-h-full sm:min-h-0 sm:h-auto sm:max-h-[90vh] overflow-y-auto md:overflow-hidden shadow-2xl relative flex flex-col md:flex-row border border-slate-100 animate-in fade-in zoom-in-95 duration-200 pb-[84px] md:pb-0">
             
-            <button onclick="zamknijModal()" class="absolute top-4 right-4 bg-slate-900/80 hover:bg-slate-900 text-white font-bold h-10 w-10 rounded-full flex items-center justify-center z-50 text-sm cursor-pointer shadow-md">✕</button>
+            <button onclick="zamknijModal()" class="fixed sm:absolute top-4 right-4 bg-slate-900/80 hover:bg-slate-900 text-white font-bold h-10 w-10 rounded-full flex items-center justify-center z-50 text-sm cursor-pointer shadow-md">✕</button>
             
-            <div class="w-full md:w-1/2 p-4 sm:p-6 flex flex-col justify-start bg-slate-50 border-r border-slate-100 shrink-0 sm:shrink">
+            <div class="w-full md:w-1/2 p-4 sm:p-6 flex flex-col justify-start bg-slate-50 border-b md:border-b-0 md:border-r border-slate-100 shrink-0">
                 <div class="aspect-square w-full rounded-2xl overflow-hidden border border-slate-200 bg-white shadow-xs">
                     <img id="modal-main-img" src="" class="w-full h-full object-cover">
                 </div>
@@ -250,8 +250,8 @@
                 </div>
             </div>
             
-            <div class="w-full md:w-1/2 flex flex-col justify-between overflow-hidden relative pb-[84px] md:pb-0">
-                <div class="p-5 sm:p-8 overflow-y-auto h-full space-y-5">
+            <div class="w-full md:w-1/2 flex flex-col justify-between relative">
+                <div class="p-5 sm:p-8 md:overflow-y-auto md:h-full space-y-5">
                     <div>
                         <span id="modal-brand" class="text-xs font-bold uppercase tracking-widest text-pink-600 block mb-1">Marka</span>
                         <h2 id="modal-name" class="text-xl sm:text-2xl font-black text-slate-900 uppercase tracking-tight leading-tight">Nazwa produktu</h2>
@@ -313,7 +313,7 @@
                     </div>
                 </div>
 
-                <div class="flex md:hidden absolute bottom-0 left-0 right-0 bg-white border-t border-slate-100 p-4 items-center justify-between gap-4 z-40 shadow-[0_-4px_12px_rgba(0,0,0,0.04)] mb-[env(safe-area-inset-bottom)]">
+                <div class="flex md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 p-4 items-center justify-between gap-4 z-40 shadow-[0_-4px_12px_rgba(0,0,0,0.08)] pb-[calc(16px+env(safe-area-inset-bottom))]">
                     <div>
                         <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Cena z dostawą</p>
                         <span id="modal-price-mobile" class="text-lg font-black text-slate-900 tracking-tight">0.00 PLN</span>
@@ -401,24 +401,19 @@
             localStorage.setItem('stylownie_chat_session', chatSessionId);
         }
 
-        // 🗺️ OBSŁUGA INTERAKTYWNEJ MAPY INPOST (GEOWIDGET WERSJA PRO)
+        // 🗺️ MAPA INPOST
         let inpostMapaZainicjalizowana = false;
         function otworzMapeInpost() {
             document.getElementById('inpost-map-modal').classList.remove('hidden');
             if (!inpostMapaZainicjalizowana) {
-                // Wstępna konfiguracja widżetu EasyPack InPost
                 easyPack.init({
                     instance: 'pl',
                     mapType: 'osm',
                     searchType: 'address',
-                    points: {
-                        types: ['parcel_locker']
-                    }
+                    points: { types: ['parcel_locker'] }
                 });
-                
-                // Przypisanie mapy do kontenera z funkcją zwrotną po kliknięciu
                 easyPack.mapWidget('easypack-map', function(point) {
-                    document.getElementById('paczkomat-input').value = point.name; // Zapisz kod Paczkomatu (np. NIS01M)
+                    document.getElementById('paczkomat-input').value = point.name;
                     zamknijMapeInpost();
                 });
                 inpostMapaZainicjalizowana = true;
@@ -551,7 +546,6 @@
             renderujWszystko();
         }
 
-        // Poprawka uciętej litery "r" w słowie "mniej" w przycisku rozwijania
         function toggleOdziezView() {
             if (limitOdziezy === 4 || limitOdziezy === 12) { limitOdziezy = 999; } 
             else { limitOdziezy = (widokObecny === 'ODZIEZ' ? 12 : 4); document.getElementById('detal-odziez-sekcja').scrollIntoView({ behavior: 'smooth' }); }
@@ -742,7 +736,6 @@
             aktualizujCeneWysylki();
         }
 
-        // Naprawa literówki w wyznaczaniu kosztu kuriera
         function aktualizujCeneWysylki() {
             const metoda = document.querySelector('input[name="dostawa"]:checked').value; const inpostField = document.getElementById('inpost-field'); const dpdField = document.getElementById('dpd-field'); let koszt = 0; inpostField.classList.add('hidden'); dpdField.classList.add('hidden');
             
@@ -848,7 +841,7 @@
                         <li>Prawo do wniesienia oficjalnej skargi do organu nadzorczego – Prezesa Urzędu Ochrony Danych Osobowych (ul. Stawki 2, 00-193 Warszawa), jeżeli uznasz, że przetwarzanie danych narusza aktualne przepisy prawne.</li>
                     </ul>
                     
-                    <p class="font-bold text-slate-800 pt-2">5. Pliki Cookies (Ciasteczka) i Technologie Śledzące</p>
+                    <p class="font-bold text-slate-800 pt-2">5. Pliki Cookies (Ciasteczka) i Technologies Śledzące</p>
                     <p>Nasz sklep internetowy wykorzystuje pliki cookies (małe pliki tekstowe zapisywane na Twoim urządzeniu końcowym). Wykorzystujemy je w celach:</p>
                     <ul class="list-disc pl-4 space-y-1">
                         <li><strong>Funkcjonalnych:</strong> Zapewnienie stabilnego działania strony, utrzymanie ciągłości sesji czatu oraz zapamiętywanie konfiguracji filtrów.</li>
