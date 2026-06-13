@@ -1,10 +1,8 @@
 module.exports = async (req, res) => {
-    // Pozwalamy tylko na zapytania typu POST (wysyłanie danych)
     if (req.method !== 'POST') return res.status(405).send('Method Not Allowed');
     
     const { name, price, imageUrl } = req.body;
     
-    // Przygotowujemy dane w formacie, jakiego wymaga system Stripe
     const params = new URLSearchParams();
     params.append('payment_method_types[0]', 'blik');
     params.append('payment_method_types[1]', 'p24');
@@ -12,16 +10,20 @@ module.exports = async (req, res) => {
     params.append('mode', 'payment');
     params.append('success_url', `${req.headers.origin}/?status=success`);
     params.append('cancel_url', `${req.headers.origin}/?status=canceled`);
+    
+    // Dane o produkcie i cenie
     params.append('line_items[0][price_data][currency]', 'pln');
     params.append('line_items[0][price_data][unit_amount]', Math.round(price * 100)); // Stripe liczy w groszach
     params.append('line_items[0][price_data][product_data][name]', name);
+    
+    // TA LINIJKA NAPRAWIA PROBLEM (Ilość: 1 sztuka)
+    params.append('line_items[0][quantity]', '1');
     
     if (imageUrl) {
         params.append('line_items[0][price_data][product_data][images][0]', imageUrl);
     }
 
     try {
-        // Łączymy się bezpośrednio z serwerem Stripe za pomocą ukrytego klucza
         const response = await fetch('https://api.stripe.com/v1/checkout/sessions', {
             method: 'POST',
             headers: {
@@ -34,7 +36,6 @@ module.exports = async (req, res) => {
         const data = await response.json();
         if (!response.ok) throw new Error(data.error ? data.error.message : 'Błąd Stripe');
         
-        // Zwracamy spowrotem gotowy link do płatności BLIK
         return res.status(200).json({ url: data.url });
     } catch (err) {
         return res.status(500).json({ error: err.message });
