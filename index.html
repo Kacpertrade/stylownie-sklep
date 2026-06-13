@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>STYLOWNIE.PL - Premium Vintage Boutique</title>
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-28M9DC1Z7J"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXX'); // <-- TUTAJ TEŻ WPISZ SWÓJ KOD G-XXXXXX
+    </script>
+
     <link rel="icon" type="image/png" href="https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produktow/Gemini_Generated_Image_vhnovevhnovevhno.png">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
@@ -13,17 +22,15 @@
 <body class="bg-slate-50 font-sans text-slate-800 antialiased selection:bg-pink-500 selection:text-white">
 
     <header class="border-b border-slate-100 sticky top-0 bg-white/90 backdrop-blur-xl z-50 transition-all">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            
-            <div class="flex items-center gap-2 sm:gap-4 h-full">
-                <img src="https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produktow/Gemini_Generated_Image_vhnovevhnovevhno.png" class="h-11 sm:h-14 w-auto object-contain rounded-xl border border-slate-100 shadow-xs bg-white" alt="Logo">
-                <div class="hidden sm:block w-[1px] h-8 bg-slate-200"></div>
-                <span class="text-sm sm:text-xl font-light tracking-widest uppercase text-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between">
+            <div class="flex items-center gap-4 h-full">
+                <img src="https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produktow/Gemini_Generated_Image_vhnovevhnovevhno.png" class="h-14 w-auto object-contain rounded-xl border border-slate-100 shadow-sm bg-white" alt="Logo">
+                <div class="w-[1px] h-8 bg-slate-200"></div>
+                <span class="text-xl font-light tracking-widest uppercase text-slate-900 flex items-center">
                     STYL<span class="text-pink-600 font-black">OWNIE</span>
                 </span>
             </div>
-            
-            <nav class="flex items-center gap-4 sm:gap-8 text-[11px] sm:text-xs font-bold uppercase tracking-widest text-slate-600">
+            <nav class="flex items-center gap-8 text-xs font-semibold uppercase tracking-widest text-slate-600">
                 <a href="#detal" class="hover:text-pink-600 transition-colors py-2"><span class="hidden sm:inline">Drop </span>Detal</a>
                 <a href="#hurt" class="bg-slate-900 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl hover:bg-pink-600 transition-all duration-300">Hurt<span class="hidden sm:inline"> (Boxy)</span></a>
             </nav>
@@ -32,21 +39,17 @@
 
     <section class="relative bg-gradient-to-b from-slate-100 via-white to-slate-50 py-20 sm:py-28 lg:py-40 overflow-hidden border-b border-slate-100">
         <div class="absolute inset-0 bg-[linear-gradient(to_right,#00000003_1px,transparent_1px),linear-gradient(to_bottom,#00000003_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-        
         <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
             <span class="inline-flex items-center bg-pink-50 text-pink-700 text-[9px] sm:text-[10px] font-bold uppercase tracking-widest px-3.5 py-1.5 rounded-full border border-pink-100/60 mb-6 shadow-xs">
                 🔥 NOWY DROP JUŻ DOSTĘPNY
             </span>
-            
             <h1 class="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-slate-900 uppercase leading-none break-words">
                 UNIKALNY <br>
                 <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-600 via-purple-600 to-pink-600">STREETWEAR</span>
             </h1>
-            
             <p class="mt-6 text-sm sm:text-base text-slate-500 max-w-xl mx-auto font-medium leading-relaxed px-2">
                 Wyselekcjonowane perełki vintage, odświeżone klasyki i potężne pakiety hurtowe dla resellerów. Prosto z zaplecza w Nisku.
             </p>
-            
             <div class="mt-10 flex flex-wrap justify-center gap-3.5">
                 <a href="#detal" class="bg-pink-600 text-white font-bold px-8 sm:px-10 py-3.5 sm:py-4 rounded-xl shadow-lg shadow-pink-600/20 hover:bg-pink-700 hover:scale-[1.02] active:scale-[0.98] transition-all uppercase tracking-wider text-[11px] sm:text-xs">Sprawdź Drop</a>
                 <a href="#hurt" class="bg-slate-900 text-white font-bold px-8 sm:px-10 py-3.5 sm:py-4 rounded-xl hover:bg-slate-800 hover:scale-[1.02] active:scale-[0.98] transition-all uppercase tracking-wider text-[11px] sm:text-xs">Kup Box na Handel</a>
@@ -60,7 +63,6 @@
                 <span class="text-pink-600 text-xs font-bold uppercase tracking-widest">Kolekcja detaliczna</span>
                 <h2 class="text-2xl sm:text-3xl font-black text-slate-900 uppercase tracking-tight mt-1">Pojedyncze Perełki</h2>
             </div>
-            <p class="text-slate-400 text-xs font-semibold uppercase tracking-wider hidden sm:block">Unikalne sztuki 1/1</p>
         </div>
         <div id="detal-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             <p class="text-slate-400 col-span-full text-center py-10 font-medium tracking-wider text-xs animate-pulse">ŁADOWANIE NAJNOWSZEGO DROPU...</p>
@@ -122,7 +124,7 @@
                             </label>
                         </div>
 
-                        <div id="inpost-field" class="hidden mt-4 pt-3 border-t border-slate-200 animate-in fade-in duration-200">
+                        <div id="inpost-field" class="hidden mt-4 pt-3 border-t border-slate-200">
                             <div class="flex items-center justify-between mb-1.5">
                                 <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wide">Kod Twojego Paczkomatu</label>
                                 <a href="https://inpost.pl/znajdz-paczkomat" target="_blank" class="text-[10px] bg-pink-100 text-pink-700 px-2 py-0.5 rounded font-bold hover:bg-pink-200 transition"> Mapa Paczkomatów</a>
@@ -130,7 +132,7 @@
                             <input type="text" id="paczkomat-input" placeholder="np. NIS01M" class="w-full bg-white border border-slate-200 rounded-lg p-2.5 text-sm uppercase font-bold tracking-widest focus:border-pink-500 focus:outline-none">
                         </div>
 
-                        <div id="dpd-field" class="hidden mt-4 pt-3 border-t border-slate-200 animate-in fade-in duration-200">
+                        <div id="dpd-field" class="hidden mt-4 pt-3 border-t border-slate-200">
                             <div class="flex items-center justify-between mb-1.5">
                                 <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wide">Kod punktu DPD</label>
                                 <a href="https://www.dpd.com/pl/pl/dpd-pickup/znajdz-punkt-pickup/" target="_blank" class="text-[10px] bg-pink-100 text-pink-700 px-2 py-0.5 rounded font-bold hover:bg-pink-200 transition"> Mapa Punktów DPD</a>
@@ -156,14 +158,6 @@
         </div>
     </div>
 
-    <div id="legal-modal" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[80vh] shadow-2xl relative p-6 md:p-8 flex flex-col border border-slate-100">
-            <button onclick="zamknijLegal()" class="absolute top-4 right-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold h-10 w-10 rounded-full flex items-center justify-center text-sm cursor-pointer">✕</button>
-            <h2 id="legal-title" class="text-base font-bold text-slate-900 uppercase tracking-widest mb-4 border-b border-slate-100 pb-3">Tytuł dokumentu</h2>
-            <div id="legal-content" class="text-xs text-slate-500 space-y-4 font-medium leading-relaxed overflow-y-auto pr-2"></div>
-        </div>
-    </div>
-
     <footer class="bg-slate-900 text-slate-400 py-16 text-center text-xs font-medium border-t border-slate-950">
         <p class="tracking-wide text-slate-500">&copy; 2026 STYLOWNIE.PL. Wszelkie prawa zastrzeżone. Sklep stacjonarny: Nisko.</p>
         <div class="mt-6 flex justify-center gap-8 text-[11px] text-slate-400 font-bold uppercase tracking-widest">
@@ -182,30 +176,28 @@
         let aktywnyProduktId = null;
         const defaultImg = "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=600&auto=format&fit=crop";
 
-        // BEZPIECZNE USUWANIE ZWERYFIKOWANE PRZEZ STATUS KODU HTTP
         const urlParams = new URLSearchParams(window.location.search);
         const status = urlParams.get('status');
         const kupionyProduktId = urlParams.get('productId');
 
         if (status === 'success') {
             if (kupionyProduktId) {
+                // ŚLEDZENIE ZAKUPU DLA GOOGLE (Wysyła info, że ktoś kupił)
+                if(typeof gtag === 'function') {
+                    gtag('event', 'purchase', { "transaction_id": urlParams.get('productId'), "value": 1.0, "currency": "PLN" });
+                }
+
                 fetch(`${SUPABASE_URL}/rest/v1/products?id=eq.${kupionyProduktId}`, {
                     method: 'DELETE',
-                    headers: {
-                        'apikey': SUPABASE_KEY,
-                        'Authorization': `Bearer ${SUPABASE_KEY}`
-                    }
+                    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
                 })
                 .then(res => {
-                    if (!res.ok) {
-                        throw new Error("Błąd uprawnień Supabase RLS");
-                    }
+                    if (!res.ok) throw new Error("Błąd");
                     alert("🎉 Dziękujemy za zakup! Płatność udana, a produkt został automatycznie zdjęty ze sklepu.");
                     window.location.href = "/";
                 })
-                .catch((err) => {
-                    console.error(err);
-                    alert("🎉 Dziękujemy za zakup! Płatność udana. (Uwaga: Pamiętaj o kliknięciu opcji w Kroku 1 instrukcji w panelu Supabase, aby produkt stamtąd znikał).");
+                .catch(() => {
+                    alert("🎉 Dziękujemy za zakup! Płatność udana.");
                     window.location.href = "/";
                 });
             } else {
@@ -339,6 +331,11 @@
             else if (metoda === 'DPD_BOX') { kosztWysylki = 11; nazwaWysylki = "Punkt DPD Pickup"; wybranyKodPunktu = dpdKod; }
             else if (metoda === 'KURIER') { kosztWysylki = 16; nazwaWysylki = "Kurier (Do domu)"; }
             else { kosztWysylki = 0; nazwaWysylki = "Odbiór osobisty w Nisku"; }
+
+            // ŚLEDZENIE PRZEJŚCIA DO KASY DLA GOOGLE
+            if(typeof gtag === 'function') {
+                gtag('event', 'begin_checkout', { "items": [{ "item_id": produkt.id, "item_name": produkt.name, "price": produkt.price }] });
+            }
 
             const btn = document.getElementById('modal-buy-btn');
             btn.disabled = true; btn.innerText = "GENEROWANIE LINKU...";
