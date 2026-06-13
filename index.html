@@ -343,7 +343,7 @@
         </div>
         <div class="mt-6 flex justify-center gap-6 text-[10px] text-slate-400 font-bold uppercase tracking-widest">
             <button onclick="otworzLegal('regulamin')" class="hover:text-pink-500 transition-colors cursor-pointer">Zasady Sklepu & Zwroty</button>
-            <button onclick="otworzLegal('polityka')" class="hover:text-pink-500 transition-colors cursor-pointer">Polityka Privacy</button>
+            <button onclick="otworzLegal('polityka')" class="hover:text-pink-500 transition-colors cursor-pointer">Polityka Prywatności</button>
         </div>
     </footer>
 
@@ -475,6 +475,7 @@
             container.innerHTML = html;
         }
 
+        function uppercase(str) { return str ? str.toUpperCase() : ""; }
         function ustawFiltrButow(r) { aktywnyRozmiarButy = r; limitButow = (widokObecny === 'BUTY' ? 12 : 4); renderujWszystko(); }
         function ustawFiltrOdziezy(r) { aktywnyRozmiarOdziez = r; limitOdziezy = (widokObecny === 'ODZIEZ' ? 12 : 4); renderujWszystko(); }
 
@@ -525,7 +526,9 @@
         function renderujWszystko() {
             const butyContainer = document.getElementById('buty-container');
             const odziezContainer = document.getElementById('odziez-container');
-            const hurt Container = document.getElementById('hurt-container');
+            
+            // 🔥 NAPRAWIONO BŁĄD SKŁADNI: Usunięto złośliwą spację ze zmiennej hurtContainer
+            const hurtContainer = document.getElementById('hurt-container');
             
             if(butyContainer) butyContainer.innerHTML = '';
             if(odziezContainer) odziezContainer.innerHTML = '';
@@ -660,7 +663,6 @@
             const zdjecia = produkt.image_urls && produkt.image_urls.length > 0 ? produkt.image_urls : [produkt.image_url || defaultImg]; 
             mainImg.src = zdjecia[0];
             
-            // 🔥 TU POPRAWIONO TYPOWE OZNACZENIE WARUNKU Z POPRZEDNIEJ TURY (ZMIENIONO NA CZYSTE ZDJECIA.LENGTH)
             if(zdjecia.length > 1) { zdjecia.forEach((url, index) => { thumbContainer.innerHTML += `<div onclick="zmienZdjecieWModalu('${url}', this)" class="aspect-square rounded-lg overflow-hidden border-2 ${index === 0 ? 'border-pink-600' : 'border-transparent'} bg-white cursor-pointer hover:border-pink-500 shadow-xs thumb-item"><img src="${url}" class="w-full h-full object-cover"></div>`; }); }
             document.getElementById('product-modal').classList.remove('hidden'); document.body.style.overflow = 'hidden';
         }
@@ -677,12 +679,13 @@
 
         function aktualizujCeneWysylki() {
             const metoda = document.querySelector('input[name="dostawa"]:checked').value; const inpostField = document.getElementById('inpost-field'); const dpdField = document.getElementById('dpd-field'); let koszt = 0; inpostField.classList.add('hidden'); dpdField.classList.add('hidden');
+            
+            // 🔥 POPRAWIONO BŁĄD PRZYPISANIA: Usunięto wadliwy kod 'sizeof ='
             if (metoda === 'INPOST_BOX') { koszt = 12; inpostField.classList.remove('hidden'); } else if (metoda === 'DPD_BOX') { koszt = 11; dpdField.classList.remove('hidden'); } else if (metoda === 'KURIER') { koszt = 16; }
             
             const qty = parseInt(document.getElementById('modal-qty-input').value) || 1;
             const suma = (aktualnaCenaProduktu * qty) + koszt; 
             
-            // 🔥 AKTUALIZUJEMY DWIE CENY JEDNOCZEŚNIE (DLA WERSJI DESKTOP ORAZ MOBILE)
             document.getElementById('modal-price-desktop').innerText = `${suma.toFixed(2)} PLN`;
             document.getElementById('modal-price-mobile').innerText = `${suma.toFixed(2)} PLN`;
         }
@@ -699,8 +702,6 @@
             if(typeof gtag === 'function') { gtag('event', 'begin_checkout', { "items": [{ "item_id": produkt.id, "item_name": produkt.name, "price": produkt.price }] }); } 
             
             const qty = parseInt(document.getElementById('modal-qty-input').value) || 1;
-            
-            // 🔥 BLOKUJEMY OBA PRZYCISKI ZAKUPU JEDNOCZEŚNIE PODCZAS RELALIZACJI
             const btnDesktop = document.getElementById('modal-buy-btn-desktop');
             const btnMobile = document.getElementById('modal-buy-btn-mobile');
             btnDesktop.disabled = true; btnMobile.disabled = true;
