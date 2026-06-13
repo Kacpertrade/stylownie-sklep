@@ -69,7 +69,7 @@
             <div>
                 <h4 class="text-xs font-black uppercase tracking-wider text-slate-400">Odwiedź nas na żywo</h4>
                 <p class="text-sm font-bold text-slate-900 mt-0.5">Butik Stacjonarny STYLOWNIE</p>
-                <p class="text-xs text-slate-800 font-bold mt-1 tracking-wide uppercase">ul. Rzeszowska 8, 37-400 Nisko</p>
+                <p class="text-xs text-slate-800 font-bold mt-1 tracking-wide uppercase">ul. Wolności 8, 37-400 Nisko</p>
                 <p class="text-xs text-slate-500 mt-1 font-medium leading-relaxed">
                     Zapraszamy na zakupy stacjonarne, przymiarki oraz darmowy odbiór osobisty zamówień złożonych na stronie. Jesteśmy legalnie działającą, polską firmą.
                 </p>
@@ -213,7 +213,7 @@
         </div>
         <div class="w-full h-80 sm:h-96 rounded-2xl overflow-hidden shadow-md border border-slate-100 relative">
             <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2543.84438382759!2d22.1290379!3d50.5184283!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4724b693ab57f6b9%3A0x2897d264f3fb8f48!2sRzeszowska%208%2C%2037-400%20Nisko!5e0!3m2!1spl!2spl!4v1718300000000!5m2!1spl!2spl" 
+                src="https://maps.google.com/maps?q=ul.%20Wolno%C5%9Bci%208,%20Nisko&t=&z=16&ie=UTF8&iwloc=&output=embed" 
                 class="w-full h-full border-0" 
                 allowfullscreen="" 
                 loading="lazy" 
@@ -221,7 +221,7 @@
             </iframe>
         </div>
         <div class="mt-6 p-4 bg-slate-50 rounded-xl border border-slate-100 text-center text-xs font-semibold text-slate-700 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6">
-            <span class="flex items-center gap-1">📍 Salon Stacjonarny STYLOWNIE — ul. Rzeszowska 8, 37-400 Nisko</span>
+            <span class="flex items-center gap-1">📍 Salon Stacjonarny STYLOWNIE — ul. Wolności 8, 37-400 Nisko</span>
             <span class="hidden sm:block text-slate-300">|</span>
             <span class="flex items-center gap-1">⏱ Godziny otwarcia: Pon-Pt 9:00 - 17:00, Sob 9:00 - 13:00</span>
         </div>
@@ -260,7 +260,7 @@
                                 <span class="text-pink-600">+11.00 zł</span>
                             </label>
                             <label class="flex items-center justify-between bg-white p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:border-pink-500 transition-all">
-                                <span class="flex items-center gap-2"><input type="radio" name="dostawa" value="KURIER" onchange="aktualizujCeneWysylki()"> 🚛 Kurier (Dostawa pod drzwi)</span>
+                                <span class="flex items-center gap-2"><input type="radio" name="dostawa" value="KURIER" onchange="aktualizujCeneWysylki()"> ⛟ Kurier (Dostawa pod drzwi)</span>
                                 <span class="text-pink-600">+16.00 zł</span>
                             </label>
                         </div>
@@ -309,15 +309,15 @@
     </div>
 
     <footer class="bg-slate-900 text-slate-400 py-12 text-center text-xs font-medium border-t border-slate-950">
-        <p class="tracking-wide text-slate-500">&copy; 2026 STYLOWNIE.PL. Wszelkie prawa zastrzeżone.</p>
+        <p class="tracking-wide text-slate-500">© 2026 STYLOWNIE.PL. Wszelkie prawa zastrzeżone.</p>
         <div class="mt-4 text-[11px] text-slate-500 font-medium space-y-1 border-t border-slate-800/60 pt-4 max-w-md mx-auto">
             <p class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Salon stacjonarny & Dane rejestrowe</p>
-            <p>STYLOWNIE — ul. Rzeszowska 8, 37-400 Nisko</p>
-            <p class="tracking-wide">NIP: 6020149091 &nbsp;|&nbsp; REGON: 528846076</p>
+            <p>STYLOWNIE — ul. Wolności 8, 37-400 Nisko</p>
+            <p class="tracking-wide">NIP: 6020149091  |  REGON: 528846076</p>
         </div>
         <div class="mt-6 flex justify-center gap-6 text-[10px] text-slate-400 font-bold uppercase tracking-widest">
             <button onclick="otworzLegal('regulamin')" class="hover:text-pink-500 transition-colors cursor-pointer">Zasady Sklepu & Zwroty</button>
-            <button onclick="otworzLegal('polityka')" class="hover:text-pink-500 transition-colors cursor-pointer">Polityka Prywatności</button>
+            <button onclick="otworzLegal('polityka')" class="hover:text-pink-500 transition-colors cursor-pointer">Polityka Privacy</button>
         </div>
     </footer>
 
@@ -471,7 +471,7 @@
                 hero.classList.add('hidden'); info.classList.add('hidden'); sekcjaO_nas.classList.add('hidden');
                 sekcjaButy.classList.add('hidden'); sekcjaOdziez.classList.add('hidden'); sekcjaHurt.classList.remove('hidden');
             } else if (tryb === 'ABOUT') {
-                hero.classList.add('hidden'); info.classList.add('hidden'); sekcjaO_nas.setTimeout; sekcjaO_nas.classList.remove('hidden');
+                hero.classList.add('hidden'); info.classList.add('hidden'); sekcjaO_nas.classList.remove('hidden');
                 sekcjaButy.classList.add('hidden'); sekcjaOdziez.classList.add('hidden'); sekcjaHurt.classList.add('hidden');
             } else {
                 hero.classList.remove('hidden'); info.classList.remove('hidden'); sekcjaO_nas.classList.add('hidden');
@@ -520,11 +520,10 @@
             if(butyContainer && wyswietlaneButy.length === 0) butyContainer.innerHTML = `<p class="text-slate-400 col-span-full text-center py-4 text-xs font-semibold">Brak butów w tym rozmiarze.</p>`;
             if(odziezContainer && wyswietlaneOdziez.length === 0) odziezContainer.innerHTML = `<p class="text-slate-400 col-span-full text-center py-4 text-xs font-semibold">Brak odzieży w tym rozmiarze.</p>`;
 
-            // 🔥 UKŁAD PRODUKTÓW Z NOWYM EFEKTEM GLASSMORPHISM LOGO OVERLAY
+            // UKŁAD PRODUKTÓW Z NAKŁADKĄ GLASSMORPHISM LOGO OVERLAY
             const mapujProdukt = (p, kontener) => {
                 let fotka = p.image_urls && p.image_urls.length > 0 ? p.image_urls[0] : (p.image_url || defaultImg);
                 
-                // Nowy zaawansowany design nakładki z logo
                 const logoOverlay = `
                     <div class="absolute top-2 right-2 h-8 w-8 sm:h-9 sm:w-9 bg-white/80 backdrop-blur-md p-1.5 rounded-full shadow-md z-10 border border-white/40 flex items-center justify-center">
                         <img src="${LINK_DO_LOGO_FIRMY}" class="h-full w-full object-contain">
