@@ -82,7 +82,7 @@
             <p class="text-slate-400 col-span-full text-center py-10 font-medium tracking-wider text-xs animate-pulse">ŁADOWANIE NAJNOWSZEGO DROPU...</p>
         </div>
         <div id="more-products-wrapper" class="hidden text-center mt-14">
-            <button onclick="pokazWszystkieProdukty()" class="bg-white text-slate-900 border border-slate-200 hover:border-pink-500 hover:text-pink-600 font-bold text-xs uppercase tracking-widest px-8 py-4 rounded-xl transition-all shadow-xs cursor-pointer">Pokaż więcej produktów</button>
+            <button onclick="pokazWszystkieProdukty()" class="bg-white text-slate-900 border border-slate-200 hover:border-pink-500 hover:text-pink-600 font-bold text-xs uppercase tracking-wildest px-8 py-4 rounded-xl transition-all shadow-xs cursor-pointer">Pokaż więcej produktów</button>
         </div>
     </section>
 
@@ -141,7 +141,7 @@
                                 <span class="text-pink-600">+11.00 zł</span>
                             </label>
                             <label class="flex items-center justify-between bg-white p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:border-pink-500 transition-all">
-                                <span class="flex items-center gap-2"><input type="radio" name="dostawa" value="KURIER" onchange="aktualizujCeneWysylki()"> 🚛 Kurier (Dostawa pod drzwi)</span>
+                                <span class="flex items-center gap-2"><input type="radio" name="dostawa" value="KURIER" onchange="aktualizujCeneWysylki()"> 7 🚛 Kurier (Dostawa pod drzwi)</span>
                                 <span class="text-pink-600">+16.00 zł</span>
                             </label>
                         </div>
@@ -174,11 +174,14 @@
     </div>
     <div id="native-chat-box" class="hidden fixed bottom-24 right-6 w-80 h-96 bg-white border border-slate-200 rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-200">
         <div class="bg-slate-900 text-white p-4 flex items-center justify-between">
-            <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span><span class="text-xs font-black uppercase tracking-wider">Czat Stylownie</span></div>
+            <div class="flex items-center gap-2">
+                <span id="chat-status-dot" class="w-2 h-2 rounded-full bg-amber-500"></span>
+                <span id="chat-status-text" class="text-xs font-black uppercase tracking-wider">Czat Stylownie (Sprawdzanie...)</span>
+            </div>
             <button onclick="toggleNativeChat()" class="text-slate-400 hover:text-white font-bold text-xs cursor-pointer">✕</button>
         </div>
         <div id="chat-messages-area" class="flex-1 p-4 overflow-y-auto space-y-3 bg-slate-50 text-xs font-medium flex flex-col">
-            <div class="bg-white border border-slate-100 p-3 rounded-xl max-w-[85%] self-start shadow-xs text-slate-700">Siemanko! W czym możemy pomóc? Napisz nam wiadomość, a odpowiemy najszybciej jak to możliwe prosto z zaplecza w Nisku.</div>
+            <div class="bg-white border border-slate-100 p-3 rounded-xl max-w-[85%] self-start shadow-xs text-slate-700">Dzień dobry! W czym możemy pomóc? Napisz nam wiadomość, a odpowiemy najszybciej jak to możliwe prosto z zaplecza w Nisku.</div>
         </div>
         <form onsubmit="sendChatMessage(event)" class="p-2 bg-white border-t border-slate-100 flex gap-2">
             <input type="text" id="chat-input-field" placeholder="Wpisz wiadomość..." required class="flex-1 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-pink-600">
@@ -218,7 +221,6 @@
         let limitDetalu = 8; 
         const defaultImg = "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=600&auto=format&fit=crop";
 
-        // SKRYPT CZATU LIVE - GENEROWANIE I TRACKOWANIE UNIKALNEJ SESJI KLIENTA
         let chatSessionId = localStorage.getItem('stylownie_chat_session');
         if(!chatSessionId) {
             chatSessionId = 'user_' + Math.random().toString(36).substring(2, 11);
@@ -231,6 +233,33 @@
             if(!box.classList.contains('hidden')) { loadChatMessages(); }
         }
 
+        // FUNKCJA DYNAMICZNEGO WYKRYWANIA CZY ADMIN JEST W PANELU
+        async function checkAdminPresence() {
+            try {
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/admin_status?id=eq.current`, {
+                    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+                });
+                const data = await response.json();
+                const statusDot = document.getElementById('chat-status-dot');
+                const statusText = document.getElementById('chat-status-text');
+                
+                if (data && data.length > 0) {
+                    const lastSeen = new Date(data[0].last_seen);
+                    const now = new Date();
+                    // Jeśli sygnał był wysłany mniej niż 35 sekund temu
+                    if (now - lastSeen < 35000) {
+                        statusDot.className = "w-2 h-2 rounded-full bg-emerald-500 animate-pulse";
+                        statusText.innerText = "Czat Stylownie (Online)";
+                        return;
+                    }
+                }
+                statusDot.className = "w-2 h-2 rounded-full bg-amber-500";
+                statusText.innerText = "Czat Stylownie (Napisz wiadomość)";
+            } catch(e) {}
+        }
+        setInterval(checkAdminPresence, 15000);
+        checkAdminPresence();
+
         async function loadChatMessages() {
             try {
                 const response = await fetch(`${SUPABASE_URL}/rest/v1/chat_messages?session_id=eq.${chatSessionId}&order=created_at.asc`, {
@@ -238,7 +267,7 @@
                 });
                 const msgs = await response.json();
                 const area = document.getElementById('chat-messages-area');
-                area.innerHTML = `<div class="bg-white border border-slate-100 p-3 rounded-xl max-w-[85%] self-start shadow-xs text-slate-700">Siemanko! W czym możemy pomóc? Napisz nam wiadomość, a odpowiemy najszybciej jak to możliwe prosto z zaplecza w Nisku.</div>`;
+                area.innerHTML = `<div class="bg-white border border-slate-100 p-3 rounded-xl max-w-[85%] self-start shadow-xs text-slate-700">Dzień dobry! W czym możemy pomóc? Napisz nam wiadomość, a odpowiemy najszybciej jak to możliwe prosto z zaplecza w Nisku.</div>`;
                 
                 msgs.forEach(m => {
                     const isAdmin = m.sender === 'admin';
@@ -269,7 +298,6 @@
         }
         setInterval(() => { if(!document.getElementById('native-chat-box').classList.contains('hidden')) { loadChatMessages(); } }, 3000);
 
-        // SYSTEM OBSŁUGI DROPU I REKORDÓW Z SUPABASE
         async function pobierzAktualnosci() {
             try {
                 const response = await fetch(`${SUPABASE_URL}/rest/v1/announcements?select=*&order=created_at.desc&limit=1`, {
