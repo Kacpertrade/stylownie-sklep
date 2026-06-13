@@ -281,6 +281,11 @@
                             <input type="text" id="dpd-input" placeholder="Wpisz kod punktu DPD (np. PL15243)" class="w-full bg-white border border-slate-200 rounded-lg p-2.5 text-xs uppercase font-bold tracking-widest focus:border-pink-500 focus:outline-none">
                         </div>
                     </div>
+                    
+                    <div id="modal-preview-notice" class="hidden mt-4 bg-purple-50 border border-purple-100 text-purple-900 p-3 rounded-xl text-[10px] font-semibold leading-relaxed border-l-2 border-l-purple-600">
+                        📸 Informacja handlowa: Zdjęcia widoczne w galerii tego boxu to autentyczne przykłady ubrań i marek z naszych dostaw, które odzwierciedlają klasę i styl zawartości. Kupujesz seryjny pakiet odzieży spakowany w karton kurierski, a nie pojedyncze sztuki lub worek ze zdjęcia.
+                    </div>
+
                     <div id="modal-policy-notice" class="mt-4"></div>
                     <div class="mt-4">
                         <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Opis przedmiotu</h4>
@@ -292,7 +297,7 @@
                         <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Cena z dostawą</p>
                         <span id="modal-price" class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">0.00 PLN</span>
                     </div>
-                    <button id="modal-buy-btn" onclick="uruchomPlatnosc()" class="bg-pink-600 text-white font-bold text-xs uppercase px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl hover:bg-pink-500 hover:scale-[1.03] hover:shadow-xl hover:shadow-pink-500/30 active:scale-95 active:bg-pink-700 transition-all duration-200 shadow-lg shadow-pink-600/20 tracking-widest cursor-pointer select-none">Kup Teraz</button>
+                    <button id="modal-buy-btn" onclick="uruchomPlatnosc()" class="bg-pink-600 text-white font-bold text-xs uppercase px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl hover:bg-pink-500 hover:scale-[1.03] hover:shadow-xl hover:shadow-pink-500/20 active:scale-95 active:bg-pink-700 transition-all duration-200 shadow-lg shadow-pink-600/20 tracking-widest cursor-pointer select-none">Kup Teraz</button>
                 </div>
             </div>
         </div>
@@ -563,11 +568,34 @@
                 hurtowe.forEach(p => {
                     let fotka = p.image_urls && p.image_urls.length > 0 ? p.image_urls[0] : (p.image_url || defaultImg);
                     const logoOverlay = `<img src="${LINK_DO_LOGO_FIRMY}" class="absolute top-3 right-3 h-7 w-auto bg-white/90 backdrop-blur-xs p-1 rounded-lg shadow-xs z-10 object-contain border border-slate-100">`;
+                    
+                    // 🔥 WALIDACJA: Filtrujemy czy boks zawiera ubrania (Sprawdzamy kategorię 'odziez' lub słowa kluczowe w nazwie)
+                    const isClothingBox = p.category === 'odziez' || p.name.toLowerCase().includes('odzież') || p.name.toLowerCase().includes('ciuch') || p.name.toLowerCase().includes('mix');
+                    
+                    let badgePogladowe = '';
+                    let tekstPogladowy = '';
+                    
+                    if (isClothingBox) {
+                        badgePogladowe = `<span class="absolute bottom-2 right-2 bg-slate-950/80 text-[8px] font-bold text-slate-400 px-2 py-0.5 rounded border border-slate-800/60 tracking-wide">ZDJĘCIE POGLĄDOWE</span>`;
+                        tekstPogladowy = `<p class="text-[9px] text-slate-500 mt-1 font-semibold italic">Zdjęcia przedstawiają przykładowy styl ubrań z dostaw (nie kupujesz fizycznego worka ze zdjęcia).</p>`;
+                    } else {
+                        // Dla butów dajemy jasną metkę "Zdjęcie Realne" podnoszącą konwersję
+                        badgePogladowe = `<span class="absolute bottom-2 right-2 bg-emerald-600/90 text-[8px] font-bold text-white px-2 py-0.5 rounded tracking-wide">REAL FOTO (KUPUJESZ TO CO WIDZISZ)</span>`;
+                    }
+
                     hurtContainer.innerHTML += `
                         <div onclick="otworzModal('${p.id}')" class="group bg-slate-800/40 border border-slate-800 rounded-2xl overflow-hidden hover:border-pink-500/30 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col cursor-pointer">
-                            <div class="aspect-[4/3] w-full bg-slate-800 overflow-hidden relative">${logoOverlay}<img src="${fotka}" class="w-full h-full object-cover opacity-90 group-hover:scale-102 transition-all duration-500"><span class="absolute top-3 left-3 bg-pink-600 text-white text-[9px] font-bold px-2.5 py-1 rounded-lg uppercase tracking-widest shadow-md">GRADE: ${p.condition_grade || 'A'}</span></div>
+                            <div class="aspect-[4/3] w-full bg-slate-800 overflow-hidden relative">
+                                ${logoOverlay}<img src="${fotka}" class="w-full h-full object-cover opacity-90 group-hover:scale-102 transition-all duration-500">
+                                <span class="absolute top-3 left-3 bg-pink-600 text-white text-[9px] font-bold px-2.5 py-1 rounded-lg uppercase tracking-widest shadow-md">GRADE: ${p.condition_grade || 'A'}</span>
+                                ${badgePogladowe}
+                            </div>
                             <div class="p-5 flex flex-col flex-1 justify-between">
-                                <div><p class="text-[9px] font-bold uppercase tracking-widest text-pink-500 mb-1">PAKIET: ${p.size}</p><h3 class="font-bold text-white text-base tracking-tight group-hover:text-pink-500">${p.name}</h3></div>
+                                <div>
+                                    <p class="text-[9px] font-bold uppercase tracking-widest text-pink-500 mb-1">PAKIET: ${p.size}</p>
+                                    <h3 class="font-bold text-white text-base tracking-tight group-hover:text-pink-500">${p.name}</h3>
+                                    ${tekstPogladowy}
+                                </div>
                                 <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between"><div><p class="text-[9px] text-slate-500 font-bold uppercase tracking-widest">Cena brutto</p><span class="text-lg font-black text-white">${parseFloat(p.price).toFixed(2)} PLN</span></div><button class="bg-pink-600 text-white font-bold text-[10px] uppercase tracking-widest px-4 py-2.5 rounded-lg group-hover:bg-pink-700 transition-colors">ZAMÓW BOX</button></div>
                             </div>
                         </div>`;
@@ -580,13 +608,23 @@
             aktywnyProduktId = id; aktualnaCenaProduktu = parseFloat(produkt.price);
             document.getElementById('modal-name').innerText = produkt.name; document.getElementById('modal-brand').innerText = produkt.brands || "Vintage"; document.getElementById('modal-size').innerText = `Rozmiar: ${produkt.size}`; document.getElementById('modal-desc').innerText = produkt.description || "Brak dodatkowego opisu.";
             
-            // 🔥 POPRAWIONY BEZBŁĘDNY LICZNIK: bazuje na bezpiecznym produkcie z bazy
             const qtyContainer = document.getElementById('modal-qty-container');
+            const previewNotice = document.getElementById('modal-preview-notice');
             document.getElementById('modal-qty-input').value = "1";
+            
+            // 🔥 SPRAWDZENIE KATEGORII W MODALU: Ostrzeżenie wyskakuje tylko dla boksów z odzieżą
+            const isClothingBox = produkt.category === 'odziez' || produkt.name.toLowerCase().includes('odzież') || produkt.name.toLowerCase().includes('ciuch') || produkt.name.toLowerCase().includes('mix');
+
             if (produkt.type === 'DETAL') {
                 qtyContainer.className = "hidden";
+                previewNotice.className = "hidden";
             } else {
                 qtyContainer.className = "mt-4 flex items-center gap-3 bg-slate-100/80 p-3 rounded-xl border border-slate-200/40";
+                if (isClothingBox) {
+                    previewNotice.className = "mt-4 bg-purple-50 border border-purple-100 text-purple-900 p-3 rounded-xl text-[10px] font-semibold leading-relaxed border-l-2 border-l-purple-600 block";
+                } else {
+                    previewNotice.className = "hidden";
+                }
             }
 
             const policyNotice = document.getElementById('modal-policy-notice');
