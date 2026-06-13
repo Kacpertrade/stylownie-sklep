@@ -14,7 +14,6 @@
 
     <header class="border-b border-slate-100 sticky top-0 bg-white/90 backdrop-blur-xl z-50 transition-all">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between">
-            
             <div class="flex items-center gap-4 h-full">
                 <img src="https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produktow/Gemini_Generated_Image_vhnovevhnovevhno.png" class="h-14 w-auto object-contain rounded-xl border border-slate-100 shadow-sm bg-white" alt="Logo">
                 <div class="w-[1px] h-8 bg-slate-200"></div>
@@ -22,7 +21,6 @@
                     STYL<span class="text-pink-600 font-black">OWNIE</span>
                 </span>
             </div>
-            
             <nav class="flex items-center gap-8 text-xs font-semibold uppercase tracking-widest text-slate-600">
                 <a href="#detal" class="hover:text-pink-600 transition-colors py-2">Drop Detal</a>
                 <a href="#hurt" class="bg-slate-900 text-white px-6 py-3 rounded-xl hover:bg-pink-600 transition-all duration-300 hover:shadow-lg hover:shadow-pink-600/20">Hurt (Boxy)</a>
@@ -32,21 +30,10 @@
 
     <section class="relative bg-gradient-to-b from-slate-100 via-white to-slate-50 py-28 lg:py-40 overflow-hidden border-b border-slate-100">
         <div class="absolute inset-0 bg-[linear-gradient(to_right,#00000003_1px,transparent_1px),linear-gradient(to_bottom,#00000003_1px,transparent_1px)] bg-[size:32px_32px]"></div>
-        
         <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
-            <span class="inline-flex items-center bg-pink-50 text-pink-700 text-[10px] font-bold uppercase tracking-widest px-4 py-2 rounded-full border border-pink-100/60 mb-8 shadow-xs">
-                🔥 NOWY DROP JUŻ DOSTĘPNY
-            </span>
-            
-            <h1 class="text-5xl sm:text-7xl font-black tracking-tight text-slate-900 uppercase leading-none">
-                UNIKALNY <br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-600 via-purple-600 to-pink-600">STREETWEAR</span>
-            </h1>
-            
-            <p class="mt-8 text-base text-slate-500 max-w-xl mx-auto font-medium leading-relaxed">
-                Wyselekcjonowane perełki vintage, odświeżone klasyki i potężne pakiety hurtowe dla resellerów. Prosto z zaplecza w Nisku.
-            </p>
-            
+            <span class="inline-flex items-center bg-pink-50 text-pink-700 text-[10px] font-bold uppercase tracking-widest px-4 py-2 rounded-full border border-pink-100/60 mb-8 shadow-xs">🔥 NOWY DROP JUŻ DOSTĘPNY</span>
+            <h1 class="text-6xl sm:text-7xl font-black tracking-tight text-slate-900 uppercase leading-none">UNIKALNY <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-600 via-purple-600 to-pink-600">STREETWEAR</span></h1>
+            <p class="mt-8 text-base text-slate-500 max-w-xl mx-auto font-medium leading-relaxed">Wyselekcjonowane perełki vintage, odświeżone klasyki i potężne pakiety hurtowe dla resellerów. Prosto z zaplecza w Nisku.</p>
             <div class="mt-12 flex flex-wrap justify-center gap-4">
                 <a href="#detal" class="bg-pink-600 text-white font-bold px-10 py-4 rounded-xl shadow-lg shadow-pink-600/20 hover:bg-pink-700 hover:scale-[1.02] active:scale-[0.98] transition-all uppercase tracking-wider text-xs">Sprawdź Drop</a>
                 <a href="#hurt" class="bg-slate-900 text-white font-bold px-10 py-4 rounded-xl hover:bg-slate-800 hover:scale-[1.02] active:scale-[0.98] transition-all uppercase tracking-wider text-xs">Kup Box na Handel</a>
@@ -81,7 +68,7 @@
     </section>
 
     <div id="product-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative flex flex-col md:flex-row border border-slate-100 animate-in fade-in zoom-in-95 duration-200">
+        <div class="bg-white rounded-3xl max-w-4xl w-full max-h-[95vh] overflow-y-auto shadow-2xl relative flex flex-col md:flex-row border border-slate-100 animate-in fade-in zoom-in-95 duration-200">
             <button onclick="zamknijModal()" class="absolute top-4 right-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold h-10 w-10 rounded-full flex items-center justify-center z-10 text-sm cursor-pointer transition-all">✕</button>
             
             <div class="w-full md:w-1/2 p-6 flex flex-col justify-between bg-slate-50 rounded-t-3xl md:rounded-l-3xl md:rounded-tr-none border-r border-slate-100">
@@ -95,18 +82,47 @@
                 <div>
                     <span id="modal-brand" class="text-xs font-bold uppercase tracking-widest text-pink-600 block mb-1">Marka</span>
                     <h2 id="modal-name" class="text-2xl font-black text-slate-900 uppercase tracking-tight">Nazwa produktu</h2>
-                    <div class="flex flex-wrap gap-2 mt-4">
+                    
+                    <div class="flex flex-wrap gap-2 mt-3">
                         <span id="modal-size" class="bg-slate-900 text-white text-xs font-semibold px-4 py-1.5 rounded-lg shadow-xs">Rozmiar: -</span>
                         <span id="modal-grade" class="bg-pink-50 text-pink-700 text-xs font-semibold px-4 py-1.5 rounded-lg border border-pink-100 hidden">Stan: -</span>
                     </div>
-                    <div class="mt-8">
+
+                    <div class="mt-6 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                        <h4 class="text-xs font-black text-slate-400 uppercase tracking-wider mb-3">Sposób dostawy</h4>
+                        <div class="space-y-2.5 text-xs font-semibold">
+                            <label class="flex items-center justify-between bg-white p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:border-pink-500 transition-all">
+                                <span class="flex items-center gap-2"><input type="radio" name="dostawa" value="NISKO" checked onchange="aktualizujCeneWysylki()"> 📍 Odbiór osobisty (Nisko)</span>
+                                <span class="text-slate-400">0.00 zł</span>
+                            </label>
+                            <label class="flex items-center justify-between bg-white p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:border-pink-500 transition-all">
+                                <span class="flex items-center gap-2"><input type="radio" name="dostawa" value="INPOST" onchange="aktualizujCeneWysylki()"> 📦 Paczkomat InPost</span>
+                                <span class="text-pink-600">+12.00 zł</span>
+                            </label>
+                            <label class="flex items-center justify-between bg-white p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:border-pink-500 transition-all">
+                                <span class="flex items-center gap-2"><input type="radio" name="dostawa" value="DPD" onchange="aktualizujCeneWysylki()"> 🚛 Kurier DPD (Do domu)</span>
+                                <span class="text-pink-600">+16.00 zł</span>
+                            </label>
+                        </div>
+
+                        <div id="inpost-field" class="hidden mt-4 pt-3 border-t border-slate-200 animate-in fade-in duration-200">
+                            <div class="flex items-center justify-between mb-1.5">
+                                <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wide">Kod Twojego Paczkomatu</label>
+                                <a href="https://inpost.pl/znajdz-paczkomat" target="_blank" class="text-[10px] bg-pink-100 text-pink-700 px-2 py-0.5 rounded font-bold hover:bg-pink-200 transition">🔍 Otwórz mapę Paczkomatów</a>
+                            </div>
+                            <input type="text" id="paczkomat-input" placeholder="np. NIS01M" class="w-full bg-white border border-slate-200 rounded-lg p-2.5 text-sm uppercase font-bold tracking-widest focus:border-pink-500 focus:outline-none">
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
                         <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Opis przedmiotu</h4>
-                        <p id="modal-desc" class="text-sm text-slate-600 font-medium mt-2 leading-relaxed">Opis przedmiotu...</p>
+                        <p id="modal-desc" class="text-xs text-slate-600 font-medium mt-1 leading-relaxed">Opis przedmiotu...</p>
                     </div>
                 </div>
-                <div class="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between">
+
+                <div class="mt-6 pt-5 border-t border-slate-100 flex items-center justify-between">
                     <div>
-                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Cena końcowa</p>
+                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Cena z dostawą</p>
                         <span id="modal-price" class="text-2xl font-black text-slate-900 tracking-tight">0.00 PLN</span>
                     </div>
                     <button id="modal-buy-btn" onclick="uruchomPlatnosc()" class="bg-pink-600 text-white font-bold text-xs uppercase px-8 py-4 rounded-xl hover:bg-pink-700 transition-all duration-300 shadow-lg shadow-pink-600/20 tracking-widest cursor-pointer">Kup Teraz</button>
@@ -124,7 +140,7 @@
     </div>
 
     <footer class="bg-slate-900 text-slate-400 py-16 text-center text-xs font-medium border-t border-slate-950">
-        <p class="tracking-wide text-slate-500">&copy; 2026 STYLOWNIE.PL. Wszelkie prawa zastrzeżone. Magazyn: Nisko.</p>
+        <p class="tracking-wide text-slate-500">&copy; 2026 STYLOWNIE.PL. Wszelkie prawa zastrzeżone. Sklep stacjonarny: Nisko.</p>
         <div class="mt-6 flex justify-center gap-8 text-[11px] text-slate-400 font-bold uppercase tracking-widest">
             <button onclick="otworzLegal('regulamin')" class="hover:text-pink-500 transition-colors cursor-pointer">Regulamin</button>
             <button onclick="otworzLegal('polityka')" class="hover:text-pink-500 transition-colors cursor-pointer">Polityka prywatności</button>
@@ -134,11 +150,10 @@
     <script>
         const SUPABASE_URL = "https://bcizrlemxdecnzkzcxfi.supabase.co";
         const SUPABASE_KEY = "sb_publishable_feyl5lfAJkE2FhXKJUb4WA_9ya9cSAw";
-        
-        // Twoje ulepszone logo z przezroczystym tłem służące jako znak wodny
         const LINK_DO_LOGO_FIRMY = "https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produktow/Gemini_Generated_Image_vhnovevhnovevhno.png";
 
         let zapamiętaneProdukty = [];
+        let高度ProduktCena = 0; 
         let aktywnyProduktId = null;
         const defaultImg = "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=600&auto=format&fit=crop";
 
@@ -158,100 +173,79 @@
                     if(p.image_urls && p.image_urls.length > 0) { fotka = p.image_urls[0]; }
                     else if(p.image_url) { fotka = p.image_url; }
 
-                    // Mały, elegancki znak wodny w rogu zdjęcia produktu
                     const logoOverlay = `<img src="${LINK_DO_LOGO_FIRMY}" class="absolute top-4 right-4 h-7 w-auto bg-white/90 backdrop-blur-xs p-1 rounded-lg shadow-xs z-10 object-contain border border-slate-100">`;
 
                     if(p.type === 'DETAL') {
                         detalContainer.innerHTML += `
                             <div onclick="otworzModal('${p.id}')" class="group relative bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col cursor-pointer">
-                                <div class="aspect-square w-full bg-slate-50 overflow-hidden relative">
-                                    ${logoOverlay}
-                                    <img src="${fotka}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-103 transition-all duration-500 ease-out">
-                                    <span class="absolute bottom-4 left-4 bg-slate-900/80 backdrop-blur-xs text-white text-[9px] font-bold tracking-wider px-3 py-1.5 rounded-lg uppercase border border-white/5">SZCZEGÓŁY</span>
-                                </div>
+                                <div class="aspect-square w-full bg-slate-50 overflow-hidden relative">${logoOverlay}<img src="${fotka}" class="w-full h-full object-cover group-hover:scale-103 transition-all duration-500"><span class="absolute bottom-4 left-4 bg-slate-900/80 text-white text-[9px] font-bold tracking-wider px-3 py-1.5 rounded-lg border border-white/5">SZCZEGÓŁY</span></div>
                                 <div class="p-5 flex flex-col flex-1 justify-between">
                                     <div>
-                                        <div class="flex items-center justify-between mb-1">
-                                            <p class="text-[9px] font-bold uppercase tracking-widest text-pink-600">${p.brands || 'Vintage'}</p>
-                                            <span class="text-[9px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-md">ROZMIAR ${p.size}</span>
-                                        </div>
-                                        <h3 class="font-bold text-slate-900 text-sm tracking-tight group-hover:text-pink-600 transition-colors line-clamp-1">${p.name}</h3>
-                                        <p class="text-xs text-slate-400 font-medium mt-1 line-clamp-2">${p.description || 'Kliknij, aby poznać szczegóły.'}</p>
+                                        <div class="flex items-center justify-between mb-1"><p class="text-[9px] font-bold uppercase tracking-widest text-pink-600">${p.brands || 'Vintage'}</p><span class="text-[9px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-md">R. ${p.size}</span></div>
+                                        <h3 class="font-bold text-slate-900 text-sm tracking-tight group-hover:text-pink-600 line-clamp-1">${p.name}</h3>
                                     </div>
-                                    <div class="mt-5 pt-4 border-t border-slate-50 flex items-center justify-between">
-                                        <span class="text-base font-black text-slate-900 tracking-tight">${parseFloat(p.price).toFixed(2)} PLN</span>
-                                        <div class="bg-slate-900 text-white p-2 rounded-lg group-hover:bg-pink-600 transition-colors duration-300">
-                                            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                                        </div>
-                                    </div>
+                                    <div class="mt-5 pt-4 border-t border-slate-50 flex items-center justify-between"><span class="text-base font-black text-slate-900">${parseFloat(p.price).toFixed(2)} PLN</span><div class="bg-slate-900 text-white p-2 rounded-lg group-hover:bg-pink-600"><svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg></div></div>
                                 </div>
-                            </div>
-                        `;
+                            </div>`;
                     } else {
                         hurtContainer.innerHTML += `
                             <div onclick="otworzModal('${p.id}')" class="group bg-slate-800/50 border border-slate-800 rounded-2xl overflow-hidden hover:border-pink-500/30 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col cursor-pointer">
-                                <div class="aspect-[4/3] w-full bg-slate-800 overflow-hidden relative">
-                                    ${logoOverlay}
-                                    <img src="${fotka}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-103 transition-all duration-500 ease-out opacity-90">
-                                    <span class="absolute top-4 left-4 bg-pink-600 text-white text-[9px] font-bold px-2.5 py-1 rounded-lg uppercase tracking-widest shadow-md">GRADE: ${p.condition_grade || 'A'}</span>
-                                </div>
+                                <div class="aspect-[4/3] w-full bg-slate-800 overflow-hidden relative">${logoOverlay}<img src="${fotka}" class="w-full h-full object-cover opacity-90"><span class="absolute top-4 left-4 bg-pink-600 text-white text-[9px] font-bold px-2.5 py-1 rounded-lg uppercase tracking-widest shadow-md">GRADE: ${p.condition_grade || 'A'}</span></div>
                                 <div class="p-5 flex flex-col flex-1 justify-between">
-                                    <div>
-                                        <p class="text-[9px] font-bold uppercase tracking-widest text-pink-500 mb-1">PAKIET: ${p.size}</p>
-                                        <h3 class="font-bold text-white text-base tracking-tight group-hover:text-pink-500 transition-colors">${p.name}</h3>
-                                        <p class="text-xs text-slate-400 font-medium mt-2 leading-relaxed line-clamp-2">${p.description || 'Kliknij, aby sprawdzić pakiet.'}</p>
-                                    </div>
-                                    <div class="mt-5 pt-4 border-t border-slate-800 flex items-center justify-between">
-                                        <div>
-                                            <p class="text-[9px] text-slate-500 font-bold uppercase tracking-widest">Cena brutto</p>
-                                            <span class="text-lg font-black text-white tracking-tight">${parseFloat(p.price).toFixed(2)} PLN</span>
-                                        </div>
-                                        <button class="bg-pink-600 text-white font-bold text-[10px] uppercase tracking-widest px-4 py-2.5 rounded-lg group-hover:bg-pink-700 transition-all">ZAMÓW BOX</button>
-                                    </div>
+                                    <div><p class="text-[9px] font-bold uppercase tracking-widest text-pink-500 mb-1">PAKIET: ${p.size}</p><h3 class="font-bold text-white text-base tracking-tight group-hover:text-pink-500">${p.name}</h3></div>
+                                    <div class="mt-5 pt-4 border-t border-slate-800 flex items-center justify-between"><div><p class="text-[9px] text-slate-500 font-bold uppercase tracking-widest">Cena brutto</p><span class="text-lg font-black text-white">${parseFloat(p.price).toFixed(2)} PLN</span></div><button class="bg-pink-600 text-white font-bold text-[10px] uppercase tracking-widest px-4 py-2.5 rounded-lg group-hover:bg-pink-700">ZAMÓW BOX</button></div>
                                 </div>
-                            </div>
-                        `;
+                            </div>`;
                     }
                 });
-            } catch (err) { console.error("Błąd ładowania:", err); }
+            } catch (err) { console.error(err); }
         }
 
         function otworzModal(id) {
             const produkt = zapamiętaneProdukty.find(p => p.id == id);
             if(!produkt) return;
             aktywnyProduktId = id;
+            高度ProduktCena = parseFloat(produkt.price);
 
             document.getElementById('modal-name').innerText = produkt.name;
             document.getElementById('modal-brand').innerText = produkt.brands || "Vintage";
             document.getElementById('modal-size').innerText = `Rozmiar: ${produkt.size}`;
-            document.getElementById('modal-desc').innerText = produkt.description || "Brak dodatkowego opisu przedmiotu.";
-            document.getElementById('modal-price').innerText = `${parseFloat(produkt.price).toFixed(2)} PLN`;
+            document.getElementById('modal-desc').innerText = produkt.description || "Brak dodatkowego opisu.";
+            
+            // Resetowanie wyboru dostawy na domyślny (Nisko)
+            document.getElementsByName('dostawa')[0].checked = true;
+            document.getElementById('paczkomat-input').value = '';
+            aktualizujCeneWysylki();
 
             const gradeBadge = document.getElementById('modal-grade');
-            if(produkt.condition_grade) {
-                gradeBadge.innerText = `Klasa: ${produkt.condition_grade}`;
-                gradeBadge.classList.remove('hidden');
-            } else { gradeBadge.classList.add('hidden'); }
+            if(produkt.condition_grade) { gradeBadge.innerText = `Klasa: ${produkt.condition_grade}`; gradeBadge.classList.remove('hidden'); } 
+            else { gradeBadge.classList.add('hidden'); }
 
             const mainImg = document.getElementById('modal-main-img');
             const thumbContainer = document.getElementById('modal-thumbnails');
             thumbContainer.innerHTML = '';
-
-            const zdjecia = produkt.image_urls && produkt.image_urls.length > 0 ? produkt.image_urls : [produkt.image_url || defaultImg];
+            const zdjecia = p = produkt.image_urls && produkt.image_urls.length > 0 ? produkt.image_urls : [produkt.image_url || defaultImg];
             mainImg.src = zdjecia[0];
 
             if(zdjecia.length > 1) {
                 zdjecia.forEach((url, index) => {
-                    thumbContainer.innerHTML += `
-                        <div onclick="zmienZdjecieWModalu('${url}', this)" class="aspect-square rounded-lg overflow-hidden border-2 ${index === 0 ? 'border-pink-600' : 'border-transparent'} bg-white cursor-pointer hover:border-pink-500 transition-all shadow-xs thumb-item">
-                            <img src="${url}" class="w-full h-full object-cover">
-                        </div>
-                    `;
+                    thumbContainer.innerHTML += `<div onclick="zmienZdjecieWModalu('${url}', this)" class="aspect-square rounded-lg overflow-hidden border-2 ${index === 0 ? 'border-pink-600' : 'border-transparent'} bg-white cursor-pointer hover:border-pink-500 transition-all shadow-xs thumb-item"><img src="${url}" class="w-full h-full object-cover"></div>`;
                 });
             }
-
             document.getElementById('product-modal').classList.remove('hidden');
             document.body.style.overflow = 'hidden';
+        }
+
+        function aktualizujCeneWysylki() {
+            const metoda = document.querySelector('input[name="dostawa"]:checked').value;
+            const inpostField = document.getElementById('inpost-field');
+            let koszt = 0;
+
+            if (metoda === 'INPOST') { koszt = 12; inpostField.classList.remove('hidden'); } 
+            else { koszt = metoda === 'DPD' ? 16 : 0; inpostField.classList.add('hidden'); }
+
+            const suma =高度ProduktCena + koszt;
+            document.getElementById('modal-price').innerText = `${suma.toFixed(2)} PLN`;
         }
 
         function zmienZdjecieWModalu(url, element) {
@@ -260,14 +254,23 @@
             element.classList.replace('border-transparent', 'border-pink-600');
         }
 
-        function zamknijModal() {
-            document.getElementById('product-modal').classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        }
+        function zamknijModal() { document.getElementById('product-modal').classList.add('hidden'); document.body.style.overflow = 'auto'; }
 
         async function uruchomPlatnosc() {
             const produkt = zapamiętaneProdukty.find(p => p.id == aktywnyProduktId);
             if(!produkt) return;
+
+            const metoda = document.querySelector('input[name="dostawa"]:checked').value;
+            const paczkomatKod = document.getElementById('paczkomat-input').value.trim();
+
+            if (metoda === 'INPOST' && paczkomatKod === '') {
+                alert("Proszę podać kod Paczkomatu!");
+                return;
+            }
+
+            let kosztWysylki = metoda === 'INPOST' ? 12 : (metoda === 'DPD' ? 16 : 0);
+            let nazwaWysylki = metoda === 'INPOST' ? "Paczkomat InPost" : (metoda === 'DPD' ? "Kurier DPD" : "Odbiór osobisty w Nisku");
+
             const btn = document.getElementById('modal-buy-btn');
             btn.disabled = true; btn.innerText = "GENEROWANIE LINKU...";
 
@@ -278,7 +281,11 @@
                     body: JSON.stringify({
                         name: produkt.name,
                         price: produkt.price,
-                        imageUrl: produkt.image_urls && produkt.image_urls.length > 0 ? produkt.image_urls[0] : produkt.image_url
+                        imageUrl: produkt.image_urls && produkt.image_urls.length > 0 ? produkt.image_urls[0] : produkt.image_url,
+                        deliveryMethod: metoda,
+                        deliveryName: nazwaWysylki,
+                        deliveryCost: kosztWysylki,
+                        paczkomatCode: paczkomatKod
                     })
                 });
                 const data = await response.json();
@@ -291,15 +298,8 @@
         }
 
         const TEKSTY_PRAWNE = {
-            regulamin: `
-                <p class="font-bold text-slate-900">§1 POSTANOWIENIA OGÓLNE</p>
-                <p>1. Sklep internetowy działający pod adresem stylownie.pl prowadzony jest przez firmę zarejestrowaną w Polsce.</p>
-                <p>2. Niniejszy regulamin określa zasady korzystania ze sklepu, składania zamówień oraz praw konsumenta.</p>
-            `,
-            polityka: `
-                <p class="font-bold text-slate-900">1. INFORMACJE OGÓLNE</p>
-                <p>Administratorem danych osobowych zbieranych za pośrednictwem sklepu internetowego stylownie.pl jest Właściciel sklepu.</p>
-            `
+            regulamin: `<p class="font-bold text-slate-900">§1 POSTANOWIENIA OGÓLNE</p><p>1. Sklep internetowy stylownie.pl realizuje wysyłki kurierskie DPD, dostawy do Paczkomatów InPost oraz odbiór stacjonarny w Nisku.</p>`,
+            polityka: `<p class="font-bold text-slate-900">1. OCHRONA DANYCH</p><p>Dane adresowe zbierane są wyłącznie w celu realizacji wybranej formy wysyłki paczki.</p>`
         };
 
         function otworzLegal(typ) {
@@ -309,10 +309,6 @@
             document.body.style.overflow = 'hidden';
         }
         function zamknijLegal() { document.getElementById('legal-modal').classList.add('hidden'); document.body.style.overflow = 'auto'; }
-
-        const urlParams = new URLSearchParams(window.location.search);
-        if(urlParams.get('status') === 'success') { alert("Dziękujemy za zakup!"); window.history.replaceState({}, document.title, "/"); }
-        else if(urlParams.get('status') === 'canceled') { alert("Płatność anulowana."); window.history.replaceState({}, document.title, "/"); }
 
         pobierzProdukty();
     </script>
