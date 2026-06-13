@@ -1,7 +1,7 @@
 module.exports = async (req, res) => {
     if (req.method !== 'POST') return res.status(405).send('Method Not Allowed');
     
-    const { name, price, imageUrl } = req.body;
+    const { name, price, imageUrl, deliveryMethod, deliveryName, deliveryCost, paczkomatCode } = req.body;
     
     const params = new URLSearchParams();
     
@@ -10,16 +10,16 @@ module.exports = async (req, res) => {
     params.append('success_url', `${req.headers.origin}/?status=success`);
     params.append('cancel_url', `${req.headers.origin}/?status=canceled`);
     
-    // WYMUSZENIE NUMERU TELEFONU (Potrzebne dla InPost)
+    // Wymagamy telefonu (zawsze przydatne do kontaktu)
     params.append('phone_number_collection[enabled]', 'true');
     
-    // DODATKOWE POLE NA KOD PACZKOMATU
-    params.append('custom_fields[0][key]', 'paczkomat_inpost');
-    params.append('custom_fields[0][label][type]', 'custom');
-    params.append('custom_fields[0][label][custom]', 'Kod Paczkomatu InPost (np. NIS01M)');
-    params.append('custom_fields[0][type]', 'text');
+    // ZAPISZ METODĘ DOSTAWY I KOD PACZKOMATU W TRANSPARENTNYCH METADANYCH STRIPE
+    params.append('metadata[metoda_dostawy]', deliveryMethod);
+    if (paczkomatCode) {
+        params.append('metadata[kod_paczkomatu]', paczkomatCode.toUpperCase());
+    }
     
-    // Dane o produkcie i cenie
+    // POZYCJA 1: Twój produkt (buty lub box)
     params.append('line_items[0][price_data][currency]', 'pln');
     params.append('line_items[0][price_data][unit_amount]', Math.round(price * 100)); 
     params.append('line_items[0][price_data][product_data][name]', name);
@@ -27,6 +27,19 @@ module.exports = async (req, res) => {
     
     if (imageUrl) {
         params.append('line_items[0][price_data][product_data][images][0]', imageUrl);
+    }
+    
+    // POZYCJA 2: Koszt wysyłki (dodawany automatycznie, o ile jest większy niż 0)
+    if (deliveryCost > 0) {
+        params.append('line_items[1][price_data][currency]', 'pln');
+        params.append('line_items[1][price_data][unit_amount]', Math.round(deliveryCost * 100));
+        params.append('line_items[1][price_data][product_data][name]', `Dostawa: ${deliveryName}`);
+        params.append('line_items[1][quantity]', '1');
+    }
+    
+    // JEŚLI KLIENT WYBRAŁ KURIERA DPD - ZMUŚ STRIPE DO ZEBRANIA ADRESU DOMOWEGO W PL
+    if (deliveryMethod === 'DPD') {
+        params.append('shipping_address_collection[allowed_countries][0]', 'PL');
     }
 
     try {
