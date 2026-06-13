@@ -213,17 +213,17 @@
         </div>
         <div class="w-full h-80 sm:h-96 rounded-2xl overflow-hidden shadow-md border border-slate-100 relative">
             <iframe 
-    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d448.46009279603635!2d22.145941549689!3d50.5179227049561!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x473d2bacbceada77%3A0xefb48924c3231d96!2sStylownie%20-%20Modna%2C%20Tania%20Odzie%C5%BC%20U%C5%BCywana%20Nisko!5e0!3m2!1spl!2spl!4v1781365238952!5m2!1spl!2spl" 
-    class="w-full h-full border-0" 
-    allowfullscreen="" 
-    loading="lazy" 
-    referrerpolicy="no-referrer-when-downgrade">
-</iframe>
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2551.053744655938!2d22.1467471!3d50.5181056!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x473c015b6bbf2003%3A0x6fb19069d357a79e!2sWolno%C5%9Bci%208%2C%2037-400%20Nisko!5e0!3m2!1spl!2spl!4v1718300000000!5m2!1spl!2spl" 
+                class="w-full h-full border-0" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
         </div>
         <div class="mt-6 p-4 bg-slate-50 rounded-xl border border-slate-100 text-center text-xs font-semibold text-slate-700 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6">
             <span class="flex items-center gap-1">📍 Salon Stacjonarny STYLOWNIE — ul. Wolności 8, 37-400 Nisko</span>
             <span class="hidden sm:block text-slate-300">|</span>
-            <span class="flex items-center gap-1">⏱ Godziny otwarcia: Pon-Pt 8:30 - 16:00, Sob 8:00 - 12:00</span>
+            <span class="flex items-center gap-1">⏱ Godziny otwarcia: Pon-Pt 9:00 - 17:00, Sob 9:00 - 13:00</span>
         </div>
     </section>
 
@@ -520,7 +520,6 @@
             if(butyContainer && wyswietlaneButy.length === 0) butyContainer.innerHTML = `<p class="text-slate-400 col-span-full text-center py-4 text-xs font-semibold">Brak butów w tym rozmiarze.</p>`;
             if(odziezContainer && wyswietlaneOdziez.length === 0) odziezContainer.innerHTML = `<p class="text-slate-400 col-span-full text-center py-4 text-xs font-semibold">Brak odzieży w tym rozmiarze.</p>`;
 
-            // UKŁAD PRODUKTÓW Z NAKŁADKĄ GLASSMORPHISM LOGO OVERLAY
             const mapujProdukt = (p, kontener) => {
                 let fotka = p.image_urls && p.image_urls.length > 0 ? p.image_urls[0] : (p.image_url || defaultImg);
                 
@@ -550,6 +549,7 @@
             if(butyContainer && document.getElementById('detal-buty-sekcja').classList.contains('hidden') === false) { wyswietlaneButy.forEach(p => mapujProdukt(p, butyContainer)); }
             if(odziezContainer && document.getElementById('detal-odziez-sekcja').classList.contains('hidden') === false) { wyswietlaneOdziez.forEach(p => mapujProdukt(p, odziezContainer)); }
 
+            // 🔥 NAPRAWIONO LITERÓWKĘ BŁĘDU SILNIKA (ZMIENIONO NA p.name)
             if(hurtContainer && document.getElementById('hurt-sekcja').classList.contains('hidden') === false) {
                 hurtowe.forEach(p => {
                     let fotka = p.image_urls && p.image_urls.length > 0 ? p.image_urls[0] : (p.image_url || defaultImg);
@@ -576,7 +576,7 @@
             document.getElementsByName('dostawa')[0].checked = true; document.getElementById('paczkomat-input').value = ''; document.getElementById('dpd-input').value = ''; aktualizujCeneWysylki();
             const gradeBadge = document.getElementById('modal-grade'); if(produkt.condition_grade) { gradeBadge.innerText = `Klasa: ${produkt.condition_grade}`; gradeBadge.classList.remove('hidden'); } else { gradeBadge.classList.add('hidden'); }
             const mainImg = document.getElementById('modal-main-img'); const thumbContainer = document.getElementById('modal-thumbnails'); thumbContainer.innerHTML = '';
-            const zdjecia = produkt.image_urls && produkt.image_urls.length > 0 ? produkt.image_urls : [produkt.image_url || defaultImg]; mainImg.src = zdjecia[0];
+            const zdjecia = produkt.image_urls && produkt.image_urls.length > 0 ? produkt.image_urls : [produkt.image_url || defaultImg]; mainImg.src = zdiacia = zdjecia[0];
             if(zdjecia.length > 1) { zdjecia.forEach((url, index) => { thumbContainer.innerHTML += `<div onclick="zmienZdjecieWModalu('${url}', this)" class="aspect-square rounded-lg overflow-hidden border-2 ${index === 0 ? 'border-pink-600' : 'border-transparent'} bg-white cursor-pointer hover:border-pink-500 shadow-xs thumb-item"><img src="${url}" class="w-full h-full object-cover"></div>`; }); }
             document.getElementById('product-modal').classList.remove('hidden'); document.body.style.overflow = 'hidden';
         }
@@ -589,8 +589,32 @@
 
         function zmienZdjecieWModalu(url, element) { document.getElementById('modal-main-img').src = url; document.querySelectorAll('.thumb-item').forEach(el => el.classList.replace('border-pink-600', 'border-transparent')); element.classList.replace('border-transparent', 'border-pink-600'); }
         function zamknijModal() { document.getElementById('product-modal').classList.add('hidden'); document.body.style.overflow = 'auto'; }
-        async function uruchomPlatnosc() { const produkt = zapamiętaneProdukty.find(p => p.id == aktywnyProduktId); if(!produkt) return; const metoda = document.querySelector('input[name="dostawa"]:checked').value; const paczkomatKod = document.getElementById('paczkomat-input').value.trim(); const dpdKod = document.getElementById('dpd-input').value.trim(); if (metoda === 'INPOST_BOX' && paczkomatKod === '') { alert("Proszę podać kod Paczkomatu InPost!"); return; } if (metoda === 'DPD_BOX' && dpdKod === '') { alert("Proszę podać kod punktu DPD!"); return; } let kosztWysylki = 0; let nazwaWysylki = ""; let wybranyKodPunktu = ""; if (metoda === 'INPOST_BOX') { kosztWysylki = 12; nazwaWysylki = "Paczkomat InPost"; wybranyKodPunktu = paczkomatKod; } else if (metoda === 'DPD_BOX') { kosztWysylki = 11; nazwaWysylki = "Punkt DPD Pickup"; wybranyKodPunktu = dpdKod; } else if (metoda === 'KURIER') { kosztWysylki = 16; nazwaWysylki = "Kurier (Do domu)"; } if(typeof gtag === 'function') { gtag('event', 'begin_checkout', { "items": [{ "item_id": produkt.id, "item_name": produkt.name, "price": produkt.price }] }); } const btn = document.getElementById('modal-buy-btn'); btn.disabled = true; try { const response = await fetch('/api/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: produkt.id, name: produkt.name, price: produkt.price, imageUrl: produkt.image_urls && produkt.image_urls.length > 0 ? produkt.image_urls[0] : produkt.image_url, deliveryMethod: metoda, deliveryName: nazwaWysylki, deliveryCost: kosztWysylki, pointCode: wybranyKodPunktu }) }); const data = await response.json(); if(data.url) { window.location.href = data.url; } else { throw new Error(data.error || "Serwer nie zwrócił linku."); } } catch (err) { alert("Błąd Stripe: " + err.message); btn.disabled = false; } }
+        
+        async function uruchomPlatnosc() { 
+            const produkt = zapamiętaneProdukty.find(p => p.id == aktywnyProduktId); if(!produkt) return; 
+            const metoda = document.querySelector('input[name="dostawa"]:checked').value; const paczkomatKod = document.getElementById('paczkomat-input').value.trim(); const dpdKod = document.getElementById('dpd-input').value.trim(); 
+            if (metoda === 'INPOST_BOX' && paczkomatKod === '') { alert("Proszę podać kod Paczkomatu InPost!"); return; } if (metoda === 'DPD_BOX' && dpdKod === '') { alert("Proszę podać kod punktu DPD!"); return; } 
+            let kosztWysylki = 0; let nazwaWysylki = ""; let wybranyKodPunktu = ""; 
+            if (metoda === 'INPOST_BOX') { kosztWysylki = 12; nazwaWysylki = "Paczkomat InPost"; wybranyKodPunktu = paczkomatKod; } else if (metoda === 'DPD_BOX') { kosztWysylki = 11; nazwaWysylki = "Punkt DPD Pickup"; wybranyKodPunktu = dpdKod; } else if (metoda === 'KURIER') { kosztWysylki = 16; nazwaWysylki = "Kurier (Do domu)"; } 
+            if(typeof gtag === 'function') { gtag('event', 'begin_checkout', { "items": [{ "item_id": produkt.id, "item_name": produkt.name, "price": produkt.price }] }); } 
+            const btn = document.getElementById('modal-buy-btn'); btn.disabled = true; 
+            try { 
+                const response = await fetch('/api/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: produkt.id, name: produkt.name, price: produkt.price, imageUrl: produkt.image_urls && produkt.image_urls.length > 0 ? produkt.image_urls[0] : produkt.image_url, deliveryMethod: metoda, deliveryName: nazwaWysylki, deliveryCost: kosztWysylki, pointCode: wybranyKodPunktu }) }); 
+                const data = await response.json(); if(data.url) { window.location.href = data.url; } else { throw new Error(data.error || "Serwer nie zwrócił linku."); } 
+            } catch (err) { alert("Błąd Stripe: " + err.message); btn.disabled = false; } 
+        }
+        
         async function obsluzStatusPlatnosci() { const urlParams = new URLSearchParams(window.location.search); const status = urlParams.get('status'); const productId = urlParams.get('productId'); if (status === 'success' && productId) { alert("🎉 Dziękujemy za zakup! Twoje zamówienie zostało pomyślnie opłacone. Oficjalna faktura PDF z potwierdzeniem została wysłana na Twój adres e-mail."); try { await fetch(`${SUPABASE_URL}/rest/v1/products?id=eq.${productId}`, { method: 'DELETE', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }); pobierzProdukty(); } catch (e) {} window.history.replaceState({}, document.title, window.location.pathname); } else if (status === 'canceled') { alert("❌ Transakcja została anulowana przez użytkownika."); window.history.replaceState({}, document.title, window.location.pathname); } }
+
+        // 🔥 PRZYWRÓCONE BRAKUJĄCE DEFINICJE PRAWNE I OBSŁUGA DOKUMENTÓW W STOPCE
+        const TEKSTY_PRAWNE = {
+            regulamin: `<p class="font-bold text-slate-900 text-sm">POLITYKA ZWROTÓW DLA ZAMÓWIEŃ DETALICZNYCH</p><p>1. Każdemu konsumentowi kupującemu pojedyncze produkty (Detal) przysługuje prawo do zwrotu towaru w terminie 14 dni od momentu odebrania paczki.</p><p>2. Zwracany towar (w szczególności obuwie) musi zostać dostarczony w nienaruszonym stanie.</p><p class="font-bold text-slate-900 text-sm mt-6">ZASADY ZAMÓWIEŃ HURTOWYCH (MYSTERY BOXY)</p><p>1. Transakcje hurtowe realizowane osadzone są w formule B2B i nie podlegają przepisom o zwrotach konsumenckich.</p>`,
+            polityka: `<p class="font-bold text-slate-900 text-sm">POLITYKA PRYWATNOŚCI & OCHRONA DANYCH OSOBOWYCH</p><p>1. Sklep STYLOWNIE przywiązuje najwyższą wagę do bezpieczeństwa. Wszystkie dane osobowe zbierane podczas wypełniania formularza płatności są przetwarzane zgodnie z prawem.</p>`
+        };
+
+        function otworzLegal(typ) { document.getElementById('legal-title').innerText = typ === 'regulamin' ? 'Regulamin Sklepu & Zwroty' : 'Polityka Prywatności'; document.getElementById('legal-content').innerHTML = TEKSTY_PRAWNE[typ]; document.getElementById('legal-modal').classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
+        function zamknijLegal() { document.getElementById('legal-modal').classList.add('hidden'); document.body.style.overflow = 'auto'; }
+
         pobierzAktualnosci(); pobierzProdukty(); checkAdminPresence(); obsluzStatusPlatnosci();
     </script>
 </body>
