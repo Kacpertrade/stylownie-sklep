@@ -58,30 +58,7 @@
         </div>
     </section>
 
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
-        
-        <div class="bg-white border border-slate-100 rounded-2xl p-5 sm:p-6 shadow-xs flex items-start gap-4">
-            <div class="bg-pink-50 text-pink-600 p-3 rounded-xl font-bold text-xl shrink-0">📢</div>
-            <div>
-                <h4 class="text-xs font-black uppercase tracking-wider text-slate-400">Aktualności & Planowane Dropy</h4>
-                <p class="text-sm font-bold text-slate-900 mt-0.5">Szykujemy kolejną dostawę ubrań i butów!</p>
-                <p class="text-xs text-slate-500 mt-1 font-medium leading-relaxed">
-                    Drop unikalnych perełek vintage już w najbliższy piątek o godzinie 18:00. Śledź nas na bieżąco, sztuki 1/1 znikają bardzo szybko.
-                </p>
-            </div>
-        </div>
-
-        <div class="bg-white border border-slate-100 rounded-2xl p-5 sm:p-6 shadow-xs flex items-start gap-4 border-l-2 border-l-pink-500">
-            <div class="bg-pink-50 text-pink-600 p-3 rounded-xl font-bold text-xl shrink-0">📍</div>
-            <div>
-                <h4 class="text-xs font-black uppercase tracking-wider text-slate-400">Odwiedź nas na żywo</h4>
-                <p class="text-sm font-bold text-slate-900 mt-0.5">Butik Stacjonarny STYLOWNIE</p>
-                <p class="text-xs text-slate-800 font-bold mt-1 tracking-wide uppercase">ul. Rzeszowska 8, 37-400 Nisko</p>
-                <p class="text-xs text-slate-500 mt-1 font-medium leading-relaxed">
-                    Zapraszamy na zakupy stacjonarne, przymiarki oraz darmowy odbiór osobisty zamówień złożonych na stronie. Jesteśmy legalnie działającą, polską firmą.
-                </p>
-            </div>
-        </div>
+    <section id="news-container" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 hidden">
     </section>
 
     <section id="detal-sekcja" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative">
@@ -116,48 +93,39 @@
 
             <div class="bg-slate-950 border border-slate-800 rounded-3xl p-6 sm:p-8 max-w-4xl mx-auto shadow-xl">
                 <div class="flex flex-col sm:flex-row items-center sm:items-start gap-5">
-                    <div class="bg-gradient-to-br from-pink-500 to-purple-600 text-white text-3xl p-4 rounded-2xl shadow-lg shadow-pink-500/10 shrink-0">
-                        🛡️
-                    </div>
+                    <div class="bg-gradient-to-br from-pink-500 to-purple-600 text-white text-3xl p-4 rounded-2xl shadow-lg shadow-pink-500/10 shrink-0">🛡️</div>
                     <div>
-                        <h4 class="text-sm font-black uppercase tracking-widest text-pink-500">Grawancja 100% Nienaruszonych Boxów</h4>
+                        <h4 class="text-sm font-black uppercase tracking-widest text-pink-500">Gwarancja 100% Nienaruszonych Boxów</h4>
                         <h3 class="text-lg font-bold text-white mt-1">U nas NIE MA selekcji ani podbierania najlepszych par!</h3>
                         <p class="text-xs text-slate-400 font-medium mt-3 leading-relaxed">
-                            Wielu hurtowników wyciąga "perełki" do sprzedaży detalicznej, a w boxach zostawia niesprzedawalne odpady. 
-                            <strong class="text-white font-bold">W STYLOWNIE działamy całkowicie inaczej.</strong> 
+                            Wielu hurtowników wyciąga "perełki" do sprzedaży detalicznej, a w boxach zostawia niesprzedawalne odpady. <strong class="text-white font-bold">W STYLOWNIE działamy całkowicie inaczej.</strong> 
                         </p>
                         <p class="text-xs text-slate-400 font-medium mt-2 leading-relaxed">
-                            Nasz asortyment detaliczny (1/1) pochodzi wyłącznie z indywidualnego odkupu gotówkowego od osób prywatnych i kolekcjonerów w naszym punkcie stacjonarnym. 
-                            Z kolei Mystery Boxy przyjeżdżają do nas w zapieczętowanych, fabrycznych paletach zbiorczych bezpośrednio z zagranicznych sortowni e-commerce i trafiają do Ciebie <strong class="text-pink-400 font-bold">w dokładnie takim samym, nienaruszonym składzie</strong>. Masz pełną gwarancję uczciwego losu, topowych marek i wysokiej marży!
+                            Nasz asortyment detaliczny (1/1) pochodzi wyłącznie z indywidualnego odkupu gotówkowego od osób prywatnych i kolekcjonerów w naszym punkcie stacjonarnym. Z kolei Mystery Boxy przyjeżdżają do nas w zapieczętowanych, fabrycznych paletach zbiorczych bezpośrednio z zagranicznych sortowni e-commerce i trafiają do Ciebie <strong class="text-pink-400 font-bold">w dokładnie takim samym, nienaruszonym składzie</strong>. Masz pełną gwarancję uczciwego losu, topowych marek i wysokiej marży!
                         </p>
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
 
     <div id="product-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative flex flex-col md:flex-row border border-slate-100 animate-in fade-in zoom-in-95 duration-200">
             <button onclick="zamknijModal()" class="absolute top-4 right-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold h-10 w-10 rounded-full flex items-center justify-center z-10 text-sm cursor-pointer transition-all">✕</button>
-            
             <div class="w-full md:w-1/2 p-4 sm:p-6 flex flex-col justify-between bg-slate-50 rounded-t-3xl md:rounded-l-3xl md:rounded-tr-none border-r border-slate-100">
                 <div class="aspect-square w-full rounded-2xl overflow-hidden border border-slate-200 bg-white shadow-xs">
                     <img id="modal-main-img" src="" class="w-full h-full object-cover">
                 </div>
                 <div id="modal-thumbnails" class="grid grid-cols-4 gap-2 mt-4"></div>
             </div>
-            
             <div class="w-full md:w-1/2 p-5 sm:p-8 flex flex-col justify-between">
                 <div>
                     <span id="modal-brand" class="text-xs font-bold uppercase tracking-widest text-pink-600 block mb-1">Marka</span>
                     <h2 id="modal-name" class="text-xl sm:text-2xl font-black text-slate-900 uppercase tracking-tight">Nazwa produktu</h2>
-                    
                     <div class="flex flex-wrap gap-2 mt-3">
                         <span id="modal-size" class="bg-slate-900 text-white text-xs font-semibold px-4 py-1.5 rounded-lg shadow-xs">Rozmiar: -</span>
                         <span id="modal-grade" class="bg-pink-50 text-pink-700 text-xs font-semibold px-4 py-1.5 rounded-lg border border-pink-100 hidden">Stan: -</span>
                     </div>
-
                     <div class="mt-5 bg-slate-50 p-4 rounded-xl border border-slate-100">
                         <h4 class="text-xs font-black text-slate-400 uppercase tracking-wider mb-2.5">Sposób dostawy</h4>
                         <div class="space-y-2 text-xs font-semibold">
@@ -178,24 +146,19 @@
                                 <span class="text-pink-600">+16.00 zł</span>
                             </label>
                         </div>
-
                         <div id="inpost-field" class="hidden mt-4 pt-3 border-t border-slate-200">
                             <input type="text" id="paczkomat-input" placeholder="Wpisz kod Paczkomatu (np. NIS01M)" class="w-full bg-white border border-slate-200 rounded-lg p-2.5 text-xs uppercase font-bold tracking-widest focus:border-pink-500 focus:outline-none">
                         </div>
-
                         <div id="dpd-field" class="hidden mt-4 pt-3 border-t border-slate-200">
                             <input type="text" id="dpd-input" placeholder="Wpisz kod punktu DPD (np. PL15243)" class="w-full bg-white border border-slate-200 rounded-lg p-2.5 text-xs uppercase font-bold tracking-widest focus:border-pink-500 focus:outline-none">
                         </div>
                     </div>
-
                     <div id="modal-policy-notice" class="mt-4"></div>
-
                     <div class="mt-4">
                         <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Opis przedmiotu</h4>
                         <p id="modal-desc" class="text-xs text-slate-600 font-medium mt-1 leading-relaxed">Opis przedmiotu...</p>
                     </div>
                 </div>
-
                 <div class="mt-6 pt-5 border-t border-slate-100 flex items-center justify-between">
                     <div>
                         <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Cena z dostawą</p>
@@ -208,14 +171,12 @@
     </div>
 
     <footer class="bg-slate-900 text-slate-400 py-12 text-center text-xs font-medium border-t border-slate-950">
-        <p class="tracking-wide text-slate-400">&copy; 2026 STYLOWNIE.PL. Wszelkie prawa zastrzeżone.</p>
-        
+        <p class="tracking-wide text-slate-500">&copy; 2026 STYLOWNIE.PL. Wszelkie prawa zastrzeżone.</p>
         <div class="mt-4 text-[11px] text-slate-500 font-medium space-y-1 border-t border-slate-800/60 pt-4 max-w-md mx-auto">
             <p class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Salon stacjonarny & Dane rejestrowe</p>
             <p>STYLOWNIE — ul. Rzeszowska 8, 37-400 Nisko</p>
             <p class="tracking-wide">NIP: 6020149091 &nbsp;|&nbsp; REGON: 528846076</p>
         </div>
-
         <div class="mt-6 flex justify-center gap-6 text-[10px] text-slate-400 font-bold uppercase tracking-widest">
             <button onclick="otworzLegal('regulamin')" class="hover:text-pink-500 transition-colors cursor-pointer">Zasady Sklepu & Zwroty</button>
         </div>
@@ -240,6 +201,7 @@
         let limitDetalu = 8; 
         const defaultImg = "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=600&auto=format&fit=crop";
 
+        // OBSŁUGA PO ZAKUPIE (KOMUNIKAT + AUTO-KASOWANIE Z BAZY)
         const urlParams = new URLSearchParams(window.location.search);
         const status = urlParams.get('status');
         const kupionyProduktId = urlParams.get('productId');
@@ -271,6 +233,45 @@
             window.location.href = "/";
         }
 
+        // POBIERANIE AKTUALNOŚCI Z OSOBNEJ TABELI SUPABASE
+        async function pobierzAktualnosci() {
+            try {
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/announcements?select=*&order=created_at.desc&limit=1`, {
+                    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+                });
+                const data = await response.json();
+                
+                if (data && data.length > 0) {
+                    const wpis = data[0];
+                    const container = document.getElementById('news-container');
+                    
+                    let fotoHtml = '';
+                    if (wpis.image_url && wpis.image_url.trim() !== '') {
+                        fotoHtml = `<img src="${wpis.image_url}" class="w-20 h-20 sm:w-28 sm:h-28 object-cover rounded-xl border border-slate-100 shadow-xs shrink-0 bg-white" alt="Aktualności">`;
+                    } else {
+                        fotoHtml = `<div class="bg-pink-50 text-pink-600 p-3 rounded-xl font-bold text-xl shrink-0 h-12 w-12 flex items-center justify-center">📢</div>`;
+                    }
+
+                    container.innerHTML = `
+                        <div class="bg-white border border-slate-100 rounded-2xl p-5 sm:p-6 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-5">
+                            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full">
+                                ${fotoHtml}
+                                <div class="flex-1">
+                                    <h4 class="text-xs font-black uppercase tracking-wider text-slate-400">${wpis.title || 'Aktualności'}</h4>
+                                    <p class="text-sm font-bold text-slate-900 mt-0.5">${wpis.content || ''}</p>
+                                    <p class="text-xs text-slate-500 mt-1 font-medium leading-relaxed">${wpis.subtext || ''}</p>
+                                </div>
+                            </div>
+                            <div class="shrink-0 flex gap-2 self-start md:self-center">
+                                <span class="bg-slate-100 text-slate-700 text-[10px] font-bold px-3 py-1.5 rounded-lg uppercase tracking-wider">${wpis.status_badge || 'Status: Aktywny'}</span>
+                            </div>
+                        </div>
+                    `;
+                    container.classList.remove('hidden');
+                }
+            } catch (err) { console.error("Błąd aktualności:", err); }
+        }
+
         async function pobierzProdukty() {
             try {
                 const response = await fetch(`${SUPABASE_URL}/rest/v1/products?select=*`, {
@@ -286,8 +287,7 @@
             const hurtContainer = document.getElementById('hurt-container');
             const buttonWrapper = document.getElementById('more-products-wrapper');
             
-            detalContainer.innerHTML = ''; 
-            hurtContainer.innerHTML = '';
+            detalContainer.innerHTML = ''; hurtContainer.innerHTML = '';
             buttonWrapper.classList.add('hidden');
 
             const detaliczne = zapamiętaneProdukty.filter(p => p.type === 'DETAL');
@@ -374,7 +374,7 @@
             if (produkt.type === 'DETAL') {
                 policyNotice.innerHTML = `
                     <div class="bg-amber-50 border border-amber-100 text-amber-900 p-3 rounded-xl text-[10px] font-semibold leading-relaxed">
-                        🛡️ <strong>Zasady zwratu:</strong> Masz prawo do zwrotu towaru w ciągu 14 dni. Pamiętaj, że produkt musi wrócić do nas w stanie nienaruszonym – dokładnie takim, w jakim go otrzymałeś. Nie przyjmujemy zwrotów odzieży noszącej ślady użytkowania lub uszkodzonej po wysyłce.
+                        🛡️ <strong>Zasady zwrotu:</strong> Masz prawo do zwrotu towaru w ciągu 14 dni. Pamiętaj, że produkt musi wrócić do nas w stanie nienaruszonym – dokładnie takim, w jakim go otrzymałeś. Nie przyjmujemy zwrotów odzieży noszącej ślady użytkowania lub uszkodzonej po wysyłce.
                     </div>`;
             } else {
                 policyNotice.innerHTML = `
@@ -504,6 +504,8 @@
         }
         function zamknijLegal() { document.getElementById('legal-modal').classList.add('hidden'); document.body.style.overflow = 'auto'; }
 
+        // WYWOŁANIE SYSTEMOWE OBU STRUMIENI DANYCH
+        pobierzAktualnosci();
         pobierzProdukty();
     </script>
 </body>
