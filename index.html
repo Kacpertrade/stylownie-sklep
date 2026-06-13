@@ -180,7 +180,7 @@
             </div>
             <button onclick="toggleNativeChat()" class="text-slate-400 hover:text-white font-bold text-xs cursor-pointer">✕</button>
         </div>
-        <div id="chat-messages-area" class="flex-1 p-4 overflow-y-auto space-y-3 bg-slate-50 text-xs font-medium flex flex-col">
+        <div id="chat-messages-area" class="flex-1 p-4 overflow-y-auto space-y-4 bg-slate-50 text-xs font-medium flex flex-col">
             <div class="bg-white border border-slate-100 p-3 rounded-xl max-w-[85%] self-start shadow-xs text-slate-700">Dzień dobry! W czym możemy pomóc? Napisz nam wiadomość, a odpowiemy najszybciej jak to możliwe prosto z zaplecza w Nisku.</div>
         </div>
         <form onsubmit="sendChatMessage(event)" class="p-2 bg-white border-t border-slate-100 flex gap-2">
@@ -198,7 +198,7 @@
         </div>
         <div class="mt-6 flex justify-center gap-6 text-[10px] text-slate-400 font-bold uppercase tracking-widest">
             <button onclick="otworzLegal('regulamin')" class="hover:text-pink-500 transition-colors cursor-pointer">Zasady Sklepu & Zwroty</button>
-            <button onclick="otworzLegal('polityka')" class="hover:text-pink-500 transition-colors cursor-pointer">Polityka Privacy</button>
+            <button onclick="otworzLegal('polityka')" class="hover:text-pink-500 transition-colors cursor-pointer">Polityka Prywatności</button>
         </div>
     </footer>
 
@@ -213,7 +213,7 @@
     <script>
         const SUPABASE_URL = "https://bcizrlemxdecnzkzcxfi.supabase.co";
         const SUPABASE_KEY = "sb_publishable_feyl5lfAJkE2FhXKJUb4WA_9ya9cSAw";
-        const LINK_DO_LOGO_FIRMY = "https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produkton/Gemini_Generated_Image_vhnovevhnovevhno.png";
+        const LINK_DO_LOGO_FIRMY = "https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produktow/Gemini_Generated_Image_vhnovevhnovevhno.png";
 
         let zapamiętaneProdukty = [];
         let aktualnaCenaProduktu = 0; 
@@ -233,7 +233,6 @@
             if(!box.classList.contains('hidden')) { loadChatMessages(); }
         }
 
-        // POPRAWIONA LOGIKA WYŚWIETLANIA INTUICYJNYCH STATUSÓW TEKSTOWYCH
         async function checkAdminPresence() {
             try {
                 const response = await fetch(`${SUPABASE_URL}/rest/v1/admin_status?id=eq.current`, {
@@ -270,9 +269,15 @@
                 
                 msgs.forEach(m => {
                     const isAdmin = m.sender === 'admin';
+                    // DODANO WIDOK STATUSU: WYSŁANO / ODCZYTANO
+                    const statusText = !isAdmin ? `<span class="text-[9px] text-slate-400 block mt-0.5 pl-1 font-bold">${m.is_read ? 'Odczytano ✓' : 'Wysłano'}</span>` : '';
+                    
                     area.innerHTML += `
-                        <div class="p-3 rounded-xl max-w-[85%] shadow-xs ${isAdmin ? 'bg-pink-600 text-white self-end' : 'bg-white border border-slate-100 text-slate-700 self-start'}">
-                            ${m.message}
+                        <div class="flex flex-col ${isAdmin ? 'items-end' : 'items-start'}">
+                            <div class="p-3 rounded-xl max-w-[85%] shadow-xs ${isAdmin ? 'bg-pink-600 text-white' : 'bg-white border border-slate-100 text-slate-700'}">
+                                ${m.message}
+                            </div>
+                            ${statusText}
                         </div>`;
                 });
                 area.scrollTop = area.scrollHeight;
@@ -290,7 +295,7 @@
                 await fetch(`${SUPABASE_URL}/rest/v1/chat_messages`, {
                     method: 'POST',
                     headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ session_id: chatSessionId, sender: 'client', message: msg })
+                    body: JSON.stringify({ session_id: chatSessionId, sender: 'client', message: msg, is_read: false })
                 });
                 loadChatMessages();
             } catch(err) {}
@@ -370,7 +375,7 @@
                         </div>
                         <div class="p-5 flex flex-col flex-1 justify-between">
                             <div>
-                                <div class="flex items-center justify-between mb-1"><p class="text-[9px] font-bold uppercase tracking-wildest text-pink-600">${p.brands || 'Vintage'}</p><span class="text-[9px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">R. ${p.size}</span></div>
+                                <div class="flex items-center justify-between mb-1"><p class="text-[9px] font-bold uppercase tracking-widest text-pink-600">${p.brands || 'Vintage'}</p><span class="text-[9px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">R. ${p.size}</span></div>
                                 <h3 class="font-bold text-slate-900 text-sm tracking-tight group-hover:text-pink-600 line-clamp-1">${p.name}</h3>
                             </div>
                             <div class="mt-4 pt-3 border-t border-slate-50 flex items-center justify-between"><span class="text-base font-black text-slate-900">${parseFloat(p.price).toFixed(2)} PLN</span>
@@ -402,6 +407,7 @@
             const produkt = zapamiętaneProdukty.find(p => p.id == id);
             if(!produkt) return;
             aktywnyProduktId = id;
+            textType = produkt.type;
             aktualnaCenaProduktu = parseFloat(produkt.price);
 
             document.getElementById('modal-name').innerText = produkt.name;
@@ -463,7 +469,7 @@
         function zamknijModal() { document.getElementById('product-modal').classList.add('hidden'); document.body.style.overflow = 'auto'; }
 
         async function uruchomPlatnosc() {
-            const produkt = zapamiętaneProdukty.find(p => p.id == aktywnyProduktId);
+            const produkt = zapamięzaneProdukty.find(p => p.id == aktywnyProduktId);
             if(!produkt) return;
             const metoda = document.querySelector('input[name="dostawa"]:checked').value;
             const paczkomatKod = document.getElementById('paczkomat-input').value.trim();
