@@ -148,7 +148,7 @@
                         <input type="file" id="image" accept="image/*" multiple class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
                         <div class="space-y-1">
                             <p class="text-sm font-bold text-gray-700">Kliknij, aby dodać lub zrobić zdjęcia</p>
-                            <p class="text-xs text-gray-400">Zdjęcia są przesyłane natychmiast po wybraniu pliku</p>
+                            <p class="text-xs text-gray-400">Zdjęcia are przesyłane natychmiast po wybraniu pliku</p>
                         </div>
                     </div>
                     
@@ -223,7 +223,7 @@
         let selectedSessionId = null;
         let listaZdjecProduktu = [];
 
-        // 👥 FUNKCJA SPRAWDZANIA LICZBY OSÓB ONLINE NA ŻYWO
+        // 👥 FUNKCJA SPRAWDZANIA LICZBY OSÓB ONLINE NA ŻYWO (ZABEZPIECZONA)
         async function pobierzUzytkownikowOnline() {
             try {
                 const dwadziesciaSekundTemu = new Date(Date.now() - 20000).toISOString();
@@ -231,11 +231,13 @@
                     headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
                 });
                 const data = await response.json();
-                document.getElementById('stats-online-count').innerText = data ? data.length : 0;
-            } catch(e) {}
+                document.getElementById('stats-online-count').innerText = (data && Array.isArray(data)) ? data.length : 0;
+            } catch(e) {
+                document.getElementById('stats-online-count').innerText = 0;
+            }
         }
 
-        // 📦 FUNKCJA POBIERANIA ZAMÓWIEŃ DO TABELI I WIDŻETÓW
+        // 📦 FUNKCJA POBIERANIA ZAMÓWIEŃ DO TABELI I WIDŻETÓW (ZABEZPIECZONA)
         async function pobierzZamowieniaZ_Bazy() {
             try {
                 const response = await fetch(`${SUPABASE_URL}/rest/v1/orders?select=*&order=created_at.desc`, {
@@ -244,7 +246,7 @@
                 const orders = await response.json();
                 const tableBody = document.getElementById('orders-table-body');
                 
-                if(!orders || orders.length === 0) {
+                if(!orders || !Array.isArray(orders) || orders.length === 0) {
                     tableBody.innerHTML = `<tr><td colSpan="4" class="py-6 text-center text-gray-400 italic">Brak zrealizowanych zamówień.</td></tr>`;
                     document.getElementById('stats-orders-count').innerText = "0";
                     document.getElementById('stats-revenue-amount').innerText = "0.00 PLN";
@@ -272,7 +274,9 @@
                 });
                 document.getElementById('stats-revenue-amount').innerText = `${lacznyObrot.toFixed(2)} PLN`;
             } catch(e) {
-                document.getElementById('orders-table-body').innerHTML = `<tr><td colSpan="4" class="py-6 text-center text-red-500 font-bold">Błąd połączenia z tabelą 'orders'.</td></tr>`;
+                document.getElementById('stats-orders-count').innerText = "0";
+                document.getElementById('stats-revenue-amount').innerText = "0.00 PLN";
+                document.getElementById('orders-table-body').innerHTML = `<tr><td colSpan="4" class="py-6 text-center text-red-500 font-bold">Błąd połączenia z tabelą 'orders'. Uprawnienia lub brak tabeli.</td></tr>`;
             }
         }
 
@@ -328,7 +332,7 @@
             const container = document.getElementById('preview-container');
             if(!container) return;
             if(listaZdjecProduktu.length === 0) {
-                container.innerHTML = '<p class="text-gray-400 text-xs italic col-span-full py-2">Brak dodanych zdjęć. Pierwsza miniatura od lewej stanie się zdjęciem głównym.</p>';
+                container.innerHTML = '<p class="text-gray-400 text-xs italic col-span-full py-2">Brak dodanych zdjęcia. Pierwsza miniatura od lewej stanie się zdjęciem głównym.</p>';
                 return;
             }
             let html = '';
