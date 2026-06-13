@@ -19,6 +19,9 @@ module.exports = async (req, res) => {
     // Wymuszamy numer telefonu kontaktowego
     params.append('phone_number_collection[enabled]', 'true');
     
+    // 🔥 NOWOŚĆ: Automatyczne tworzenie oficjalnej faktury PDF i natychmiastowa wysyłka mailowa do klienta
+    params.append('invoice_creation[enabled]', 'true');
+    
     // Zapisujemy kompletne informacje dla Ciebie w panelu Stripe (w sekcji Metadata)
     params.append('metadata[metoda_dostawy]', deliveryMethod);
     if (pointCode) {
