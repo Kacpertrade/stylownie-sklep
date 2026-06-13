@@ -237,7 +237,7 @@
             }
         }
 
-        // 📦 FUNKCJA POBIERANIA ZAMÓWIEŃ DO TABELI I WIDŻETÓW (ZABEZPIECZONA)
+        // 📦 FUNKCJA POBIERANIA ZAMÓWIEŃ DO TABELI I WIDŻETÓW (ZABEZPIECZONA - ZAKRES BEZ LIMITU)
         async function pobierzZamowieniaZ_Bazy() {
             try {
                 const response = await fetch(`${SUPABASE_URL}/rest/v1/orders?select=*&order=created_at.desc`, {
@@ -260,7 +260,9 @@
                 orders.forEach(o => {
                     const kwota = parseFloat(o.price || 0) * (parseInt(o.quantity) || 1);
                     lacznyObrot += kwota;
-                    const dataZam = new Date(o.created_at).toLocaleDateString('pl-PL', {day: '2-digit', month: '2-digit', hour: '2-digit', minute:'2-digit'});
+                    
+                    // Zmiana na toLocaleString w celu pełnej stabilności dat z wczoraj i dalej
+                    const dataZam = new Date(o.created_at).toLocaleString('pl-PL', {day: '2-digit', month: '2-digit', hour: '2-digit', minute:'2-digit'});
                     const kodPunktu = o.point_code ? `<span class="block text-[8px] bg-gray-100 text-gray-600 px-1 py-0.5 rounded w-max mt-0.5 font-bold uppercase">${o.point_code}</span>` : '';
 
                     tableBody.innerHTML += `
@@ -488,8 +490,8 @@
         
         // Pętle odświeżania i start
         odswiezDanePanelu();
-        setInterval(pobierzUzytkownikowOnline, 5000); // Odświeżanie licznika osób online co 5 sekund
-        setInterval(pobierzZamowieniaZ_Bazy, 30000);   // Odświeżanie spisu zamówień co 30 sekund
+        setInterval(pobierzUzytkownikowOnline, 5000); 
+        setInterval(pobierzZamowieniaZ_Bazy, 30000);   
         setInterval(fetchChatSessions, 4000); 
         setInterval(loadAdminMessages, 3000); 
         fetchChatSessions();
