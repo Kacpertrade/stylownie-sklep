@@ -169,6 +169,38 @@
         let aktywnyProduktId = null;
         const defaultImg = "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=600&auto=format&fit=crop";
 
+        // OBSŁUGA KOMUNIKATÓW I AUTOMATYCZNEGO USUWANIA ASORTYMENTU PO ZAKUPIE
+        const urlParams = new URLSearchParams(window.location.search);
+        const status = urlParams.get('status');
+        const kupionyProduktId = urlParams.get('productId');
+
+        if (status === 'success') {
+            if (kupionyProduktId) {
+                // Automatyczne i natychmiastowe usunięcie sprzedanej rzeczy z Supabase
+                fetch(`${SUPABASE_URL}/rest/v1/products?id=eq.${kupionyProduktId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`
+                    }
+                })
+                .then(() => {
+                    alert("🎉 Dziękujemy za zakup! Płatność udana, a produkt został automatycznie zdjęty ze sklepu.");
+                    window.location.href = "/";
+                })
+                .catch(() => {
+                    alert("🎉 Dziękujemy za zakup! Płatność udana.");
+                    window.location.href = "/";
+                });
+            } else {
+                alert("🎉 Dziękujemy za zakup! Płatność udana.");
+                window.location.href = "/";
+            }
+        } else if (status === 'canceled') {
+            alert("❌ Płatność została anulowana.");
+            window.location.href = "/";
+        }
+
         async function pobierzProdukty() {
             try {
                 const response = await fetch(`${SUPABASE_URL}/rest/v1/products?select=*`, {
@@ -224,7 +256,6 @@
             document.getElementById('modal-size').innerText = `Rozmiar: ${produkt.size}`;
             document.getElementById('modal-desc').innerText = produkt.description || "Brak dodatkowego opisu.";
             
-            // Resetowanie wyboru dostawy na domyślny
             document.getElementsByName('dostawa')[0].checked = true;
             document.getElementById('paczkomat-input').value = '';
             document.getElementById('dpd-input').value = '';
@@ -255,21 +286,13 @@
             const dpdField = document.getElementById('dpd-field');
             let koszt = 0;
 
-            // Ukrywanie/Pokazywanie pól na podstawie wyboru
             inpostField.classList.add('hidden');
             dpdField.classList.add('hidden');
 
-            if (metoda === 'INPOST_BOX') {
-                koszt = 12;
-                inpostField.classList.remove('hidden');
-            } else if (metoda === 'DPD_BOX') {
-                koszt = 11;
-                dpdField.classList.remove('hidden');
-            } else if (metoda === 'KURIER') {
-                koszt = 16;
-            } else {
-                koszt = 0;
-            }
+            if (metoda === 'INPOST_BOX') { koszt = 12; inpostField.classList.remove('hidden'); } 
+            else if (metoda === 'DPD_BOX') { koszt = 11; dpdField.classList.remove('hidden'); } 
+            else if (metoda === 'KURIER') { koszt = 16; } 
+            else { koszt = 0; }
 
             const suma = aktualnaCenaProduktu + koszt;
             document.getElementById('modal-price').innerText = `${suma.toFixed(2)} PLN`;
@@ -291,22 +314,13 @@
             const paczkomatKod = document.getElementById('paczkomat-input').value.trim();
             const dpdKod = document.getElementById('dpd-input').value.trim();
 
-            // Walidacja punktów odbioru
-            if (metoda === 'INPOST_BOX' && paczkomatKod === '') {
-                alert("Proszę podać kod Paczkomatu InPost!");
-                return;
-            }
-            if (metoda === 'DPD_BOX' && dpdKod === '') {
-                alert("Proszę podać kod punktu lub automatu DPD!");
-                return;
-            }
+            if (metoda === 'INPOST_BOX' && paczkomatKod === '') { alert("Proszę podać kod Paczkomatu InPost!"); return; }
+            if (metoda === 'DPD_BOX' && dpdKod === '') { alert("Proszę podać kod punktu DPD!"); return; }
 
-            let kosztWysylki = 0;
-            let nazwaWysylki = "";
-            let wybranyKodPunktu = "";
+            let kosztWysylki = 0; let nazwaWysylki = ""; let wybranyKodPunktu = "";
 
             if (metoda === 'INPOST_BOX') { kosztWysylki = 12; nazwaWysylki = "Paczkomat InPost"; wybranyKodPunktu = paczkomatKod; }
-            else if (metoda === 'DPD_BOX') { kosztWysylki = 11; nazwaWysylki = "Punkt/Automat DPD Pickup"; wybranyKodPunktu = dpdKod; }
+            else if (metoda === 'DPD_BOX') { kosztWysylki = 11; nazwaWysylki = "Punkt DPD Pickup"; wybranyKodPunktu = dpdKod; }
             else if (metoda === 'KURIER') { kosztWysylki = 16; nazwaWysylki = "Kurier (Do domu)"; }
             else { kosztWysylki = 0; nazwaWysylki = "Odbiór osobisty w Nisku"; }
 
@@ -318,6 +332,7 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
+                        id: produkt.id, // Przekazujemy ID do serwera
                         name: produkt.name,
                         price: produkt.price,
                         imageUrl: produkt.image_urls && produkt.image_urls.length > 0 ? produkt.image_urls[0] : produkt.image_url,
