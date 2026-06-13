@@ -66,7 +66,7 @@
                     </thead>
                     <tbody id="orders-table-body" class="divide-y divide-gray-100 text-gray-700 font-medium">
                         <tr>
-                            <td colSpan="4" class="py-8 text-center text-gray-400 italic">Pobieranie rejestru transakcji...</td>
+                            <td colspan="4" class="py-8 text-center text-gray-400 italic">Pobieranie rejestru transakcji...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -247,7 +247,7 @@
                 const tableBody = document.getElementById('orders-table-body');
                 
                 if(!orders || !Array.isArray(orders) || orders.length === 0) {
-                    tableBody.innerHTML = `<tr><td colSpan="4" class="py-6 text-center text-gray-400 italic">Brak zrealizowanych zamówień.</td></tr>`;
+                    tableBody.innerHTML = `<tr><td colspan="4" class="py-6 text-center text-gray-400 italic">Brak zrealizowanych zamówień.</td></tr>`;
                     document.getElementById('stats-orders-count').innerText = "0";
                     document.getElementById('stats-revenue-amount').innerText = "0.00 PLN";
                     return;
@@ -261,7 +261,6 @@
                     const kwota = parseFloat(o.price || 0) * (parseInt(o.quantity) || 1);
                     lacznyObrot += kwota;
                     
-                    // Zmiana na toLocaleString w celu pełnej stabilności dat z wczoraj i dalej
                     const dataZam = new Date(o.created_at).toLocaleString('pl-PL', {day: '2-digit', month: '2-digit', hour: '2-digit', minute:'2-digit'});
                     const kodPunktu = o.point_code ? `<span class="block text-[8px] bg-gray-100 text-gray-600 px-1 py-0.5 rounded w-max mt-0.5 font-bold uppercase">${o.point_code}</span>` : '';
 
@@ -278,7 +277,7 @@
             } catch(e) {
                 document.getElementById('stats-orders-count').innerText = "0";
                 document.getElementById('stats-revenue-amount').innerText = "0.00 PLN";
-                document.getElementById('orders-table-body').innerHTML = `<tr><td colSpan="4" class="py-6 text-center text-red-500 font-bold">Błąd połączenia z tabelą 'orders'. Uprawnienia lub brak tabeli.</td></tr>`;
+                document.getElementById('orders-table-body').innerHTML = `<tr><td colspan="4" class="py-6 text-center text-red-500 font-bold">Błąd połączenia z tabelą 'orders'. Uprawnienia lub brak tabeli.</td></tr>`;
             }
         }
 
@@ -382,14 +381,14 @@
                 document.getElementById('label-cat-box').classList.add('opacity-40');
                 document.getElementById('label-cat-buty').classList.remove('opacity-40');
                 document.getElementById('label-cat-odziez').classList.remove('opacity-40');
-                document.getElementById('label-cat-buty').click();
+                document.querySelector('input[name="category_radio"][value="buty"]').click();
             } else {
                 lHurt.className = "border-2 border-pink-600 bg-pink-50 p-4 rounded-xl flex items-center justify-center cursor-pointer font-bold text-pink-700";
                 lDetal.className = "border-2 border-gray-200 p-4 rounded-xl flex items-center justify-center cursor-pointer font-bold text-gray-500";
                 document.getElementById('label-cat-buty').classList.add('opacity-40');
                 document.getElementById('label-cat-odziez').classList.add('opacity-40');
                 document.getElementById('label-cat-box').classList.remove('opacity-40');
-                document.getElementById('label-cat-box').click();
+                document.querySelector('input[name="category_radio"][value="mystery-box"]').click();
             }
         }
 
