@@ -145,11 +145,17 @@
         const SUPABASE_KEY = "sb_publishable_feyl5lfAJkE2FhXKJUb4WA_9ya9cSAw";
         let selectedSessionId = null;
 
+        // BEZBŁĘDNY SYSTEM BIECIA SERCA - DOSTOSOWANY DO DANYCH POSTGREST
         async function sendAdminHeartbeat() {
             try {
-                await fetch(`${SUPABASE_URL}/rest/v1/admin_status`, {
+                await fetch(`${SUPABASE_URL}/rest/v1/admin_status?on_conflict=id`, {
                     method: 'POST',
-                    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'resolution=merge' },
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`,
+                        'Content-Type': 'application/json',
+                        'Prefer': 'return=minimal'
+                    },
                     body: JSON.stringify({ id: 'current', last_seen: new Date().toISOString() })
                 });
             } catch(e) {}
@@ -211,7 +217,6 @@
             } catch (err) { alert(err.message); } finally { btn.disabled = false; btn.innerText = "Opublikuj ogłoszenie"; }
         });
 
-        // INTELIGNETNE AKTUALIZOWANIE I PODŚWIETLANIE LISTY CZATÓW
         async function fetchChatSessions() {
             try {
                 const res = await fetch(`${SUPABASE_URL}/rest/v1/chat_messages?select=session_id,sender,is_read&order=created_at.desc`, {
@@ -219,12 +224,7 @@
                 });
                 const data = await res.json();
                 const uniqueSessions = [...new Set(data.map(item => item.session_id))];
-                
-                // Wyodrębnienie id sesji z nieprzeczytanymi wiadomościami od klienta
-                const unreadSessions = new Set(
-                    data.filter(m => m.sender === 'client' && !m.is_read).map(m => m.session_id)
-                );
-
+                const unreadSessions = new Set(data.filter(m => m.sender === 'client' && !m.is_read).map(m => m.session_id));
                 const list = document.getElementById('chat-sessions-list');
                 list.innerHTML = '';
                 
@@ -236,21 +236,14 @@
                 uniqueSessions.forEach(s => {
                     const isSelected = s === selectedSessionId;
                     const hasUnread = unreadSessions.has(s);
-                    
                     let bgClass = 'bg-white border-gray-200 hover:bg-gray-100 text-gray-700';
-                    if (isSelected) {
-                        bgClass = 'bg-pink-600 text-white border-pink-700';
-                    } else if (hasUnread) {
-                        // POMARAŃCZOWY ALARM ORAZ PULSOWANIE DLA FORMULARZA NIEODCZYTANEGO
-                        bgClass = 'bg-amber-100 text-amber-900 border-amber-300 animate-pulse font-black shadow-xs';
-                    }
-
+                    if (isSelected) { bgClass = 'bg-pink-600 text-white border-pink-700'; } 
+                    else if (hasUnread) { bgClass = 'bg-amber-100 text-amber-900 border-amber-300 animate-pulse font-black shadow-xs'; }
                     const badge = hasUnread && !isSelected ? `<span class="bg-red-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full ml-auto animate-bounce">NOWA</span>` : '';
 
                     list.innerHTML += `
                         <div onclick="selectChatSession('${s}')" class="p-3 rounded-xl cursor-pointer transition-all border flex items-center gap-2 ${bgClass}">
-                            <span>💬 Klient: ${s.substring(5)}</span>
-                            ${badge}
+                            <span>💬 Klient: ${s.substring(5)}</span>${badge}
                         </div>`;
                 });
             } catch(e) {}
@@ -268,26 +261,20 @@
         async function loadAdminMessages() {
             if(!selectedSessionId) return;
             try {
-                // JEŚLI ADMIN PRZEGLĄDA CZAT, AUTOMATYCZNIE CZYŚCI I ZMIENIA STATUS NA "ODCZYTANO ✓"
                 await fetch(`${SUPABASE_URL}/rest/v1/chat_messages?session_id=eq.${selectedSessionId}&sender=eq.client&is_read=eq.false`, {
                     method: 'PATCH',
                     headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' },
                     body: JSON.stringify({ is_read: true })
                 });
-
                 const res = await fetch(`${SUPABASE_URL}/rest/v1/chat_messages?session_id=eq.${selectedSessionId}&order=created_at.asc`, {
                     headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
                 });
                 const msgs = await res.json();
                 const area = document.getElementById('admin-chat-messages-area');
                 area.innerHTML = '';
-                
                 msgs.forEach(m => {
                     const isAdmin = m.sender === 'admin';
-                    area.innerHTML += `
-                        <div class="p-3 rounded-xl max-w-[85%] shadow-xs ${isAdmin ? 'bg-pink-600 text-white self-end' : 'bg-white border text-gray-700 self-start'}">
-                            ${m.message}
-                        </div>`;
+                    area.innerHTML += `<div class="p-3 rounded-xl max-w-[85%] shadow-xs ${isAdmin ? 'bg-pink-600 text-white self-end' : 'bg-white border text-gray-700 self-start'}">${m.message}</div>`;
                 });
                 area.scrollTop = area.scrollHeight;
             } catch(e) {}
@@ -299,13 +286,8 @@
             const msg = input.value.trim();
             if(!msg || !selectedSessionId) return;
             input.value = '';
-
             try {
-                await fetch(`${SUPABASE_URL}/rest/v1/chat_messages`, {
-                    method: 'POST',
-                    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ session_id: selectedSessionId, sender: 'admin', message: msg, is_read: true })
-                });
+                await fetch(`${SUPABASE_URL}/rest/v1/chat_messages`, { method: 'POST', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ session_id: selectedSessionId, sender: 'admin', message: msg, is_read: true }) });
                 loadAdminMessages();
             } catch(err) {}
         }
