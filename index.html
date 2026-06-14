@@ -77,12 +77,55 @@
         </div>
     </section>
 
-    <section id="detal-buty-sekcja" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative">
-        <div class="mb-6 text-center sm:text-left border-b border-slate-200 pb-6">
-            <span class="text-pink-600 text-xs font-bold uppercase tracking-widest">Kolekcja detaliczna 1/1</span>
-            <h2 class="text-2xl sm:text-3xl font-black text-slate-900 uppercase tracking-tight mt-1">Obuwie Premium</h2>
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-white border border-slate-100 rounded-2xl p-4 shadow-xs text-center font-bold text-xs">
+            <div class="flex items-center justify-center gap-3 p-2">
+                <span class="text-xl">⚡</span>
+                <div class="text-left">
+                    <p class="text-slate-900 uppercase tracking-tight">Błyskawiczna Wysyłka 24h</p>
+                    <p class="text-[10px] text-slate-400 font-medium">Pakowanie prosto z zaplecza</p>
+                </div>
+            </div>
+            <div class="flex items-center justify-center gap-3 p-2 border-y sm:border-y-0 sm:border-x border-slate-100">
+                <span class="text-xl">✨</span>
+                <div class="text-left">
+                    <p class="text-slate-900 uppercase tracking-tight">Towar czysty i zadbany</p>
+                    <p class="text-[10px] text-slate-400 font-medium">Gotowy do założenia od ręki</p>
+                </div>
+            </div>
+            <div class="flex items-center justify-center gap-3 p-2">
+                <span class="text-xl">💯</span>
+                <div class="text-left">
+                    <p class="text-slate-900 uppercase tracking-tight">100% Oryginalne Marki</p>
+                    <p class="text-[10px] text-slate-400 font-medium">Starannie zweryfikowany asortyment</p>
+                </div>
+            </div>
         </div>
-        <div id="buty-filters-container" class="flex flex-wrap gap-2 mb-6 justify-center sm:justify-start overflow-x-auto pb-2"></div>
+    </section>
+
+    <section id="detal-buty-sekcja" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative">
+        <div class="mb-6 text-center sm:text-left border-b border-slate-200 pb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div>
+                <span class="text-pink-600 text-xs font-bold uppercase tracking-widest">Kolekcja detaliczna 1/1</span>
+                <h2 class="text-2xl sm:text-3xl font-black text-slate-900 uppercase tracking-tight mt-1">Obuwie Premium</h2>
+            </div>
+            <div class="flex flex-wrap items-center gap-2 justify-center sm:justify-end">
+                <div class="flex items-center gap-1.5 bg-white border border-slate-200 px-3 py-2 rounded-xl shadow-xs text-xs font-bold">
+                    <span class="text-slate-400 uppercase text-[10px]">Rozmiar:</span>
+                    <select id="select-filter-buty" onchange="ustawSelectFiltrButow(this.value)" class="focus:outline-none cursor-pointer text-slate-700 bg-transparent pr-2 font-bold">
+                        <option value="WSZYSTKIE">Wszystkie rozmiary</option>
+                    </select>
+                </div>
+                <div class="flex items-center gap-1.5 bg-white border border-slate-200 px-3 py-2 rounded-xl shadow-xs text-xs font-bold">
+                    <span class="text-slate-400 uppercase text-[10px]">Sortuj:</span>
+                    <select id="sort-filter-buty" onchange="ustawSortowanieButow(this.value)" class="focus:outline-none cursor-pointer text-slate-700 bg-transparent pr-2 font-bold">
+                        <option value="DEFAULT">Domyślnie</option>
+                        <option value="ASC">Cena: od najtańszych</option>
+                        <option value="DESC">Cena: od najdroższych</option>
+                    </select>
+                </div>
+            </div>
+        </div>
         <div id="buty-container" class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-8">
             <p class="text-slate-400 col-span-full text-center py-6 font-medium text-xs animate-pulse">ŁADOWANIE OBUWIA...</p>
         </div>
@@ -92,11 +135,28 @@
     </section>
 
     <section id="detal-odziez-sekcja" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative">
-        <div class="mb-6 text-center sm:text-left border-b border-slate-200 pb-6">
-            <span class="text-pink-600 text-xs font-bold uppercase tracking-widest">Kolekcja detaliczna 1/1</span>
-            <h2 class="text-2xl sm:text-3xl font-black text-slate-900 uppercase tracking-tight mt-1">Odzież i ubrania</h2>
+        <div class="mb-6 text-center sm:text-left border-b border-slate-200 pb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div>
+                <span class="text-pink-600 text-xs font-bold uppercase tracking-widest">Kolekcja detaliczna 1/1</span>
+                <h2 class="text-2xl sm:text-3xl font-black text-slate-900 uppercase tracking-tight mt-1">Odzież i ubrania</h2>
+            </div>
+            <div class="flex flex-wrap items-center gap-2 justify-center sm:justify-end">
+                <div class="flex items-center gap-1.5 bg-white border border-slate-200 px-3 py-2 rounded-xl shadow-xs text-xs font-bold">
+                    <span class="text-slate-400 uppercase text-[10px]">Rozmiar:</span>
+                    <select id="select-filter-odziez" onchange="ustawSelectFiltrOdziezy(this.value)" class="focus:outline-none cursor-pointer text-slate-700 bg-transparent pr-2 font-bold">
+                        <option value="WSZYSTKIE">Wszystkie rozmiary</option>
+                    </select>
+                </div>
+                <div class="flex items-center gap-1.5 bg-white border border-slate-200 px-3 py-2 rounded-xl shadow-xs text-xs font-bold">
+                    <span class="text-slate-400 uppercase text-[10px]">Sortuj:</span>
+                    <select id="sort-filter-odziez" onchange="ustawSortowanieOdziezy(this.value)" class="focus:outline-none cursor-pointer text-slate-700 bg-transparent pr-2 font-bold">
+                        <option value="DEFAULT">Domyślnie</option>
+                        <option value="ASC">Cena: od najtańszych</option>
+                        <option value="DESC">Cena: od najdroższych</option>
+                    </select>
+                </div>
+            </div>
         </div>
-        <div id="odziez-filters-container" class="flex flex-wrap gap-2 mb-6 justify-center sm:justify-start overflow-x-auto pb-2"></div>
         <div id="odziez-container" class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-8">
             <p class="text-slate-400 col-span-full text-center py-6 font-medium text-xs animate-pulse">ŁADOWANIE ODZIEŻY...</p>
         </div>
@@ -136,42 +196,36 @@
 
         <div class="mb-6"><h3 class="text-xs font-black uppercase tracking-wider text-slate-400 mb-4">Galeria z naszego zaplecza logistycznego</h3></div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            
             <div class="bg-white border border-slate-100 rounded-2xl p-2.5 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
                 <div class="aspect-[3/4] w-full bg-slate-50 rounded-xl overflow-hidden mb-3">
                     <img src="https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produktow/WhatsApp%20Image%202026-06-13%20at%2016.59.59.jpeg" class="w-full h-full object-cover group-hover:scale-[1.02] transition-all duration-500">
                 </div>
                 <p class="text-[10px] font-bold uppercase text-slate-500 px-1 tracking-wide">PROSTO Z PORTU: DOSTAWA KONTENEROWA BEL</p>
             </div>
-
             <div class="bg-white border border-slate-100 rounded-2xl p-2.5 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
                 <div class="aspect-[3/4] w-full bg-slate-50 rounded-xl overflow-hidden mb-3">
                     <img src="https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produktow/ciuch.jpeg" class="w-full h-full object-cover group-hover:scale-[1.02] transition-all duration-500">
                 </div>
                 <p class="text-[10px] font-bold uppercase text-slate-500 px-1 tracking-wide">NIENARUSZONE PAKIETY UBRAŃ Z METKAMI</p>
             </div>
-
             <div class="bg-white border border-slate-100 rounded-2xl p-2.5 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
                 <div class="aspect-[3/4] w-full bg-slate-50 rounded-xl overflow-hidden mb-3">
                     <img src="https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produktow/WhatsApp%20Image%202026-06-13%20at%2016.58.25.jpeg" class="w-full h-full object-cover group-hover:scale-[1.02] transition-all duration-500">
                 </div>
                 <p class="text-[10px] font-bold uppercase text-slate-500 px-1 tracking-wide">ROZLADUNEK GABARYTOWY NA MAGAZYNIE</p>
             </div>
-
             <div class="bg-white border border-slate-100 rounded-2xl p-2.5 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
                 <div class="aspect-[3/4] w-full bg-slate-50 rounded-xl overflow-hidden mb-3">
                     <img src="https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produktow/but%201.jpeg" class="w-full h-full object-cover group-hover:scale-[1.02] transition-all duration-500">
                 </div>
                 <p class="text-[10px] font-bold uppercase text-slate-500 px-1 tracking-wide">MARKOWE OBUWIE SPORTOWE I SNEAKERSY</p>
             </div>
-
             <div class="bg-white border border-slate-100 rounded-2xl p-2.5 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
                 <div class="aspect-[3/4] w-full bg-slate-50 rounded-xl overflow-hidden mb-3">
                     <img src="https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produktow/but%202.jpeg" class="w-full h-full object-cover group-hover:scale-[1.02] transition-all duration-500">
                 </div>
                 <p class="text-[10px] font-bold uppercase text-slate-500 px-1 tracking-wide">SELEKCJA ASORTYMENTU PRZED WYSYŁKĄ</p>
             </div>
-            
             <div class="bg-slate-900 text-white p-6 rounded-2xl flex flex-col justify-between aspect-[3/4] shadow-sm border border-slate-950 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                 <p class="text-xs sm:text-sm font-medium italic leading-relaxed text-slate-300 pt-4">
                     "W biznesie modowym vintage nie ma miejsca na kompromisy. Nasi klienci otrzymują dokładnie taki towar, jaki zjeżdża z zagranicznych palet – bez podbierania najdroższych sztuk, bez sortowania detalicznego na zapleczu. Czysty, pewny zysk."
@@ -198,7 +252,7 @@
                     <div>
                         <h4 class="text-sm font-black uppercase tracking-widest text-pink-500">Gwarancja 100% Nienaruszonych Boxów</h4>
                         <h3 class="text-lg font-bold text-white mt-1">U nas NIE MA selekcji ani podbierania najlepszych par!</h3>
-                        <p class="text-xs text-slate-400 font-medium mt-3 leading-relaxed">Nasz asortyment detaliczny (1/1) pochodzi wyłącznie z indywidualnego odkupu gotówkowego od osób prywatnych i kolekcjonerów w naszym punkcie stacjonarnym. Z kolei Mystery Boxy przyjeżdżają do nas w zapieczętowanych, fabrycznych paletach zbiorczych bezpośrednio z zagranicznych sortowni e-commerce i trafiają do Ciebie w dokładnie takim samym, nienaruszonym składzie.</p>
+                        <p class="text-xs text-slate-400 font-medium mt-3 leading-relaxed">Nasz asortyment detaliczny (1/1) pochodzi wyłącznie z gotówkowego odkupu gotówkowego od osób prywatnych i kolekcjonerów w naszym punkcie stacjonarnym. Z kolei Mystery Boxy przyjeżdżają do nas w zapieczętowanych, fabrycznych paletach zbiorczych bezpośrednio z zagranicznych sortowni e-commerce i trafiają do Ciebie w dokładnie takim samym, nienaruszonym składzie.</p>
                     </div>
                 </div>
             </div>
@@ -213,7 +267,7 @@
         </div>
         <div class="w-full h-80 sm:h-96 rounded-2xl overflow-hidden shadow-md border border-slate-100 relative">
             <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d634.2182547722244!2d22.145775969686603!3d50.517929450949055!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x473d2bacbceada77%3A0xefb48924c3231d96!2sStylownie%20-%20Modna%2C%20Tania%20Odzie%C5%BC%20U%C5%BCywana%20Nisko!5e0!3m2!1spl!2spl!4v1781372391269!5m2!1spl!2spl" 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2543.834604812349!2d22.131013777273397!3d50.51865231146743!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x473cee06c9a9bbdf%3A0xe54bb5ff851214fa!2sWolno%C5%9Bci%208%2C%2037-400%20Nisko!5e0!3m2!1spl!2spl!4v1718300000000!5m2!1spl!2spl" 
                 class="w-full h-full border-0" 
                 allowfullscreen="" 
                 loading="lazy" 
@@ -221,9 +275,54 @@
             </iframe>
         </div>
         <div class="mt-6 p-4 bg-slate-50 rounded-xl border border-slate-100 text-center text-xs font-semibold text-slate-700 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6">
-            <span class="flex items-center gap-1">📍 Salon Stacjonarny STYLOWNIE — Plac Wolności 8, 37-400 Nisko</span>
+            <span class="flex items-center gap-1">📍 Salon Stacjonarny STYLOWNIE — ul. Wolności 8, 37-400 Nisko</span>
             <span class="hidden sm:block text-slate-300">|</span>
-            <span class="flex items-center gap-1">⏱ Godziny otwarcia: Pon-Pt 8:30 - 16:00, Sob 8:00 - 12:00</span>
+            <span class="flex items-center gap-1">⏱ Godziny otwarcia: Pon-Pt 9:00 - 17:00, Sob 9:00 - 13:00</span>
+        </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-slate-100">
+        <div class="text-center mb-8">
+            <span class="text-pink-600 text-xs font-bold uppercase tracking-widest block mb-2">Masz pytania?</span>
+            <h3 class="text-2xl sm:text-3xl font-black text-slate-900 uppercase tracking-tight">Najczęściej Zadawane Pytania (FAQ)</h3>
+        </div>
+        <div class="space-y-3">
+            <div class="bg-white border border-slate-100 rounded-xl overflow-hidden shadow-xs">
+                <button onclick="toggleFaqRow(1)" class="w-full p-4 text-left font-bold text-xs sm:text-sm text-slate-900 flex items-center justify-between gap-4 cursor-pointer hover:bg-slate-50 transition-colors">
+                    <span>✨ Jak oceniacie stan oferowanego obuwia i odzieży?</span>
+                    <span id="faq-arrow-1" class="text-slate-400 transition-transform inline-block transform duration-200">▼</span>
+                </button>
+                <div id="faq-answer-1" class="hidden p-4 pt-0 text-xs text-slate-600 font-medium border-t border-slate-200/50 leading-relaxed bg-slate-50/50 animate-in fade-in duration-200">
+                    Każda para butów i sztuka odzieży przechodzi rygorystyczną selekcję i weryfikację oryginalności. Dokładny stan opisujemy w podglądzie produktu (np. Klasa: Jak Nowe!, Bardzo Dobry). Towar jest profesjonalnie czyszczony, dezynfekowany i odświeżany przed wystawieniem na zapleczu w Nisku, dzięki czemu jest od razu pachnący i gotowy do założenia.
+                </div>
+            </div>
+            <div class="bg-white border border-slate-100 rounded-xl overflow-hidden shadow-xs">
+                <button onclick="toggleFaqRow(2)" class="w-full p-4 text-left font-bold text-xs sm:text-sm text-slate-900 flex items-center justify-between gap-4 cursor-pointer hover:bg-slate-50 transition-colors">
+                    <span>📦 Ile trwa dostawa i jakie są opcje wysyłki?</span>
+                    <span id="faq-arrow-2" class="text-slate-400 transition-transform inline-block transform duration-200">▼</span>
+                </button>
+                <div id="faq-answer-2" class="hidden p-4 pt-0 text-xs text-slate-600 font-medium border-t border-slate-200/50 leading-relaxed bg-slate-50/50 animate-in fade-in duration-200">
+                    Zamówienia pakujemy i nadajemy w ciągu 24 godzin prosto z naszego zaplecza. Oferujemy wysyłkę do Paczkomatów InPost, automatów punktowych DPD Pickup oraz tradycyjną bezpieczną dostawę kurierem pod same drzwi. Czas dostawy paczki wynosi zazwyczaj 1 dzień roboczy.
+                </div>
+            </div>
+            <div class="bg-white border border-slate-100 rounded-xl overflow-hidden shadow-xs">
+                <button onclick="toggleFaqRow(3)" class="w-full p-4 text-left font-bold text-xs sm:text-sm text-slate-900 flex items-center justify-between gap-4 cursor-pointer hover:bg-slate-50 transition-colors">
+                    <span>📍 Czy mogę odebrać lub przymierzyć produkt osobiście w Nisku?</span>
+                    <span id="faq-arrow-3" class="text-slate-400 transition-transform inline-block transform duration-200">▼</span>
+                </button>
+                <div id="faq-answer-3" class="hidden p-4 pt-0 text-xs text-slate-600 font-medium border-t border-slate-200/50 leading-relaxed bg-slate-50/50 animate-in fade-in duration-200">
+                    Tak! Zapraszamy do naszego butiku stacjonarnego STYLOWNIE przy ul. Wolności 8 w Nisku. Składając zamówienie na stronie internetowej, możesz zaznaczyć darmową opcję "Odbiór osobisty (Nisko) - 0.00 zł". Towar będzie czekał na Ciebie od ręki, a na miejscu oferujemy wygodną przymierzalnię oraz darmową kawę.
+                </div>
+            </div>
+            <div class="bg-white border border-slate-100 rounded-xl overflow-hidden shadow-xs">
+                <button onclick="toggleFaqRow(4)" class="w-full p-4 text-left font-bold text-xs sm:text-sm text-slate-900 flex items-center justify-between gap-4 cursor-pointer hover:bg-slate-50 transition-colors">
+                    <span>🛡️ Czy przysługuje mi prawo do zwrotu zakupionego towaru?</span>
+                    <span id="faq-arrow-4" class="text-slate-400 transition-transform inline-block transform duration-200">▼</span>
+                </button>
+                <div id="faq-answer-4" class="hidden p-4 pt-0 text-xs text-slate-600 font-medium border-t border-slate-200/50 leading-relaxed bg-slate-50/50 animate-in fade-in duration-200">
+                    W przypadku zakupów detalicznych (kolekcja 1/1) konsumentom przysługuje ustawowe prawo do zwrotu towaru bez podania przyczyny w ciągu 14 dni od odebrania paczki. Artykuł musi wrócić do nas w stanie nienaruszonym. Uwaga: Pakiety hurtowe (Mystery Boxy B2B) ze względu na specyfikę hurtową są w całości wyłączone z procedur zwrotów.
+                </div>
+            </div>
         </div>
     </section>
 
@@ -376,6 +475,8 @@
 
         let aktywnyRozmiarButy = 'WSZYSTKIE';
         let aktywnyRozmiarOdziez = 'WSZYSTKIE';
+        let aktywneSortowanieButy = 'DEFAULT';
+        let aktywneSortowanieOdziez = 'DEFAULT';
 
         const defaultImg = "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=600&auto=format&fit=crop";
 
@@ -383,6 +484,19 @@
         if(!chatSessionId) {
             chatSessionId = 'user_' + Math.random().toString(36).substring(2, 11);
             localStorage.setItem('stylownie_chat_session', chatSessionId);
+        }
+
+        // ❓ OBSŁUGA INTERAKCJI FAQ ACCORDION
+        function toggleFaqRow(num) {
+            const ans = document.getElementById(`faq-answer-${num}`);
+            const arrow = document.getElementById(`faq-arrow-${num}`);
+            if (ans.classList.contains('hidden')) {
+                ans.classList.remove('hidden');
+                arrow.style.transform = 'rotate(180deg)';
+            } else {
+                ans.classList.add('hidden');
+                arrow.style.transform = 'rotate(0deg)';
+            }
         }
 
         function toggleNativeChat() {
@@ -478,29 +592,39 @@
             try {
                 const response = await fetch(`${SUPABASE_URL}/rest/v1/products?select=*`, { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } });
                 zapamiętaneProdukty = await response.json();
+                generujOpcjeSelectFiltrow();
                 renderujWszystko();
             } catch (err) {}
         }
 
-        function generujFiltryButow(list) {
-            const container = document.getElementById('buty-filters-container'); if(!container) return;
-            const unikalne = [...new Set(list.map(p => p.size))].filter(r => r).sort((a, b) => parseFloat(a) - parseFloat(b));
-            let html = `<button onclick="ustawFiltrButow('WSZYSTKIE')" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider rounded-lg border transition-all cursor-pointer ${aktywnyRozmiarButy === 'WSZYSTKIE' ? 'bg-pink-600 text-white border-pink-600' : 'bg-white text-slate-600 border-slate-200'}">Wszystkie</button>`;
-            unikalne.forEach(r => { html += `<button onclick="ustawFiltrButow('${r}')" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider rounded-lg border transition-all cursor-pointer ${aktywnyRozmiarButy === r ? 'bg-pink-600 text-white border-pink-600' : 'bg-white text-slate-600 border-slate-200'}">R. ${r}</button>`; });
-            container.innerHTML = html;
-        }
+        // 🔄 GENEROWANIE DYNAMICZNYCH OPCJI DO DROPDOWN SELECT
+        function generujOpcjeSelectFiltrow() {
+            const detaliczne = zapamiętaneProdukty.filter(p => p.type === 'DETAL');
+            
+            // Dla butów
+            const butySelect = document.getElementById('select-filter-buty');
+            if(butySelect) {
+                const rozmiaryButy = [...new Set(detaliczne.filter(p => p.category === 'buty').map(p => p.size))].filter(r => r).sort((a, b) => parseFloat(a) - parseFloat(b));
+                butySelect.innerHTML = '<option value="WSZYSTKIE">Wszystkie rozmiary</option>';
+                rozmiaryButy.forEach(r => { butySelect.innerHTML += `<option value="${r}">Rozmiar ${r}</option>`; });
+                butySelect.value = aktywnyRozmiarButy;
+            }
 
-        function generujFiltryOdziezy(list) {
-            const container = document.getElementById('odziez-filters-container'); if(!container) return;
-            const unikalne = [...new Set(list.map(p => p.size))].filter(r => r).sort();
-            let html = `<button onclick="ustawFiltrOdziezy('WSZYSTKIE')" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider rounded-lg border transition-all cursor-pointer ${aktywnyRozmiarOdziez === 'WSZYSTKIE' ? 'bg-pink-600 text-white border-pink-600' : 'bg-white text-slate-600 border-slate-200'}">Wszystkie</button>`;
-            unikalne.forEach(r => { html += `<button onclick="ustawFiltrOdziezy('${r}')" class="px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider rounded-lg border transition-all cursor-pointer ${aktywnyRozmiarOdziez === r ? 'bg-pink-600 text-white border-pink-600' : 'bg-white text-slate-600 border-slate-200'}">R. ${r}</button>`; });
-            container.innerHTML = html;
+            // Dla odzieży
+            const odziezSelect = document.getElementById('select-filter-odziez');
+            if(odziezSelect) {
+                const rozmiaryOdziez = [...new Set(detaliczne.filter(p => p.category === 'odziez').map(p => p.size))].filter(r => r).sort();
+                odziezSelect.innerHTML = '<option value="WSZYSTKIE">Wszystkie rozmiary</option>';
+                rozmiaryOdziez.forEach(r => { odziezSelect.innerHTML += `<option value="${r}">Rozmiar ${r}</option>`; });
+                odziezSelect.value = aktywnyRozmiarOdziez;
+            }
         }
 
         function uppercase(str) { return str ? str.toUpperCase() : ""; }
-        function ustawFiltrButow(r) { aktywnyRozmiarButy = r; limitButow = (widokObecny === 'BUTY' ? 12 : 4); renderujWszystko(); }
-        function ustawFiltrOdziezy(r) { aktywnyRozmiarOdziez = r; limitOdziezy = (widokObecny === 'ODZIEZ' ? 12 : 4); renderujWszystko(); }
+        function ustawSelectFiltrButow(val) { aktywnyRozmiarButy = val; limitButow = (widokObecny === 'BUTY' ? 12 : 4); renderujWszystko(); }
+        function ustawSelectFiltrOdziezy(val) { aktywnyRozmiarOdziez = val; limitOdziezy = (widokObecny === 'ODZIEZ' ? 12 : 4); renderujWszystko(); }
+        function ustawSortowanieButow(val) { aktywneSortowanieButy = val; renderujWszystko(); }
+        function ustawSortowanieOdziezy(val) { aktywneSortowanieOdziez = val; renderujWszystko(); }
 
         function toggleButyView() {
             if (limitButow === 4 || limitButow === 12) { limitButow = 999; } 
@@ -558,27 +682,32 @@
             const detaliczne = zapamiętaneProdukty.filter(p => p.type === 'DETAL');
             const hurtowe = zapamiętaneProdukty.filter(p => p.type !== 'DETAL');
 
-            const wszystkieButy = detaliczne.filter(p => p.category === 'buty');
-            const wszystkaOdziez = detaliczne.filter(p => p.category === 'odziez');
+            let wszystkieButy = detaliczne.filter(p => p.category === 'buty');
+            let wszystkaOdziez = detaliczne.filter(p => p.category === 'odziez');
 
-            generujFiltryButow(wszystkieButy);
-            generujFiltryOdziezy(wszystkaOdziez);
+            // Filtrowanie rozmiarów
+            if (aktywnyRozmiarButy !== 'WSZYSTKIE') wszystkieButy = wszystkieButy.filter(p => p.size === aktywnyRozmiarButy);
+            if (aktywnyRozmiarOdziez !== 'WSZYSTKIE') wszystkaOdziez = wszystkaOdziez.filter(p => p.size === aktywnyRozmiarOdziez);
 
-            const filtrowaneButy = aktywnyRozmiarButy === 'WSZYSTKIE' ? wszystkieButy : wszystkieButy.filter(p => p.size === aktywnyRozmiarButy);
-            const filtrowanaOdziez = aktywnyRozmiarOdziez === 'WSZYSTKIE' ? wszystkaOdziez : wszystkaOdziez.filter(p => p.size === aktywnyRozmiarOdziez);
+            // 📊 FUNKCJA SORTOWANIA CENY
+            if (aktywneSortowanieButy === 'ASC') wszystkieButy.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+            else if (aktywneSortowanieButy === 'DESC') wszystkieButy.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
 
-            const wyswietlaneButy = filtrowaneButy.slice(0, limitButow);
-            const wyswietlaneOdziez = filtrowanaOdziez.slice(0, limitOdziezy);
+            if (aktywneSortowanieOdziez === 'ASC') wszystkaOdziez.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+            else if (aktywneSortowanieOdziez === 'DESC') wszystkaOdziez.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+
+            const wyswietlaneButy = wszystkieButy.slice(0, limitButow);
+            const wyswietlaneOdziez = wszystkaOdziez.slice(0, limitOdziezy);
 
             const moreButyWrapper = document.getElementById('more-buty-wrapper');
             if(moreButyWrapper) {
-                moreButyWrapper.classList.toggle('hidden', filtrowaneButy.length <= limitButow && limitButow !== 999);
+                moreButyWrapper.classList.toggle('hidden', wszystkieButy.length <= limitButow && limitButow !== 999);
                 document.getElementById('more-buty-btn').innerText = limitButow === 999 ? "Zwiń produkty (Pokaż mniej)" : "Pokaż więcej obuwia";
             }
 
             const moreOdziezWrapper = document.getElementById('more-odziez-wrapper');
             if(moreOdziezWrapper) {
-                moreOdziezWrapper.classList.toggle('hidden', filtrowanaOdziez.length <= limitOdziezy && limitOdziezy !== 999);
+                moreOdziezWrapper.classList.toggle('hidden', wszystkaOdziez.length <= limitOdziezy && limitOdziezy !== 999);
                 document.getElementById('more-odziez-btn').innerText = limitOdziezy === 999 ? "Zwiń produkty (Pokaż mniej)" : "Pokaż więcej odzieży";
             }
 
@@ -587,7 +716,6 @@
 
             const mapujProdukt = (p, kontener) => {
                 let fotka = p.image_urls && p.image_urls.length > 0 ? p.image_urls[0] : (p.image_url || defaultImg);
-                
                 const logoOverlay = `
                     <div class="absolute top-2 right-2 h-8 w-8 sm:h-9 sm:w-9 bg-white/80 backdrop-blur-md p-1.5 rounded-full shadow-md z-10 border border-white/40 flex items-center justify-center">
                         <img src="${LINK_DO_LOGO_FIRMY}" class="h-full w-full object-contain">
@@ -618,7 +746,6 @@
                 hurtowe.forEach(p => {
                     let fotka = p.image_urls && p.image_urls.length > 0 ? p.image_urls[0] : (p.image_url || defaultImg);
                     const logoOverlay = `<img src="${LINK_DO_LOGO_FIRMY}" class="absolute top-3 right-3 h-7 w-auto bg-white/90 backdrop-blur-xs p-1 rounded-lg shadow-xs z-10 object-contain border border-slate-100">`;
-                    
                     const isClothingBox = p.category === 'odziez' || p.name.toLowerCase().includes('odzież') || p.name.toLowerCase().includes('ciuch') || p.name.toLowerCase().includes('mix');
                     
                     let badgePogladowe = '';
@@ -786,7 +913,7 @@
                     <p class="font-bold text-slate-800 pt-2">2. Cel, Podstawa Prawna i Okres Przetwarzania Danych</p>
                     <p>Twoje dane osobowe są przetwarzane w następujących celach:</p>
                     <ul class="list-disc pl-4 space-y-1">
-                        <li><strong>Realizacja zamówień i umowy sprzedaży (Art. 6 ust. 1 lit. b RODO):</strong> Dane takie jak imię, nazwisko, adres, e-mail oraz telefon zijn niezbędne do realizacji transakcji. Dane są przechowywane przez okres niezbędny do realizacji i finalizacji zamówienia.</li>
+                        <li><strong>Realizacja zamówień i umowy sprzedaży (Art. 6 ust. 1 lit. b RODO):</strong> Dane takie jak imię, nazwisko, adres, e-mail oraz telefon są niezbędne do realizacji transakcji. Dane są przechowywane przez okres niezbędny do realizacji i finalizacji zamówienia.</li>
                         <li><strong>Wypełnienie obowiązków prawnych i podatkowo-księgowych (Art. 6 ust. 1 lit. c RODO):</strong> Wystawianie faktur, rachunków oraz prowadzenie sprawozdawczości finansowej. Okres przechowywania wynosi 5 lat, licząc od końca roku kalendarzowego, w którym upłynął termin płatności podatku związanego z transakcją.</li>
                         <li><strong>Prawnie uzasadniony interes Administratora (Art. 6 ust. 1 lit. f RODO):</strong> Monitorowanie ruchu, prowadzenie wewnętrznych statystyk za pomocą narzędzi analitycznych, obsługa systemu czatu z klientem oraz prowadzenie działań marketingu bezpośredniego (w tym optymalizacja kampanii reklamowych). Dane są przechowywane do momentu wniesienia skutecznego sprzeciwu lub przedawnienia roszczeń prawnych.</li>
                     </ul>
@@ -796,7 +923,7 @@
                     <ul class="list-disc pl-4 space-y-1">
                         <li><strong>Krajowi operatorzy logistyczni i firmy kurierskie:</strong> InPost Sp. z o.o. oraz DPD Polska Sp. z o.o. – w celu wygenerowania etykiety i dostarczenia przesyłki do wskazanego Paczkomatu lub pod adres domowy.</li>
                         <li><strong>Systemy płatności online:</strong> Stripe – w celu bezpiecznego, zewnętrznego procesowania transakcji internetowych (obsługa kart oraz płatności BLIK).</li>
-                        <li><strong>Dostawcy infraestructura technologicznej i hostingu:</strong> Supabase Inc. – podmiot utrzymujący bazę danych sklepu i system archiwizacji zamówień.</li>
+                        <li><strong>Dostawcy infrastruktury technologicznej i hostingu:</strong> Supabase Inc. – podmiot utrzymujący bazę danych sklepu i system archiwizacji zamówień.</li>
                         <li><strong>Narzędzia analityczne i marketingowe:</strong> Google LLC (Google Analytics) oraz Meta Platforms Ireland Limited (Meta Pixel / Facebook Ads) – w celu gromadzenia danych statystycznych oraz emisji dopasowanych reklam.</li>
                     </ul>
                     
@@ -815,7 +942,7 @@
                     <p class="font-bold text-slate-800 pt-2">5. Pliki Cookies (Ciasteczka) i Technologie Śledzące</p>
                     <p>Nasz sklep internetowy wykorzystuje pliki cookies (małe pliki tekstowe zapisywane na Twoim urządzeniu końcowym). Wykorzystujemy je w celach:</p>
                     <ul class="list-disc pl-4 space-y-1">
-                        <li><strong>Funkcjonalnych:</strong> Zapewnienie stabilnego działania strony, utrzymność sesji czatu oraz zapamiętywanie konfiguracji filtrów.</li>
+                        <li><strong>Funkcjonalnych:</strong> Zapewnienie stabilnego działania strony, utrzymanie ciągłości sesji czatu oraz zapamiętywanie konfiguracji filtrów.</li>
                         <li><strong>Statystycznych:</strong> Analiza zachowań użytkowników za pomocą platformy Google Analytics w celu ulepszania nawigacji i asortymentu sklepu.</li>
                         <li><strong>Marketingowych:</strong> Precyzyjne wyświetlanie kampanii reklamowych za pośrednictwem Meta Ads (Facebook/Instagram) dla osób, które odwiedziły naszą witrynę.</li>
                     </ul>
