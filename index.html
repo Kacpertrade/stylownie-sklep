@@ -685,6 +685,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // 🔄 KOMPLETNA REGENERACJA SEKCJI SPRZEDANYCH (OBSŁUGA DETALU I HURTU)
         function renderujWszystko() {
             const butyContainer = document.getElementById('buty-container');
             const odziezContainer = document.getElementById('odziez-container');
@@ -699,19 +700,26 @@
 
             const dobaTemu = new Date(Date.now() - (24 * 60 * 60 * 1000));
 
+            // Filtrowanie towarów dostępnych (niezależnych)
             const detaliczneDostepne = zapamiętaneProdukty.filter(p => p.type === 'DETAL' && !p.sold_at);
             const hurtowe = zapamiętaneProdukty.filter(p => p.type !== 'DETAL');
             
-            // FILTR SPRZEDANYCH TOWARÓW (DETAL + HURT)
+            // 📊 FILTR SPRZEDANYCH: Łączymy sprzedany DETAL z ostatnich 24h oraz HURT z licznikiem powyżej 0!
             const sprzedanyDetalOstatnio = zapamiętaneProdukty.filter(p => p.type === 'DETAL' && p.sold_at && new Date(p.sold_at) > dobaTemu);
             const sprzedanyHurtOstatnio = zapamiętaneProdukty.filter(p => p.type === 'HURT' && p.sold_count && parseInt(p.sold_count) > 0);
+            
             const wszystkieSprzedane = [...sprzedanyDetalOstatnio, ...sprzedanyHurtOstatnio];
 
             if (wszystkieSprzedane.length > 0 && widokObecny === 'ALL') {
                 sekcjaSprzedane.classList.remove('hidden');
                 wszystkieSprzedane.forEach(p => {
                     let fotka = p.image_urls && p.image_urls.length > 0 ? p.image_urls[0] : (p.image_url || defaultImg);
-                    let tekstPlakietki = p.type === 'HURT' ? `HURT BOX (${p.sold_count} szt.)` : "SPRZEDANE";
+                    
+                    // Dobór plakietki pod rodzaj asortymentu
+                    let tekstPlakietki = "SPRZEDANE";
+                    if(p.type === 'HURT') {
+                        tekstPlakietki = `HURT WYSYŁKA (${p.sold_count} szt.)`;
+                    }
 
                     sprzedaneContainer.innerHTML += `
                         <div class="relative bg-white border border-slate-100 rounded-xl overflow-hidden shadow-xs grayscale opacity-50 pointer-events-none select-none max-w-[160px] mx-auto w-full">
@@ -734,7 +742,7 @@
             let wszystkaOdziez = detaliczneDostepne.filter(p => p.category === 'odziez');
 
             if (aktywnyRozmiarButy !== 'WSZYSTKIE') wszystkieButy = wszystkieButy.filter(p => p.size === aktywnyRozmiarButy);
-            if (aktywnyRozmiarOdziez !== 'WSZYSTKIE') wszystkaOdziez = wszystkieButy = wszystkieButy.filter(p => p.size === aktywnyRozmiarButy); // korekta literówki w nadpisaniu
+            if (aktywnyRozmiarOdziez !== 'WSZYSTKIE') wszystkaOdziez = wszystkaOdziez.filter(p => p.size === aktywnyRozmiarOdziez);
 
             if (aktywneSortowanieButy === 'ASC') wszystkieButy.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
             else if (aktywneSortowanieButy === 'DESC') wszystkieButy.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
@@ -864,7 +872,7 @@
             const gradeBadge = document.getElementById('modal-grade'); if(produkt.condition_grade) { gradeBadge.innerText = `Klasa: ${produkt.condition_grade}`; gradeBadge.classList.remove('hidden'); } else { gradeBadge.classList.add('hidden'); }
             const mainImg = document.getElementById('modal-main-img'); const thumbContainer = document.getElementById('modal-thumbnails'); thumbContainer.innerHTML = '';
             
-            const zdjecia = produkt.image_urls && p.image_urls.length > 0 ? produkt.image_urls : [produkt.image_url || defaultImg]; 
+            const zdjecia = produkt.image_urls && produkt.image_urls.length > 0 ? produkt.image_urls : [produkt.image_url || defaultImg]; 
             mainImg.src = zdjecia[0];
             
             if(zdjecia.length > 1) { zdjecia.forEach((url, index) => { thumbContainer.innerHTML += `<div onclick="zmienZdjecieWModalu('${url}', this)" class="aspect-square rounded-lg overflow-hidden border-2 ${index === 0 ? 'border-pink-600' : 'border-transparent'} bg-white cursor-pointer hover:border-pink-500 shadow-xs thumb-item"><img src="${url}" class="w-full h-full object-cover"></div>`; }); }
@@ -896,161 +904,52 @@
         function zmienZdjecieWModalu(url, element) { document.getElementById('modal-main-img').src = url; document.querySelectorAll('.thumb-item').forEach(el => el.classList.replace('border-pink-600', 'border-transparent')); element.classList.replace('border-transparent', 'border-pink-600'); }
         function zamknijModal() { if(intervalLicznikaOdwiedzin) clearInterval(intervalLicznikaOdwiedzin); document.getElementById('product-modal').classList.add('hidden'); document.body.style.overflow = 'auto'; }
         
-        async function">⚙️ WYŚLIJ REFORMĘ WYSYŁKOWĄ</button>
-                </div>
-            </div>
+        async function uruchomPlatnosc() { 
+            const produkt = zapamiętaneProdukty.find(p => p.id == aktywnyProduktId); if(!produkt) return; 
+            const metoda = document.querySelector('input[name="dostawa"]:checked').value; const paczkomatKod = document.getElementById('paczkomat-input').value.trim(); const dpdKod = document.getElementById('dpd-input').value.trim(); 
+            if (metoda === 'INPOST_BOX' && paczkomatKod === '') { alert("Proszę podać kod Paczkomatu InPost!"); return; } if (metoda === 'DPD_BOX' && dpdKod === '') { alert("Proszę podać kod punktu DPD!"); return; } 
+            let kosztWysylki = 0; let nazwaWysylki = ""; let wybranyKodPunktu = ""; 
+            if (metoda === 'INPOST_BOX') { kosztWysylki = 12; nazwaWysylki = "Paczkomat InPost"; wybranyKodPunktu = paczkomatKod; } else if (metoda === 'DPD_BOX') { kosztWysylki = 11; nazwaWysylki = "Punkt DPD Pickup"; wybranyKodPunktu = dpdKod; } else if (metoda === 'KURIER') { kosztWysylki = 16; nazwaWysylki = "Kurier (Do domu)"; } 
+            if(typeof gtag === 'function') { gtag('event', 'begin_checkout', { "items": [{ "item_id": produkt.id, "item_name": produkt.name, "price": produkt.price }] }); } 
             
-            <div class="w-full md:w-1/2 flex flex-col justify-between relative">
-                <div class="p-5 sm:p-8 md:overflow-y-auto md:h-full space-y-5">
-                    <div>
-                        <span id="modal-brand" class="text-xs font-bold uppercase tracking-widest text-pink-600 block mb-1">Marka</span>
-                        <h2 id="modal-name" class="text-xl sm:text-2xl font-black text-slate-900 uppercase tracking-tight leading-tight">Nazwa produktu</h2>
-                        
-                        <div class="mt-2.5 flex items-center gap-2 text-xs font-semibold text-slate-600 bg-slate-100 rounded-xl p-2.5 border border-slate-200/40">
-                            <span class="flex h-2 w-2 relative">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-2 w-2 bg-pink-500"></span>
-                            </span>
-                            <p>Tą parę wyświetlono <span id="modal-view-counter" class="font-black text-pink-600">--</span> razy w ciągu ostatnich 24h</p>
-                        </div>
+            const qty = parseInt(document.getElementById('modal-qty-input').value) || 1;
+            const btnDesktop = document.getElementById('modal-buy-btn-desktop');
+            const btnMobile = document.getElementById('modal-buy-btn-mobile');
+            btnDesktop.disabled = true; btnMobile.disabled = true;
+            
+            try { 
+                const response = await fetch('/api/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: produkt.id, name: produkt.name, price: produkt.price, quantity: qty, imageUrl: produkt.image_urls && produkt.image_urls.length > 0 ? produkt.image_urls[0] : produkt.image_url, deliveryMethod: metoda, deliveryName: nazwaWysylki, deliveryCost: kosztWysylki, pointCode: wybranyKodPunktu }) }); 
+                const data = await response.json(); if(data.url) { window.location.href = data.url; } else { throw new Error(data.error || "Serwer nie zwrócił linku."); } 
+            } catch (err) { 
+                alert("Błąd Stripe: " + err.message); 
+                btnDesktop.disabled = false; btnMobile.disabled = false;
+            } 
+        }
+        
+        async function obsluzStatusPlatonosci() { 
+            const urlParams = new URLSearchParams(window.location.search); const status = urlParams.get('status'); const productId = urlParams.get('productId'); 
+            if (status === 'success' && productId) { 
+                alert("🎉 Dziękujemy za zakup! Twoje zamówienie zostało pomyślnie opłacone. Oficjalna faktura PDF z potwierdzeniem została wysłana na Twój adres e-mail."); 
+                try { 
+                    const checkResp = await fetch(`${SUPABASE_URL}/rest/v1/products?id=eq.${productId}`, { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } });
+                    const checkData = await checkResp.json();
+                    
+                    if (checkData && checkData.length > 0 && checkData[0].type === 'DETAL') {
+                        await fetch(`${SUPABASE_URL}/rest/v1/products?id=eq.${productId}`, {
+                            method: 'PATCH',
+                            headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ sold_at: new Date().toISOString() })
+                        }); 
+                    }
+                    pobierzProdukty(); 
+                } catch (e) {} 
+                window.history.replaceState({}, document.title, window.location.pathname); 
+            } else if (status === 'canceled') { alert("❌ Transakcja została anulowana przez użytkownika."); window.history.replaceState({}, document.title, window.location.pathname); } 
+        }
 
-                        <div class="flex flex-wrap gap-2 mt-3">
-                            <span id="modal-size" class="bg-slate-900 text-white text-xs font-semibold px-4 py-1.5 rounded-lg shadow-xs">Rozmiar: -</span>
-                            <span id="modal-grade" class="bg-pink-50 text-pink-700 text-xs font-semibold px-4 py-1.5 rounded-lg border border-pink-100 hidden">Stan: -</span>
-                            <span id="modal-hot-badge" class="bg-amber-500 text-white text-[10px] font-black uppercase tracking-wider px-3 py-1.5 rounded-lg shadow-xs hidden">🔥 Popularny produkt</span>
-                        </div>
-
-                        <div id="modal-qty-container" class="hidden mt-4 items-center gap-3 bg-slate-100/80 p-3 rounded-xl border border-slate-200/40">
-                            <span class="text-xs font-black text-slate-500 uppercase tracking-wider">Ilość zamówionych boxów:</span>
-                            <div class="flex items-center border border-slate-200 bg-white rounded-lg overflow-hidden shadow-xs">
-                                <button onclick="zmienIloscWModalu(-1)" type="button" class="px-3 py-1.5 bg-slate-50 hover:bg-slate-100 text-slate-800 font-bold text-xs select-none cursor-pointer">-</button>
-                                <input type="number" id="modal-qty-input" value="1" min="1" max="99" onchange="aktualizujCeneWysylki()" class="w-10 text-center font-bold text-xs text-slate-900 focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
-                                <button onclick="zmienIloscWModalu(1)" type="button" class="px-3 py-1.5 bg-slate-50 hover:bg-slate-100 text-slate-800 font-bold text-xs select-none cursor-pointer">+</button>
-                            </div>
-                        </div>
-
-                        <div class="mt-5 bg-slate-50 p-4 rounded-xl border border-slate-100">
-                            <h4 class="text-xs font-black text-slate-400 uppercase tracking-wider mb-2.5">Sposób dostawy</h4>
-                            <div class="space-y-2 text-xs font-semibold">
-                                <label class="flex items-center justify-between bg-white p-2.5 rounded-lg border border-slate-200/40 cursor-pointer hover:border-pink-500 transition-all">
-                                    <span class="flex items-center gap-2"><input type="radio" name="dostawa" value="NISKO" checked onchange="aktualizujCeneWysylki()"> 📍 Odbiór osobisty (Nisko)</span>
-                                    <span class="text-slate-400">0.00 zł</span>
-                                </label>
-                                <label class="flex items-center justify-between bg-white p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:border-pink-500 transition-all">
-                                    <span class="flex items-center gap-2"><input type="radio" name="dostawa" value="INPOST_BOX" onchange="aktualizujCeneWysylki()"> 📦 Paczkomat InPost</span>
-                                    <span class="text-pink-600">+12.00 zł</span>
-                                </label>
-                                <label class="flex items-center justify-between bg-white p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:border-pink-500 transition-all">
-                                    <span class="flex items-center gap-2"><input type="radio" name="dostawa" value="DPD_BOX" onchange="aktualizujCeneWysylki()"> 🏪 Automat / Punkt DPD Pickup</span>
-                                    <span class="text-pink-600">+11.00 zł</span>
-                                </label>
-                                <label class="flex items-center justify-between bg-white p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:border-pink-500 transition-all">
-                                    <span class="flex items-center gap-2"><input type="radio" name="dostawa" value="KURIER" onchange="aktualizujCeneWysylki()"> ⛟ Kurier (Dostawa pod drzwi)</span>
-                                    <span class="text-pink-600">+16.00 zł</span>
-                                </label>
-                            </div>
-                            
-                            <div id="inpost-field" class="hidden mt-4 pt-3 border-t border-slate-200">
-                                <input type="text" id="paczkomat-input" placeholder="Wpisz kod Paczkomatu (np. NIS01M)" class="w-full bg-white border border-slate-200 rounded-lg p-2.5 text-xs uppercase font-bold tracking-widest text-center focus:border-pink-500 focus:outline-none">
-                            </div>
-                            
-                            <div id="dpd-field" class="hidden mt-4 pt-3 border-t border-slate-200">
-                                <input type="text" id="dpd-input" placeholder="Wpisz kod punktu DPD (np. PL15243)" class="w-full bg-white border border-slate-200 rounded-lg p-2.5 text-xs uppercase font-bold tracking-widest text-center focus:border-pink-500 focus:outline-none">
-                            </div>
-                        </div>
-                        
-                        <div id="modal-preview-notice" class="hidden mt-4 bg-purple-50 border border-purple-100 text-purple-900 p-3 rounded-xl text-[10px] font-semibold leading-relaxed border-l-2 border-l-purple-600">
-                            📸 Informacja handlowa: Zdjęcia widoczne w galerii tego boxu to autentyczne przykłady ubrań i marek z naszych dostaw, które odzwierciedlają klasę i styl zawartości. Kupujesz seryjny pakiet odzieży spakowany w karton kurierski, a nie pojedyncze sztuki lub worek ze zdjęcia.
-                        </div>
-
-                        <div id="modal-policy-notice" class="mt-4"></div>
-                        <div class="mt-4">
-                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Opis przedmiotu</h4>
-                            <p id="modal-desc" class="text-xs text-slate-600 font-medium mt-1 leading-relaxed">Opis przedmiotu...</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex md:hidden absolute bottom-0 left-0 right-0 bg-white border-t border-slate-100 p-4 items-center justify-between gap-4 z-40 shadow-[0_-4px_12px_rgba(0,0,0,0.08)] pb-[calc(16px+env(safe-area-inset-bottom))]">
-                    <div>
-                        <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Cena z dostawą</p>
-                        <span id="modal-price-mobile" class="text-lg font-black text-slate-900 tracking-tight">0.00 PLN</span>
-                    </div>
-                    <button id="modal-buy-btn-mobile" onclick="uruchomPlatnosc()" class="flex-1 bg-pink-600 text-white font-bold text-xs uppercase py-3.5 rounded-xl hover:bg-pink-500 active:bg-pink-700 tracking-widest text-center justify-center items-center shadow-lg shadow-pink-600/10">Kup Teraz</button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <div class="fixed bottom-6 right-6 z-50">
-        <button onclick="toggleNativeChat()" class="bg-pink-600 hover:bg-pink-700 text-white p-4 rounded-full shadow-2xl flex items-center justify-center text-2xl transition-transform hover:scale-105 active:scale-95 cursor-pointer">💬</button>
-    </div>
-    <div id="native-chat-box" class="hidden fixed bottom-24 right-6 w-80 h-96 bg-white border border-slate-200 rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-200">
-        <div class="bg-slate-900 text-white p-4 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <span id="chat-status-dot" class="w-2 h-2 rounded-full bg-amber-500"></span>
-                <span id="chat-status-text" class="text-[10px] font-black uppercase tracking-wider">Sprawdzanie dostępności...</span>
-            </div>
-            <button onclick="toggleNativeChat()" class="text-slate-400 hover:text-white font-bold text-xs cursor-pointer">✕</button>
-        </div>
-        <div id="chat-messages-area" class="flex-1 p-4 overflow-y-auto space-y-4 bg-slate-50 text-xs font-medium flex flex-col">
-            <div class="bg-white border border-slate-100 p-3 rounded-xl max-w-[85%] self-start shadow-xs text-slate-700">Dzień dobry! W czym możemy pomóc? Napisz nam wiadomość, a odpowiemy najszybciej jak to możliwe prosto z zaplecza w Nisku.</div>
-        </div>
-        <form onsubmit="sendChatMessage(event)" class="p-2 bg-white border-t border-slate-100 flex gap-2">
-            <input type="text" id="chat-input-field" placeholder="Wpisz wiadomość..." required class="flex-1 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-pink-600">
-            <button type="submit" class="bg-pink-600 text-white px-3 py-2 rounded-xl text-xs font-bold hover:bg-pink-700 cursor-pointer">Wyślij</button>
-        </form>
-    </div>
-
-    <footer class="bg-slate-900 text-slate-400 py-12 text-center text-xs font-medium border-t border-slate-950">
-        <p class="tracking-wide text-slate-500">© 2026 STYLOWNIE.PL. Wszelkie prawa zastrzeżone.</p>
-        <div class="mt-4 text-[11px] text-slate-500 font-medium space-y-1 border-t border-slate-800/60 pt-4 max-w-md mx-auto">
-            <p class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Salon stacjonarny & Dane rejestrowe</p>
-            <p>STYLOWNIE — ul. Wolności 8, 37-400 Nisko</p>
-            <p class="tracking-wide">NIP: 6020149091  |  REGON: 528846076</p>
-        </div>
-        <div class="mt-6 flex justify-center gap-6 text-[10px] text-slate-400 font-bold uppercase tracking-widest">
-            <button onclick="otworzLegal('regulamin')" class="hover:text-pink-500 transition-colors cursor-pointer">Zasady Sklepu & Zwroty</button>
-            <button onclick="otworzLegal('polityka')" class="hover:text-pink-500 transition-colors cursor-pointer">Polityka Prywatności</button>
-        </div>
-    </footer>
-
-    <div id="legal-modal" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[80vh] shadow-2xl relative p-6 md:p-8 flex flex-col border border-slate-100">
-            <button onclick="zamknijLegal()" class="absolute top-4 right-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold h-10 w-10 rounded-full flex items-center justify-center text-sm">✕</button>
-            <h2 id="legal-title" class="text-base font-bold text-slate-900 uppercase tracking-widest mb-4 border-b border-slate-100 pb-3">Dokument</h2>
-            <div id="legal-content" class="text-xs text-slate-500 space-y-4 font-medium leading-relaxed overflow-y-auto pr-2"></div>
-        </div>
-    </div>
-
-    <script>
         const TEKSTY_PRAWNE = {
-            regulamin: `
-                <div class="space-y-4 text-slate-600 text-xs leading-relaxed">
-                    <p class="font-black text-slate-900 text-sm border-b pb-1 uppercase tracking-wider">REGULAMIN SKLEPU INTERNETOWEGO & POLITYKA ZWROTÓW</p>
-                    <p class="font-bold text-slate-800">§1. Postanowienia ogólne</p>
-                    <p>1. Sklep internetowy działający pod adresem STYLOWNIE.PL prowadzony jest przez firmę STYLOWNIE z salonem stacjonarnym w Nisku przy ul. Wolności 8. NIP: 6020149091, REGON: 528846076.</p>
-                    <p>2. Niniejszy regulamin określa zasady korzystania ze sklepu, składania zamówień oraz realizacji procedur reklamacyjnych i zwrotów.</p>
-                    <p class="font-bold text-slate-800 pt-2">§2. Zamówienia detaliczne (Kolekcja 1/1)</p>
-                    <p>1. Wszystkie produkty w sekcjach "Obuwie Premium" oraz "Odzież i ubrania" są unikalnymi artykułami vintage lub selekcjonowanymi (Perełki 1/1).</p>
-                    <p>2. Zgodnie z polskim prawem, konsumentowi kupującemu w asortymencie detalicznym przysługuje **prawo do odstąpienia od umowy bez podania przyczyny w terminie 14 dni** od dnia odebrania przesyłki.</p>
-                    <p>3. **Warunki zwrotu detalicznego:** Zwracany towar musi zostać odesłany w stanie nienaruszonym. Koszt odesłania towaru pokrywa kupujący.</p>
-                    <p class="font-bold text-slate-800 pt-2">§3. Zamówienia hurtowe B2B (Mystery Boxy dla Resellerów)</p>
-                    <p>1. Sprzedaż pakietów zbiorczych w sekcji "Oferta Hurtowa B2B" (Mystery Boxy) realizowana jest wyłącznie na rzecz podmiotów gospodarczych (resellerów, firm handlowych) w formule biznesowej B2B.</p>
-                    <p>2. **Całkowite wyłączenie prawa do zwrotu:** Ze względu na specyfikę transakcji hurtowych oraz nienaruszony charakter dostaw, **Mystery Boxy są w całości wyłączone z możliwości odstąpienia od umowy, zwrotów, wymian oraz rezygnacji po opłaceniu zamówienia**.</p>
-                </div>`,
-            polityka: `
-                <div class="space-y-4 text-slate-600 text-xs leading-relaxed">
-                    <p class="font-black text-slate-900 text-sm border-b pb-1 uppercase tracking-wider">POLITYKA PRYWATNOŚCI & OCHRONA DANYCH (RODO)</p>
-                    <p class="font-bold text-slate-800">1. Administrator Danych Osobowych</p>
-                    <p>Administratorem danych osobowych zbieranych za pośrednictwem sklepu internetowego STYLOWNIE.PL jest firma <strong>STYLOWNIE</strong> z siedzibą pod adresem: ul. Wolności 8, 37-400 Nisko, posiadająca NIP: 6020149091 oraz REGON: 528846076.</p>
-                    <p>W sprawach związanych z ochroną danych osobowych oraz realizacją swoich praw możesz skontaktować się z nami osobiście w salonie stacjonarnym lub bezpośrednio za pośrednictwem czatu dostępnego na stronie.</p>
-                    <p class="font-bold text-slate-800 pt-2">2. Cel, Podstawa Prawna i Okres Przetwarzania Danych</p>
-                    <p>Twoje dane osobowe są przetwarzane w celu realizacji zamówień i umowy sprzedaży (Art. 6 ust. 1 lit. b RODO), wypełnienia obowiązków prawnych i podatkowo-księgowych (Art. 6 ust. 1 lit. c RODO) oraz w prawnie uzasadnionym interesie Administratora (Art. 6 ust. 1 lit. f RODO).</p>
-                    <p class="font-bold text-slate-800 pt-2">3. Odbiorcy Danych Osobowych</p>
-                    <p>W celu prawidłowego funkcjonowania sklepu dane mogą być udostępniane operatorom logistycznym (InPost Sp. z o.o., DPD Polska Sp. z o.o.), systemom płatności online (Stripe) oraz Google Analytics w celach statystycznych.</p>
-                </div>`
+            regulamin: `<div class="space-y-4 text-slate-600 text-xs leading-relaxed"><p class="font-black text-slate-900 text-sm border-b pb-1 uppercase tracking-wider">REGULAMIN SKLEPU INTERNETOWEGO & POLITYKA ZWROTÓW</p><p>1. Sklep prowadzony jest przez firmę STYLOWNIE, ul. Wolności 8, Nisko. NIP: 6020149091...</p></div>`,
+            polityka: `<div class="space-y-4 text-slate-600 text-xs leading-relaxed"><p class="font-black text-slate-900 text-sm border-b pb-1 uppercase tracking-wider">POLITYKA PRYWATNOŚCI (RODO)</p><p>Administratorem danych jest firma STYLOWNIE, ul. Wolności 8, Nisko...</p></div>`
         };
 
         function otworzLegal(typ) { document.getElementById('legal-title').innerText = typ === 'regulamin' ? 'Regulamin Sklepu & Zwroty' : 'Polityka Prywatności'; document.getElementById('legal-content').innerHTML = TEKSTY_PRAWNE[typ]; document.getElementById('legal-modal').classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
@@ -1059,24 +958,8 @@
         pobierzAktualnosci(); 
         pobierzProdukty(); 
         checkAdminPresence(); 
-
-        async function obsluzStatusPlatonosci() { 
-            const urlParams = new URLSearchParams(window.location.search); const status = urlParams.get('status'); const productId = urlParams.get('productId'); 
-            if (status === 'success' && productId) { 
-                alert("🎉 Dziękujemy za zakup! Twoje zamówienie zostało pomyślnie opłacone."); 
-                try { 
-                    const checkResp = await fetch(`${SUPABASE_URL}/rest/v1/products?id=eq.${productId}`, { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } });
-                    const checkData = await checkResp.json();
-                    if (checkData && checkData.length > 0 && checkData[0].type === 'DETAL') {
-                        await fetch(`${SUPABASE_URL}/rest/v1/products?id=eq.${productId}`, { method: 'PATCH', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ sold_at: new Date().toISOString() }) }); 
-                    }
-                    pobierzProdukty(); 
-                } catch (e) {} 
-                window.history.replaceState({}, document.title, window.location.pathname); 
-            } else if (status === 'canceled') { alert("❌ Transakcja została anulowana przez użytkownika."); window.history.replaceState({}, document.title, window.location.pathname); } 
-        }
         obsluzStatusPlatonosci();
-
+        
         zglosObecnoscUzytkownika();
         setInterval(zglosObecnoscUzytkownika, 10000);
     </script>
