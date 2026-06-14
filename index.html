@@ -64,12 +64,12 @@
                 <p class="text-slate-400 text-xs font-medium animate-pulse">Ładowanie najnowszych komunikatów...</p>
             </div>
         </div>
-        <div class="bg-white border border-slate-100 rounded-2xl p-5 sm:p-6 shadow-xs flex items-start gap-4 border-l-2 border-l-pink-500 h-full">
-            <div class="bg-pink-50 text-pink-600 p-3 rounded-xl font-bold text-xl shrink-0">📍</div>
-            <div>
+        <div class="bg-white border border-slate-100 rounded-2xl p-5 sm:p-6 shadow-xs flex flex-col sm:flex-row items-center sm:items-start gap-5 border-l-2 border-l-pink-500 h-full">
+            <img src="https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produktow/image_2bfcbd.jpg" class="w-full sm:w-28 h-40 sm:h-32 object-cover rounded-xl border border-slate-100 shadow-sm shrink-0" alt="Butik Stacjonarny Nisko">
+            <div class="w-full">
                 <h4 class="text-xs font-black uppercase tracking-wider text-slate-400">Odwiedź nas na żywo</h4>
                 <p class="text-sm font-bold text-slate-900 mt-0.5">Butik Stacjonarny STYLOWNIE</p>
-                <p class="text-xs text-slate-800 font-bold mt-1 tracking-wide uppercase">ul. Wolności 8, 37-400 Nisko</p>
+                <p class="text-xs text-slate-800 font-bold mt-1 tracking-wide uppercase">Plac Wolności 8, 37-400 Nisko</p>
                 <p class="text-xs text-slate-500 mt-1 font-medium leading-relaxed">
                     Zapraszamy na zakupy stacjonarne, przymiarki oraz darmowy odbiór osobisty zamówień złożonych na stronie. Jesteśmy legalnie działającą, polską firmą.
                 </p>
@@ -198,9 +198,9 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <div class="bg-white border border-slate-100 rounded-2xl p-2.5 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
                 <div class="aspect-[3/4] w-full bg-slate-50 rounded-xl overflow-hidden mb-3">
-                    <img src="https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produktow/WhatsApp%20Image%202026-06-13%20at%2016.59.59.jpeg" class="w-full h-full object-cover group-hover:scale-[1.02] transition-all duration-500">
+                    <img src="https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produktow/image_2bfcbd.jpg" class="w-full h-full object-cover group-hover:scale-[1.02] transition-all duration-500">
                 </div>
-                <p class="text-[10px] font-bold uppercase text-slate-500 px-1 tracking-wide">PROSTO Z PORTU: DOSTAWA KONTENEROWA BEL</p>
+                <p class="text-[10px] font-bold uppercase text-slate-500 px-1 tracking-wide">NASZ SALON STACJONARNY W NISKU</p>
             </div>
             <div class="bg-white border border-slate-100 rounded-2xl p-2.5 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
                 <div class="aspect-[3/4] w-full bg-slate-50 rounded-xl overflow-hidden mb-3">
@@ -267,7 +267,7 @@
         </div>
         <div class="w-full h-80 sm:h-96 rounded-2xl overflow-hidden shadow-md border border-slate-100 relative">
             <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d634.2182547722244!2d22.145775969686603!3d50.517929450949055!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x473d2bacbceada77%3A0xefb48924c3231d96!2sStylownie%20-%20Modna%2C%20Tania%20Odzie%C5%BC%20U%C5%BCywana%20Nisko!5e0!3m2!1spl!2spl!4v1781372391269!5m2!1spl!2spl" 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2543.834604812349!2d22.131013777273397!3d50.51865231146743!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x473cee06c9a9bbdf%3A0xe54bb5ff851214fa!2sWolno%C5%9Bci%208%2C%2037-400%20Nisko!5e0!3m2!1spl!2spl!4v1718300000000!5m2!1spl!2spl" 
                 class="w-full h-full border-0" 
                 allowfullscreen="" 
                 loading="lazy" 
@@ -486,7 +486,6 @@
             localStorage.setItem('stylownie_chat_session', chatSessionId);
         }
 
-        // ❓ OBSŁUGA INTERAKCJI FAQ ACCORDION
         function toggleFaqRow(num) {
             const ans = document.getElementById(`faq-answer-${num}`);
             const arrow = document.getElementById(`faq-arrow-${num}`);
@@ -597,11 +596,9 @@
             } catch (err) {}
         }
 
-        // 🔄 GENEROWANIE DYNAMICZNYCH OPCJI DO DROPDOWN SELECT
         function generujOpcjeSelectFiltrow() {
             const detaliczne = zapamiętaneProdukty.filter(p => p.type === 'DETAL');
             
-            // Dla butów
             const butySelect = document.getElementById('select-filter-buty');
             if(butySelect) {
                 const rozmiaryButy = [...new Set(detaliczne.filter(p => p.category === 'buty').map(p => p.size))].filter(r => r).sort((a, b) => parseFloat(a) - parseFloat(b));
@@ -610,7 +607,6 @@
                 butySelect.value = aktywnyRozmiarButy;
             }
 
-            // Dla odzieży
             const odziezSelect = document.getElementById('select-filter-odziez');
             if(odziezSelect) {
                 const rozmiaryOdziez = [...new Set(detaliczne.filter(p => p.category === 'odziez').map(p => p.size))].filter(r => r).sort();
@@ -631,6 +627,12 @@
             else { limitButow = (widokObecny === 'BUTY' ? 12 : 4); document.getElementById('detal-buty-sekcja').scrollIntoView({ behavior: 'smooth' }); }
             renderujWszystko();
         }
+
+        document.getElementById('product-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'product-modal') {
+                zamknijModal();
+            }
+        });
 
         function toggleOdziezView() {
             if (limitOdziezy === 4 || limitOdziezy === 12) { limitOdziezy = 999; } 
@@ -685,11 +687,9 @@
             let wszystkieButy = detaliczne.filter(p => p.category === 'buty');
             let wszystkaOdziez = detaliczne.filter(p => p.category === 'odziez');
 
-            // Filtrowanie rozmiarów
             if (aktywnyRozmiarButy !== 'WSZYSTKIE') wszystkieButy = wszystkieButy.filter(p => p.size === aktywnyRozmiarButy);
             if (aktywnyRozmiarOdziez !== 'WSZYSTKIE') wszystkaOdziez = wszystkaOdziez.filter(p => p.size === aktywnyRozmiarOdziez);
 
-            // 📊 FUNKCJA SORTOWANIA CENY
             if (aktywneSortowanieButy === 'ASC') wszystkieButy.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
             else if (aktywneSortowanieButy === 'DESC') wszystkieButy.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
 
