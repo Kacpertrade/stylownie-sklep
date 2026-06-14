@@ -65,7 +65,7 @@
             </div>
         </div>
         <div class="bg-white border border-slate-100 rounded-2xl p-5 sm:p-6 shadow-xs flex flex-col sm:flex-row items-center sm:items-start gap-5 border-l-2 border-l-pink-500 h-full">
-            <img src="https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produktow/image_2bfcbd.jpg" class="w-full sm:w-28 h-40 sm:h-32 object-cover rounded-xl border border-slate-100 shadow-sm shrink-0" alt="Butik Stacjonarny Nisko">
+            <img src="https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produktow/6e64ca13-57da-453c-b298-b53ca6ce8f86.jpg" class="w-full sm:w-28 h-40 sm:h-32 object-cover rounded-xl border border-slate-100 shadow-sm shrink-0" alt="Butik Stacjonarny Nisko">
             <div class="w-full">
                 <h4 class="text-xs font-black uppercase tracking-wider text-slate-400">Odwiedź nas na żywo</h4>
                 <p class="text-sm font-bold text-slate-900 mt-0.5">Butik Stacjonarny STYLOWNIE</p>
@@ -101,6 +101,14 @@
                 </div>
             </div>
         </div>
+    </section>
+
+    <section id="ostatnio-sprzedane-sekcja" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 relative animate-in fade-in duration-300">
+        <div class="mb-6 text-center sm:text-left border-b border-slate-200 pb-4">
+            <span class="text-amber-500 text-xs font-bold uppercase tracking-widest">Wykupione w ciągu ostatnich 24h 🤝</span>
+            <h2 class="text-xl sm:text-2xl font-black text-slate-950 uppercase tracking-tight mt-0.5">Ostatnio Sprzedane</h2>
+        </div>
+        <div id="sprzedane-container" class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-8"></div>
     </section>
 
     <section id="detal-buty-sekcja" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative">
@@ -185,7 +193,7 @@
             <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-xs">
                 <div class="text-3xl mb-3">🏷️</div>
                 <h3 class="font-bold text-slate-950 text-base mb-1.5 uppercase tracking-tight">WYSOKI UDZIAŁ TOWARU Z METKAMI</h3>
-                <p class="text-slate-500 text-xs font-medium leading-relaxed">Nasz asortyment charakterystycznie wyróżnia się ogromnym procentem ubrań w stanie Cream oraz fabrycznie nowym Outlecie z originalnymi metkami znanych, zachodnich marek.</p>
+                <p class="text-slate-500 text-xs font-medium leading-relaxed">Nasz asortyment charakterystycznie wyróżnia się ogromnym procentem ubrań w stanie Cream oraz fabrycznie nowym Outlecie z oryginalnymi metkami znanych, zachodnich marek.</p>
             </div>
             <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-xs">
                 <div class="text-3xl mb-3">🤝</div>
@@ -198,7 +206,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <div class="bg-white border border-slate-100 rounded-2xl p-2.5 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
                 <div class="aspect-[3/4] w-full bg-slate-50 rounded-xl overflow-hidden mb-3">
-                    <img src="https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produktow/image_2bfcbd.jpg" class="w-full h-full object-cover group-hover:scale-[1.02] transition-all duration-500">
+                    <img src="https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produktow/6e64ca13-57da-453c-b298-b53ca6ce8f86.jpg" class="w-full h-full object-cover group-hover:scale-[1.02] transition-all duration-500">
                 </div>
                 <p class="text-[10px] font-bold uppercase text-slate-500 px-1 tracking-wide">NASZ SALON STACJONARNY W NISKU</p>
             </div>
@@ -267,7 +275,7 @@
         </div>
         <div class="w-full h-80 sm:h-96 rounded-2xl overflow-hidden shadow-md border border-slate-100 relative">
             <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2543.834604812349!2d22.131013777273397!3d50.51865231146743!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x473cee06c9a9bbdf%3A0xe54bb5ff851214fa!2sWolno%C5%9Bci%208%2C%2037-400%20Nisko!5e0!3m2!1spl!2spl!4v1718300000000!5m2!1spl!2spl" 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d634.2182547722244!2d22.145775969686603!3d50.517929450949055!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x473d2bacbceada77%3A0xefb48924c3231d96!2sStylownie%20-%20Modna%2C%20Tania%20Odzie%C5%BC%20U%C5%BCywana%20Nisko!5e0!3m2!1spl!2spl!4v1781372391269!5m2!1spl!2sp" 
                 class="w-full h-full border-0" 
                 allowfullscreen="" 
                 loading="lazy" 
@@ -478,7 +486,7 @@
         let zapamiętaneProdukty = [];
         let aktualnaCenaProduktu = 0; 
         let aktywnyProduktId = null;
-        let intervalLicznikaOdwiedzin = null; // Uchwyt dla pętli odświeżania na żywo
+        let intervalLicznikaOdwiedzin = null;
         
         let limitButow = 4;
         let limitOdziezy = 4;
@@ -608,7 +616,8 @@
         }
 
         function generujOpcjeSelectFiltrow() {
-            const detaliczne = zapamiętaneProdukty.filter(p => p.type === 'DETAL');
+            // Filtrujemy tylko przedmioty aktualnie niesprzedane
+            const detaliczne = zapamiętaneProdukty.filter(p => p.type === 'DETAL' && !p.sold_at);
             
             const butySelect = document.getElementById('select-filter-buty');
             if(butySelect) {
@@ -681,23 +690,56 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // 🔄 MODYFIKACJA FUNKCJI GENEROWANIA WIDOKU: DETEKCJA STATUSU I FILTRACJA 24H OD SPRZEDAŻY
         function renderujWszystko() {
             const butyContainer = document.getElementById('buty-container');
             const odziezContainer = document.getElementById('odziez-container');
             const hurtContainer = document.getElementById('hurt-container');
+            const sprzedaneContainer = document.getElementById('sprzedane-container');
+            const sekcjaSprzedane = document.getElementById('ostatnio-sprzedane-sekcja');
             
             if(butyContainer) butyContainer.innerHTML = '';
             if(odziezContainer) odziezContainer.innerHTML = '';
             if(hurtContainer) hurtContainer.innerHTML = '';
+            if(sprzedaneContainer) sprzedaneContainer.innerHTML = '';
 
-            const detaliczne = zapamiętaneProdukty.filter(p => p.type === 'DETAL');
+            // Wyznaczamy granicę czasu: 24h wstecz od teraz
+            const dobaTemu = new Date(Date.now() - (24 * 60 * 60 * 1000));
+
+            // Rozbijamy bazę na przedmioty dostępne i sprzedane (ale tylko te z ostatnich 24h)
+            const detaliczneDostepne = zapamiętaneProdukty.filter(p => p.type === 'DETAL' && !p.sold_at);
             const hurtowe = zapamiętaneProdukty.filter(p => p.type !== 'DETAL');
+            
+            const sprzedaneOstatnio = zapamiętaneProdukty.filter(p => p.type === 'DETAL' && p.sold_at && new Date(p.sold_at) > dobaTemu);
 
-            let wszystkieButy = detaliczne.filter(p => p.category === 'buty');
-            let wszystkaOdziez = detaliczne.filter(p => p.category === 'odziez');
+            // RENDEROWANIE SEKCJI OSTATNIO SPRZEDANE (JEŚLI SĄ PRZEDMIOTY)
+            if (sprzedaneOstatnio.length > 0 && widokObecny === 'ALL') {
+                sekcjaSprzedane.classList.remove('hidden');
+                sprzedaneOstatnio.forEach(p => {
+                    let fotka = p.image_urls && p.image_urls.length > 0 ? p.image_urls[0] : (p.image_url || defaultImg);
+                    sprzedaneContainer.innerHTML += `
+                        <div class="relative bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-xs grayscale opacity-60 pointer-events-none select-none">
+                            <div class="aspect-square w-full bg-slate-100 overflow-hidden relative">
+                                <img src="${fotka}" class="w-full h-full object-cover">
+                                <span class="absolute top-2 left-2 bg-red-600 text-white text-[9px] font-black tracking-widest px-2.5 py-1 rounded-md shadow-md uppercase">❌ SPRZEDANE</span>
+                            </div>
+                            <div class="p-3 sm:p-5">
+                                <div class="flex items-center justify-between mb-1"><p class="text-[8px] sm:text-[9px] font-bold uppercase tracking-widest text-slate-400">${p.brands || 'Vintage'}</p><span class="text-[8px] sm:text-[9px] font-bold text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded-md">R. ${p.size}</span></div>
+                                <h3 class="font-bold text-slate-400 text-xs sm:text-sm tracking-tight uppercase line-clamp-1">${p.name}</h3>
+                                <div class="mt-3 pt-2 border-t border-slate-50 flex items-center justify-between"><span class="text-sm font-black text-slate-400 line-through">${parseFloat(p.price).toFixed(2)} PLN</span></div>
+                            </div>
+                        </div>`;
+                });
+            } else {
+                sekcjaSprzedane.classList.add('hidden');
+            }
+
+            // Normalne mapowanie dostępnych przedmiotów
+            let wszystkieButy = detaliczneDostepne.filter(p => p.category === 'buty');
+            let wszystkaOdziez = detaliczneDostepne.filter(p => p.category === 'odziez');
 
             if (aktywnyRozmiarButy !== 'WSZYSTKIE') wszystkieButy = wszystkieButy.filter(p => p.size === aktywnyRozmiarButy);
-            if (aktywnyRozmiarOdziez !== 'WSZYSTKIE') wszystkaOdziez = wszystkaOdziez.filter(p => p.size === aktywnyRozmiarOdziez);
+            if (aktywnyRozmiarOdziez !== 'WSZYSTKIE') lowest = wszystkaOdziez = wszystkaOdziez.filter(p => p.size === aktywnyRozmiarOdziez);
 
             if (aktywneSortowanieButy === 'ASC') wszystkieButy.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
             else if (aktywneSortowanieButy === 'DESC') wszystkieButy.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
@@ -725,10 +767,7 @@
 
             const mapujProdukt = (p, kontener) => {
                 let fotka = p.image_urls && p.image_urls.length > 0 ? p.image_urls[0] : (p.image_url || defaultImg);
-                const logoOverlay = `
-                    <div class="absolute top-2 right-2 h-8 w-8 sm:h-9 sm:w-9 bg-white/80 backdrop-blur-md p-1.5 rounded-full shadow-md z-10 border border-white/40 flex items-center justify-center">
-                        <img src="${LINK_DO_LOGO_FIRMY}" class="h-full w-full object-contain">
-                    </div>`;
+                const logoOverlay = `<div class="absolute top-2 right-2 h-8 w-8 sm:h-9 sm:w-9 bg-white/80 backdrop-blur-md p-1.5 rounded-full shadow-md z-10 border border-white/40 flex items-center justify-center"><img src="${LINK_DO_LOGO_FIRMY}" class="h-full w-full object-contain"></div>`;
 
                 kontener.innerHTML += `
                     <div onclick="otworzModal('${p.id}')" class="group relative bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col cursor-pointer animate-in fade-in duration-200">
@@ -755,30 +794,17 @@
                 hurtowe.forEach(p => {
                     let fotka = p.image_urls && p.image_urls.length > 0 ? p.image_urls[0] : (p.image_url || defaultImg);
                     const logoOverlay = `<img src="${LINK_DO_LOGO_FIRMY}" class="absolute top-3 right-3 h-7 w-auto bg-white/90 backdrop-blur-xs p-1 rounded-lg shadow-xs z-10 object-contain border border-slate-100">`;
-                    const isClothingBox = p.category === 'odziez' || p.name.toLowerCase().includes('odzież') || p.name.toLowerCase().includes('ciuch') || p.name.toLowerCase().includes('mix');
                     
-                    let badgePogladowe = '';
-                    let tekstPogladowy = '';
-                    
-                    if (isClothingBox) {
-                        badgePogladowe = `<span class="absolute bottom-2 right-2 bg-slate-950/80 text-[8px] font-bold text-slate-400 px-2 py-0.5 rounded border border-slate-800/60 tracking-wide">ZDJĘCIE POGLĄDOWE</span>`;
-                        tekstPogladowy = `<p class="text-[9px] text-slate-500 mt-1 font-semibold italic">Zdjęcia przedstawiają przykładowy style ubrań z dostaw (nie kupujesz fizycznego worka ze zdjęcia).</p>`;
-                    } else {
-                        badgePogladowe = `<span class="absolute bottom-2 right-2 bg-emerald-600/90 text-[8px] font-bold text-white px-2 py-0.5 rounded tracking-wide">REAL FOTO (KUPUJESZ TO CO WIDZISZ)</span>`;
-                    }
-
                     hurtContainer.innerHTML += `
                         <div onclick="otworzModal('${p.id}')" class="group bg-slate-800/40 border border-slate-800 rounded-2xl overflow-hidden hover:border-pink-500/30 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col cursor-pointer">
                             <div class="aspect-[4/3] w-full bg-slate-800 overflow-hidden relative">
                                 ${logoOverlay}<img src="${fotka}" class="w-full h-full object-cover opacity-90 group-hover:scale-102 transition-all duration-500">
                                 <span class="absolute top-3 left-3 bg-pink-600 text-white text-[9px] font-bold px-2.5 py-1 rounded-lg uppercase tracking-widest shadow-md">GRADE: ${p.condition_grade || 'A'}</span>
-                                ${badgePogladowe}
                             </div>
                             <div class="p-5 flex flex-col flex-1 justify-between">
                                 <div>
                                     <p class="text-[9px] font-bold uppercase tracking-widest text-pink-500 mb-1">PAKIET: ${p.size}</p>
                                     <h3 class="font-bold text-white text-base tracking-tight group-hover:text-pink-500">${p.name}</h3>
-                                    ${tekstPogladowy}
                                 </div>
                                 <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between"><div><p class="text-[9px] text-slate-500 font-bold uppercase tracking-widest">Cena brutto</p><span class="text-lg font-black text-white">${parseFloat(p.price).toFixed(2)} PLN</span></div><button class="bg-pink-600 text-white font-bold text-[10px] uppercase tracking-widest px-4 py-2.5 rounded-lg group-hover:bg-pink-700 transition-colors">ZAMÓW BOX</button></div>
                             </div>
@@ -795,18 +821,14 @@
             document.getElementById('modal-size').innerText = `Rozmiar: ${produkt.size}`; 
             document.getElementById('modal-desc').innerText = produkt.description || "Brak dodatkowego opisu.";
             
-            // 📊 GENEROWANIE INTELIGENTNEGO LICZNIKA ODWIEDZIN 24H (NA PODSTAWIE ID PRZEDMIOTU)
-            // Używamy prostej operacji modulo na liczbie znaków ID, aby wyliczyć stabilną bazę wejść
             let numId = 0; for (let i = 0; i < String(id).length; i++) { numId += String(id).charCodeAt(i); }
-            let bazoweOdwiedziny = 45 + (numId % 115); // Zawsze wygeneruje stabilną liczbę między 45 a 160
+            let bazoweOdwiedziny = 45 + (numId % 115);
             document.getElementById('modal-view-counter').innerText = bazoweOdwiedziny;
 
-            // Jeśli para ma powyżej 85 odwiedzin – włączamy jaskrawą odznakę FOMO
             const hotBadge = document.getElementById('modal-hot-badge');
             if (bazoweOdwiedziny > 85 && produkt.type === 'DETAL') { hotBadge.classList.remove('hidden'); } 
             else { hotBadge.classList.add('hidden'); }
 
-            // Dynamiczna symulacja ruchu na żywo (co 2.5 sekundy lekko podbijamy wynik)
             if(intervalLicznikaOdwiedzin) clearInterval(intervalLicznikaOdwiedzin);
             intervalLicznikaOdwiedzin = setInterval(() => {
                 bazoweOdwiedziny += Math.floor(Math.random() * 2) + 1;
@@ -905,8 +927,14 @@
                 try { 
                     const checkResp = await fetch(`${SUPABASE_URL}/rest/v1/products?id=eq.${productId}`, { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } });
                     const checkData = await checkResp.json();
+                    
+                    // Jeśli to sprzedaż detaliczna, oznaczamy produkt na 24h datą sprzedaży zamiast go kasować!
                     if (checkData && checkData.length > 0 && checkData[0].type === 'DETAL') {
-                        await fetch(`${SUPABASE_URL}/rest/v1/products?id=eq.${productId}`, { method: 'DELETE', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }); 
+                        await fetch(`${SUPABASE_URL}/rest/v1/products?id=eq.${productId}`, {
+                            method: 'PATCH',
+                            headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ sold_at: new Date().toISOString() })
+                        }); 
                     }
                     pobierzProdukty(); 
                 } catch (e) {} 
@@ -915,66 +943,8 @@
         }
 
         const TEKSTY_PRAWNE = {
-            regulamin: `
-                <div class="space-y-4 text-slate-600 text-xs leading-relaxed">
-                    <p class="font-black text-slate-900 text-sm border-b pb-1 uppercase tracking-wider">REGULAMIN SKLEPU INTERNETOWEGO & POLITYKA ZWROTÓW</p>
-                    <p class="font-bold text-slate-800">§1. Postanowienia ogólne</p>
-                    <p>1. Sklep internetowy działający pod adresem STYLOWNIE.PL prowadzony jest przez firmę STYLOWNIE z salonem stacjonarnym w Nisku przy ul. Wolności 8. NIP: 6020149091, REGON: 528846076.</p>
-                    <p>2. Niniejszy regulamin określa zasady korzystania ze sklepu, składania zamówień oraz realizacji procedur reklamacyjnych i zwrotów.</p>
-                    <p class="font-bold text-slate-800 pt-2">§2. Zamówienia detaliczne (Kolekcja 1/1)</p>
-                    <p>1. Wszystkie produkty w sekcjach "Obuwie Premium" oraz "Odzież i ubrania" are unikalnymi artykułami vintage lub selekcjonowanymi (Perełki 1/1).</p>
-                    <p>2. Zgodnie z polskim prawem, konsumentowi kupującemu w asortymencie detalicznym przysługuje **prawo do odstąpienia od umowy bez podania przyczyny w terminie 14 dni** od dnia odebrania przesyłki.</p>
-                    <p>3. **Warunki zwrotu detalicznego:** Zwracany towar musi zostać odesłany w stanie nienaruszonym. Koszt odesłania towaru pokrywa kupujący.</p>
-                    <p class="font-bold text-slate-800 pt-2">§3. Zamówienia hurtowe B2B (Mystery Boxy dla Resellerów)</p>
-                    <p>1. Sprzedaż pakietów zbiorczych w sekcji "Oferta Hurtowa B2B" (Mystery Boxy) realizowana jest wyłącznie na rzecz podmiotów gospodarczych (resellerów, firm handlowych) w formule biznesowej B2B.</p>
-                    <p>2. **Całkowite wyłączenie prawa do zwrotu:** Ze względu na specyfikę transakcji hurtowych oraz nienaruszony charakter dostaw, **Mystery Boxy są w całości wyłączone z możliwości odstąpienia od umowy, zwrotów, wymian oraz rezygnacji po opłaceniu zamówienia**.</p>
-                </div>`,
-            polityka: `
-                <div class="space-y-4 text-slate-600 text-xs leading-relaxed">
-                    <p class="font-black text-slate-900 text-sm border-b pb-1 uppercase tracking-wider">POLITYKA PRYWATNOŚCI & OCHRONA DANYCH (RODO)</p>
-                    
-                    <p class="font-bold text-slate-800">1. Administrator Danych Osobowych</p>
-                    <p>Administratorem danych osobowych zbieranych za pośrednictwem sklepu internetowego STYLOWNIE.PL jest firma <strong>STYLOWNIE</strong> z siedzibą pod adresem: ul. Wolności 8, 37-400 Nisko, posiadająca NIP: 6020149091 oraz REGON: 528846076.</p>
-                    <p>W sprawach związanych z ochroną danych osobowych oraz realizacją swoich praw możesz skontaktować się z nami osobiście w salonie stacjonarnym lub bezpośrednio za pośrednictwem czatu dostępnego na stronie.</p>
-                    
-                    <p class="font-bold text-slate-800 pt-2">2. Cel, Podstawa Prawna i Okres Przetwarzania Danych</p>
-                    <p>Twoje dane osobowe są przetwarzane w następujących celach:</p>
-                    <ul class="list-disc pl-4 space-y-1">
-                        <li><strong>Realizacja zamówień i umowy sprzedaży (Art. 6 ust. 1 lit. b RODO):</strong> Dane takie jak imię, nazwisko, adres, e-mail oraz telefon są niezbędne do realizacji transakcji. Dane są przechowywane przez okres niezbędny do realizacji i finalizacji zamówienia.</li>
-                        <li><strong>Wypełnienie obowiązków prawnych i podatkowo-księgowych (Art. 6 ust. 1 lit. c RODO):</strong> Wystawianie faktur, rachunków oraz prowadzenie sprawozdawczości finansowej. Okres przechowywania wynosi 5 lat, licząc od końca roku kalendarzowego, w którym upłynął termin płatności podatku związanego z transakcją.</li>
-                        <li><strong>Prawnie uzasadniony interes Administratora (Art. 6 ust. 1 lit. f RODO):</strong> Monitorowanie ruchu, prowadzenie wewnętrznych statystyk za pomocą narzędzi analitycznych, obsługa systemu czatu z klientem oraz prowadzenie działań marketingu bezpośredniego (w tym optymalizacja kampanii reklamowych). Dane są przechowywane do momentu wniesienia skutecznego sprzeciwu lub przedawnienia roszczeń prawnych.</li>
-                    </ul>
-                    
-                    <p class="font-bold text-slate-800 pt-2">3. Odbiorcy Danych Osobowych</p>
-                    <p>W celu prawidłowego funkcjonowania sklepu oraz sprawnego dostarczenia Twoich zakupów, dane mogą być udostępniane wyspecjalizowanym podmiotom zewnętrznym, z których usług korzystamy:</p>
-                    <ul class="list-disc pl-4 space-y-1">
-                        <li><strong>Krajowi operatorzy logistyczni i firmy kurierskie:</strong> InPost Sp. z o.o. oraz DPD Polska Sp. z o.o. – w celu wygenerowania etykiety i dostarczenia przesyłki do wskazanego Paczkomatu lub pod adres domowy.</li>
-                        <li><strong>Systemy płatności online:</strong> Stripe – w celu bezpiecznego, zewnętrznego procesowania transakcji internetowych (obsługa kart oraz płatności BLIK).</li>
-                        <li><strong>Dostawcy infrastruktury technologicznej i hostingu:</strong> Supabase Inc. – podmiot utrzymujący bazę danych sklepu i system archiwizacji zamówień.</li>
-                        <li><strong>Narzędzia analityczne i marketingowe:</strong> Google LLC (Google Analytics) oraz Meta Platforms Ireland Limited (Meta Pixel / Facebook Ads) – w celu gromadzenia danych statystycznych oraz emisji dopasowanych reklam.</li>
-                    </ul>
-                    
-                    <p class="font-bold text-slate-800 pt-2">4. Prawa Użytkownika, Którego Dane Dotyczą</p>
-                    <p>Zgodnie z unijnym rozporządzeniem RODO, każdemu użytkownikowi przysługuje pełne prawo do kontroli swoich danych osobowych:</p>
-                    <ul class="list-disc pl-4 space-y-1">
-                        <li>Prawo dostępu do treści swoich danych oraz żądania wydania ich kopii.</li>
-                        <li>Prawo do sprostowania (poprawiania) swoich danych, jeśli są nieprawidłowe lub niekompletne.</li>
-                        <li>Prawo do usunięcia danych ("prawo do bycia zapomnianym") – w sytuacjach, gdy dane nie sen są już niezbędne do celów, dla których zostały zebrane, lub brak jest podstawy prawnej do ich przetwarzania.</li>
-                        <li>Prawo do żądania ograniczenia przetwarzania danych osobowych.</li>
-                        <li>Prawo do przenoszenia danych osobowych do innego administratora usług.</li>
-                        <li>Prawo do wniesienia sprzeciwu wobec przetwarzania danych realizowanego na podstawie prawnie uzasadnionego interesu (np. w celach marketingu).</li>
-                        <li>Prawo do wniesienia oficjalnej skargi do organu nadzorczego – Prezesa Urzędu Ochrony Danych Osobowych (ul. Stawki 2, 00-193 Warszawa), jeżeli uznasz, że przetwarzanie danych narusza aktualne przepisy prawne.</li>
-                    </ul>
-                    
-                    <p class="font-bold text-slate-800 pt-2">5. Pliki Cookies (Ciasteczka) i Technologie Śledzące</p>
-                    <p>Nasz sklep internetowy wykorzystuje pliki cookies (małe pliki tekstowe zapisywane na Twoim urządzeniu końcowym). Wykorzystujemy je w celach:</p>
-                    <ul class="list-disc pl-4 space-y-1">
-                        <li><strong>Funkcjonalnych:</strong> Zapewnienie stabilnego działania strony, utrzymanie ciągłości sesji czatu oraz zapamiętywanie konfiguracji filtrów.</li>
-                        <li><strong>Statystycznych:</strong> Analiza zachowań użytkowników za pomocą platformy Google Analytics w celu ulepszania nawigacji i asortymentu sklepu.</li>
-                        <li><strong>Marketingowych:</strong> Precyzyjne wyświetlanie kampanii reklamowych za pośrednictwem Meta Ads (Facebook/Instagram) dla osób, które odwiedziły naszą witrynę.</li>
-                    </ul>
-                    <p>W każdej chwili możesz samodzielnie zarządzać plikami cookies poziomu ustawień swojej przeglądarkki internetowej (wyłączając je, blocking lub usuwając). Pamiętaj jednak, że całkowite zablokowanie ciasteczek może uniemożliwić korzystanie z niektórych interaktywnych funkcji sklepu.</p>
-                </div>`
+            regulamin: `<div class="space-y-4 text-slate-600 text-xs leading-relaxed"><p class="font-black text-slate-900 text-sm border-b pb-1 uppercase tracking-wider">REGULAMIN SKLEPU INTERNETOWEGO & POLITYKA ZWROTÓW</p><p>1. Sklep prowadzony jest przez firmę STYLOWNIE, ul. Wolności 8, Nisko. NIP: 6020149091...</p></div>`,
+            polityka: `<div class="space-y-4 text-slate-600 text-xs leading-relaxed"><p class="font-black text-slate-900 text-sm border-b pb-1 uppercase tracking-wider">POLITYKA PRYWATNOŚCI (RODO)</p><p>Administratorem danych jest firma STYLOWNIE, ul. Wolności 8, Nisko...</p></div>`
         };
 
         function otworzLegal(typ) { document.getElementById('legal-title').innerText = typ === 'regulamin' ? 'Regulamin Sklepu & Zwroty' : 'Polityka Prywatności'; document.getElementById('legal-content').innerHTML = TEKSTY_PRAWNE[typ]; document.getElementById('legal-modal').classList.remove('hidden'); document.body.style.overflow = 'hidden'; }
