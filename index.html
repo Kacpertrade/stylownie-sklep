@@ -65,7 +65,7 @@
             </div>
         </div>
         <div class="bg-white border border-slate-100 rounded-2xl p-5 sm:p-6 shadow-xs flex flex-col sm:flex-row items-center sm:items-start gap-5 border-l-2 border-l-pink-500 h-full">
-            <img src="https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produktow/6e64ca13-57da-453c-b298-b53ca6ce8f86.jpg" class="w-full sm:w-28 h-40 sm:h-32 object-cover rounded-xl border border-slate-100 shadow-sm shrink-0" alt="Butik Stacjonarny Nisko">
+            <img src="https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produktow/image_2bfcbd.jpg" class="w-full sm:w-28 h-40 sm:h-32 object-cover rounded-xl border border-slate-100 shadow-sm shrink-0" alt="Butik Stacjonarny Nisko">
             <div class="w-full">
                 <h4 class="text-xs font-black uppercase tracking-wider text-slate-400">Odwiedź nas na żywo</h4>
                 <p class="text-sm font-bold text-slate-900 mt-0.5">Butik Stacjonarny STYLOWNIE</p>
@@ -198,7 +198,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <div class="bg-white border border-slate-100 rounded-2xl p-2.5 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
                 <div class="aspect-[3/4] w-full bg-slate-50 rounded-xl overflow-hidden mb-3">
-                    <img src=https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produktow/6e64ca13-57da-453c-b298-b53ca6ce8f86.jpg" class="w-full h-full object-cover group-hover:scale-[1.02] transition-all duration-500">
+                    <img src="https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produktow/image_2bfcbd.jpg" class="w-full h-full object-cover group-hover:scale-[1.02] transition-all duration-500">
                 </div>
                 <p class="text-[10px] font-bold uppercase text-slate-500 px-1 tracking-wide">NASZ SALON STACJONARNY W NISKU</p>
             </div>
@@ -275,7 +275,7 @@
         </div>
         <div class="w-full h-80 sm:h-96 rounded-2xl overflow-hidden shadow-md border border-slate-100 relative">
             <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d634.2182547722244!2d22.145775969686603!3d50.517929450949055!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x473d2bacbceada77%3A0xefb48924c3231d96!2sStylownie%20-%20Modna%2C%20Tania%20Odzie%C5%BC%20U%C5%BCywana%20Nisko!5e0!3m2!1spl!2spl!4v1781372391269!5m2!1spl!2spl" 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2543.834604812349!2d22.131013777273397!3d50.51865231146743!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x473cee06c9a9bbdf%3A0xe54bb5ff851214fa!2sWolno%C5%9Bci%208%2C%2037-400%20Nisko!5e0!3m2!1spl!2spl!4v1718300000000!5m2!1spl!2spl" 
                 class="w-full h-full border-0" 
                 allowfullscreen="" 
                 loading="lazy" 
@@ -394,7 +394,7 @@
                                     <span class="flex items-center gap-2"><input type="radio" name="dostawa" value="INPOST_BOX" onchange="aktualizujCeneWysylki()"> 📦 Paczkomat InPost</span>
                                     <span class="text-pink-600">+12.00 zł</span>
                                 </label>
-                                <label class="flex items-center justify-between bg-white p-2.5 rounded-lg border border-slate-200/60 cursor-pointer hover:border-pink-500 transition-all">
+                                <label class="flex items-center justify-between bg-white p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:border-pink-500 transition-all">
                                     <span class="flex items-center gap-2"><input type="radio" name="dostawa" value="DPD_BOX" onchange="aktualizujCeneWysylki()"> 🏪 Automat / Punkt DPD Pickup</span>
                                     <span class="text-pink-600">+11.00 zł</span>
                                 </label>
@@ -685,7 +685,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // 🔄 BEZPIECZNE RENDEROWANIE DOSTĘPNYCH PRZEDMIOTÓW ORAZ MINI-KAFELKÓW SPRZEDANYCH NA DOLE
         function renderujWszystko() {
             const butyContainer = document.getElementById('buty-container');
             const odziezContainer = document.getElementById('odziez-container');
@@ -702,9 +701,10 @@
 
             const detaliczneDostepne = zapamiętaneProdukty.filter(p => p.type === 'DETAL' && !p.sold_at);
             const hurtowe = zapamiętaneProdukty.filter(p => p.type !== 'DETAL');
+            
+            // Do sekcji sprzedanych trafiają TYLKO rzeczy detaliczne (para 1/1), które zniknęły
             const sprzedaneOstatnio = zapamiętaneProdukty.filter(p => p.type === 'DETAL' && p.sold_at && new Date(p.sold_at) > dobaTemu);
 
-            // RENDEROWANIE DYSKRETNYCH, MINIATUROWYCH KAFELKÓW NA DOLE STRONY
             if (sprzedaneOstatnio.length > 0 && widokObecny === 'ALL') {
                 sekcjaSprzedane.classList.remove('hidden');
                 sprzedaneOstatnio.forEach(p => {
@@ -753,9 +753,6 @@
                 document.getElementById('more-odziez-btn').innerText = limitOdziezy === 999 ? "Zwiń produkty (Pokaż mniej)" : "Pokaż więcej odzieży";
             }
 
-            if(butyContainer && wyswietlaneButy.length === 0) butyContainer.innerHTML = `<p class="text-slate-400 col-span-full text-center py-4 text-xs font-semibold">Brak butów w tym rozmiarze.</p>`;
-            if(odziezContainer && wyswietlaneOdziez.length === 0) odziezContainer.innerHTML = `<p class="text-slate-400 col-span-full text-center py-4 text-xs font-semibold">Brak odzieży w tym rozmiarze.</p>`;
-
             const mapujProdukt = (p, kontener) => {
                 let fotka = p.image_urls && p.image_urls.length > 0 ? p.image_urls[0] : (p.image_url || defaultImg);
                 const logoOverlay = `<div class="absolute top-2 right-2 h-8 w-8 sm:h-9 sm:w-9 bg-white/80 backdrop-blur-md p-1.5 rounded-full shadow-md z-10 border border-white/40 flex items-center justify-center"><img src="${LINK_DO_LOGO_FIRMY}" class="h-full w-full object-contain"></div>`;
@@ -785,11 +782,19 @@
                 hurtowe.forEach(p => {
                     let fotka = p.image_urls && p.image_urls.length > 0 ? p.image_urls[0] : (p.image_url || defaultImg);
                     const logoOverlay = `<img src="${LINK_DO_LOGO_FIRMY}" class="absolute top-3 right-3 h-7 w-auto bg-white/90 backdrop-blur-xs p-1 rounded-lg shadow-xs z-10 object-contain border border-slate-100">`;
+                    
+                    // DYNAMICZNY LICZNIK SPRZEDAŻY DLA HURTU (ODZNAKA FOMO NA ŻYWO)
+                    let hurtSoldBadge = '';
+                    if (p.sold_count && parseInt(p.sold_count) > 0) {
+                        hurtSoldBadge = `<span class="absolute bottom-3 left-3 bg-purple-600 text-white text-[9px] font-black tracking-wider px-2.5 py-1 rounded-lg uppercase shadow-md border border-purple-500/20 animate-pulse">📈 Sprzedano ${p.sold_count} szt. w tym tygodniu!</span>`;
+                    }
+
                     hurtContainer.innerHTML += `
                         <div onclick="otworzModal('${p.id}')" class="group bg-slate-800/40 border border-slate-800 rounded-2xl overflow-hidden hover:border-pink-500/30 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col cursor-pointer">
                             <div class="aspect-[4/3] w-full bg-slate-800 overflow-hidden relative">
                                 ${logoOverlay}<img src="${fotka}" class="w-full h-full object-cover opacity-90 group-hover:scale-102 transition-all duration-500">
                                 <span class="absolute top-3 left-3 bg-pink-600 text-white text-[9px] font-bold px-2.5 py-1 rounded-lg uppercase tracking-widest shadow-md">GRADE: ${p.condition_grade || 'A'}</span>
+                                ${hurtSoldBadge}
                             </div>
                             <div class="p-5 flex flex-col flex-1 justify-between">
                                 <div>
