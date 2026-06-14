@@ -17,18 +17,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
         html { scroll-behavior: smooth; }
-        @keyframes marquee {
-            0% { transform: translateX(0%); }
-            100% { transform: translateX(-50%); }
-        }
-        .animate-marquee {
-            display: flex;
-            width: max-content;
-            animation: marquee 25s linear infinite;
-        }
-        .animate-marquee:hover {
-            animation-play-state: paused;
-        }
     </style>
 </head>
 <body class="bg-slate-50 font-sans text-slate-800 antialiased selection:bg-pink-500 selection:text-white">
@@ -48,15 +36,6 @@
             </nav>
         </div>
     </header>
-
-    <div id="ostatnio-sprzedane-sekcja" class="hidden w-full bg-amber-500 text-slate-950 py-2 overflow-hidden border-b border-amber-600 font-black text-[10px] uppercase tracking-widest shadow-xs select-none">
-        <div class="max-w-7xl mx-auto px-4 relative flex items-center">
-            <span class="bg-slate-950 text-amber-400 px-2 py-0.5 rounded text-[9px] font-black shrink-0 mr-4 z-10 shadow-xs flex items-center gap-1">🤝 OSTATNIO SPRZEDANE:</span>
-            <div class="overflow-hidden w-full">
-                <div id="sprzedane-container" class="animate-marquee flex items-center gap-8"></div>
-            </div>
-        </div>
-    </div>
 
     <section id="hero-section" class="relative bg-gradient-to-b from-slate-100 via-white to-slate-50 pt-4 pb-12 sm:pt-6 sm:pb-16 lg:pt-8 lg:pb-24 overflow-hidden border-b border-slate-100">
         <div class="absolute inset-0 bg-[linear-gradient(to_right,#00000003_1px,transparent_1px),linear-gradient(to_bottom,#00000003_1px,transparent_1px)] bg-[size:24px_24px]"></div>
@@ -280,6 +259,14 @@
         </div>
     </section>
 
+    <section id="ostatnio-sprzedane-sekcja" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-slate-200 relative animate-in fade-in duration-300">
+        <div class="mb-6 text-center sm:text-left border-b border-slate-200 pb-3">
+            <span class="text-amber-500 text-xs font-bold uppercase tracking-widest">Wykupione przez klientów w ciągu 24h 🤝</span>
+            <h2 class="text-lg sm:text-xl font-black text-slate-900 uppercase tracking-tight mt-0.5">Ostatnio Sprzedane Dropiarki</h2>
+        </div>
+        <div id="sprzedane-container" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3"></div>
+    </section>
+
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-slate-100 bg-white rounded-3xl mb-8 shadow-xs">
         <div class="text-center mb-10">
             <span class="text-pink-600 text-xs font-bold uppercase tracking-widest block mb-2">Odwiedź nas w Nisku</span>
@@ -407,7 +394,7 @@
                                     <span class="flex items-center gap-2"><input type="radio" name="dostawa" value="INPOST_BOX" onchange="aktualizujCeneWysylki()"> 📦 Paczkomat InPost</span>
                                     <span class="text-pink-600">+12.00 zł</span>
                                 </label>
-                                <label class="flex items-center justify-between bg-white p-2.5 rounded-lg border border-slate-200 cursor-pointer hover:border-pink-500 transition-all">
+                                <label class="flex items-center justify-between bg-white p-2.5 rounded-lg border border-slate-200/60 cursor-pointer hover:border-pink-500 transition-all">
                                     <span class="flex items-center gap-2"><input type="radio" name="dostawa" value="DPD_BOX" onchange="aktualizujCeneWysylki()"> 🏪 Automat / Punkt DPD Pickup</span>
                                     <span class="text-pink-600">+11.00 zł</span>
                                 </label>
@@ -698,7 +685,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // POPRAWIONA I ZABEZPIECZONA FUNKCJA GENEROWANIA MARQUEE TICKERA
+        // 🔄 BEZPIECZNE RENDEROWANIE DOSTĘPNYCH PRZEDMIOTÓW ORAZ MINI-KAFELKÓW SPRZEDANYCH NA DOLE
         function renderujWszystko() {
             const butyContainer = document.getElementById('buty-container');
             const odziezContainer = document.getElementById('odziez-container');
@@ -717,13 +704,24 @@
             const hurtowe = zapamiętaneProdukty.filter(p => p.type !== 'DETAL');
             const sprzedaneOstatnio = zapamiętaneProdukty.filter(p => p.type === 'DETAL' && p.sold_at && new Date(p.sold_at) > dobaTemu);
 
+            // RENDEROWANIE DYSKRETNYCH, MINIATUROWYCH KAFELKÓW NA DOLE STRONY
             if (sprzedaneOstatnio.length > 0 && widokObecny === 'ALL') {
                 sekcjaSprzedane.classList.remove('hidden');
-                let tickerTekst = '';
                 sprzedaneOstatnio.forEach(p => {
-                    tickerTekst += `<span class="mx-6 text-slate-900 inline-flex items-center gap-1.5"><span class="bg-slate-950 text-white text-[8px] font-black px-1.5 py-0.5 rounded-xs font-sans tracking-widest">SOLD</span> ${p.name} (R. ${p.size}) — <span class="font-bold text-slate-800">${parseFloat(p.price).toFixed(2)} PLN</span></span> •`;
+                    let fotka = p.image_urls && p.image_urls.length > 0 ? p.image_urls[0] : (p.image_url || defaultImg);
+                    sprzedaneContainer.innerHTML += `
+                        <div class="relative bg-white border border-slate-100 rounded-xl overflow-hidden shadow-xs grayscale opacity-50 pointer-events-none select-none max-w-[160px] mx-auto w-full">
+                            <div class="aspect-square w-full bg-slate-50 overflow-hidden relative">
+                                <img src="${fotka}" class="w-full h-full object-cover">
+                                <span class="absolute top-1 left-1 bg-red-600 text-white text-[7px] font-black tracking-wider px-1 py-0.5 rounded shadow-sm">SPRZEDANE</span>
+                            </div>
+                            <div class="p-2">
+                                <p class="text-[7px] font-bold uppercase tracking-widest text-slate-400 truncate">${p.brands || 'Vintage'}</p>
+                                <h3 class="font-bold text-slate-500 text-[10px] tracking-tight truncate uppercase mt-0.5">${p.name}</h3>
+                                <p class="text-[10px] font-black text-slate-400 mt-1">${parseFloat(p.price).toFixed(2)} zł</p>
+                            </div>
+                        </div>`;
                 });
-                sprzedaneContainer.innerHTML = `<div class="flex whitespace-nowrap py-1">${tickerTekst} ${tickerTekst}</div>`;
             } else {
                 sekcjaSprzedane.classList.add('hidden');
             }
@@ -912,7 +910,7 @@
             } 
         }
         
-        async function obsluzStatusPlatnosci() { 
+        async function obsluzStatusPlatonosci() { 
             const urlParams = new URLSearchParams(window.location.search); const status = urlParams.get('status'); const productId = urlParams.get('productId'); 
             if (status === 'success' && productId) { 
                 alert("🎉 Dziękujemy za zakup! Twoje zamówienie zostało pomyślnie opłacone. Oficjalna faktura PDF z potwierdzeniem została wysłana na Twój adres e-mail."); 
@@ -944,7 +942,7 @@
         pobierzAktualnosci(); 
         pobierzProdukty(); 
         checkAdminPresence(); 
-        obsluzStatusPlatnosci();
+        obsluzStatusPlatonosci();
         
         zglosObecnoscUzytkownika();
         setInterval(zglosObecnoscUzytkownika, 10000);
