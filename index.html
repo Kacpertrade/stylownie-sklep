@@ -161,7 +161,7 @@
             <p class="text-slate-400 col-span-full text-center py-6 font-medium text-xs animate-pulse">ŁADOWANIE ODZIEŻY...</p>
         </div>
         <div id="more-odziez-wrapper" class="hidden text-center mt-10">
-            <button id="more-odziez-btn" onclick="toggleOdziezView()" class="bg-white text-slate-900 border border-pink-500 hover:text-pink-600 font-bold text-xs uppercase tracking-widest px-8 py-4 rounded-xl transition-all shadow-xs cursor-pointer">Pokaż więcej odzieży</button>
+            <button id="more-odziez-btn" onclick="toggleOdziezView()" class="bg-white text-slate-900 border border-gray-200 hover:border-pink-500 hover:text-pink-600 font-bold text-xs uppercase tracking-widest px-8 py-4 rounded-xl transition-all shadow-xs cursor-pointer">Pokaż więcej odzieży</button>
         </div>
     </section>
 
@@ -198,7 +198,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <div class="bg-white border border-slate-100 rounded-2xl p-2.5 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
                 <div class="aspect-[3/4] w-full bg-slate-50 rounded-xl overflow-hidden mb-3">
-                    <img src="https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produktow/6e64ca13-57da-453c-b298-b53ca6ce8f86.jpg" class="w-full h-full object-cover group-hover:scale-[1.02] transition-all duration-500 rounded-xl">
+                    <img src="https://bcizrlemxdecnzkzcxfi.supabase.co/storage/v1/object/public/zdjecia-produktow/6e64ca13-57da-453c-b298-b53ca6ce8f86.jpg" class="w-full h-full object-cover group-hover:scale-[1.02] transition-all duration-500">
                 </div>
                 <p class="text-[10px] font-bold uppercase text-slate-500 px-1 tracking-wide">NASZ SALON STACJONARNY W NISKU</p>
             </div>
@@ -301,7 +301,7 @@
                     <span id="faq-arrow-1" class="text-slate-400 transition-transform inline-block transform duration-200">▼</span>
                 </button>
                 <div id="faq-answer-1" class="hidden p-4 pt-0 text-xs text-slate-600 font-medium border-t border-slate-200/50 leading-relaxed bg-slate-50/50 animate-in fade-in duration-200">
-                    Każda para butów i sztuka odzieży przechodzi rygorystyczną selekcję i weryfikację oryginalności. Dokładny stan opisujemy w podglążdzie produktu (np. Klasa: Jak Nowe!, Bardzo Dobry). Towar jest profesjonalnie czyszczony, dezynfekowany i odświeżany przed wystawieniem na zapleczu w Nisku, dzięki czemu jest od razu pachnący i gotowy do założenia.
+                    Każda para butów i sztuka odzieży przechodzi rygorystyczną selekcję i weryfikację oryginalności. Dokładny stan opisujemy w podglądzie produktu (np. Klasa: Jak Nowe!, Bardzo Dobry). Towar jest profesjonalnie czyszczony, dezynfekowany i odświeżany przed wystawieniem na zapleczu w Nisku, dzięki czemu jest od razu pachnący i gotowy do założenia.
                 </div>
             </div>
             <div class="bg-white border border-slate-100 rounded-xl overflow-hidden shadow-xs">
@@ -685,7 +685,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // 🔄 KOMPLETNA REGENERACJA SEKCJI SPRZEDANYCH (OBSŁUGA DETALU I HURTU)
         function renderujWszystko() {
             const butyContainer = document.getElementById('buty-container');
             const odziezContainer = document.getElementById('odziez-container');
@@ -704,10 +703,9 @@
             const detaliczneDostepne = zapamiętaneProdukty.filter(p => p.type === 'DETAL' && !p.sold_at);
             const hurtowe = zapamiętaneProdukty.filter(p => p.type !== 'DETAL');
             
-            // 📊 FILTR SPRZEDANYCH: Łączymy sprzedany DETAL z ostatnich 24h oraz HURT z licznikiem powyżej 0!
+            // 📊 FILTR SPRZEDANYCH TOWARÓW (DETAL + HURT)
             const sprzedanyDetalOstatnio = zapamiętaneProdukty.filter(p => p.type === 'DETAL' && p.sold_at && new Date(p.sold_at) > dobaTemu);
             const sprzedanyHurtOstatnio = zapamiętaneProdukty.filter(p => p.type === 'HURT' && p.sold_count && parseInt(p.sold_count) > 0);
-            
             const wszystkieSprzedane = [...sprzedanyDetalOstatnio, ...sprzedanyHurtOstatnio];
 
             if (wszystkieSprzedane.length > 0 && widokObecny === 'ALL') {
@@ -856,8 +854,8 @@
             } else if (status === 'canceled') { alert("❌ Transakcja została anulowana przez użytkownika."); window.history.replaceState({}, document.title, window.location.pathname); }
         }
 
-        // DOKŁADNIE UZUPEŁNIONE I DZIAŁAJĄCE STRONY PRAWNE (ZABEZPIECZONE PRZED NADPISANIEM)
-        const SYSTEMOWE_TEKSTY_PRAWNE = {
+        // DOKŁADNIE UZUPEŁNIONE STRONY PRAWNE (ZMIENIONA NAZWA OBIEKTU DLA UNIKNIĘCIA BLOKADY)
+        const STRONY_PRAWNE_TEKSTY = {
             regulamin: `<div class="space-y-4 text-slate-600 text-xs leading-relaxed">
                 <p class="font-black text-slate-900 text-sm border-b pb-1 uppercase tracking-wider">REGULAMIN SKLEPU INTERNETOWEGO & POLITYKA ZWROTÓW</p>
                 <p class="font-bold text-slate-800">§1. Postanowienia ogólne</p>
@@ -868,7 +866,7 @@
                 <p>2. Zgodnie z obowiązującym prawem, konsumentowi kupującemu w asortymencie detalicznym przysługuje prawo do odstąpienia od umowy bez podania przyczyny w terminie 14 dni od dnia odebrania przesyłki.</p>
                 <p>3. Warunkiem odstąpienia od umowy jest odesłanie nienaruszonego towaru. Koszt paczki zwrotnej pokrywa w całości kupujący.</p>
                 <p class="font-bold text-slate-800 pt-2">§3. Zamówienia hurtowe B2B (Mystery Boxy dla Resellerów)</p>
-                <p>1. Sprzedaż pakietów zbiorczych w sekcji "Oferta Hurtowa B2B" (Mystery Boxy) realizowana jest wyłącznie na rzecz podmiotów gospodarczych (resellerów, firm handlowych) w formule biznesowej B2B.</p>
+                <p>1. Mystery Boxy sprzedawane są wyłącznie na rzecz podmiotów gospodarczych (resellerów, firm handlowych) w formule biznesowej B2B.</p>
                 <p>2. Ze względu na specyfikę transakcji hurtowych oraz nienaruszony charakter dostaw prosto z zagranicznych sortowni, Mystery Boxy są w całości wyłączone z procedur odstąpienia od umowy, zwrotów oraz jakichkolwiek wymian.</p>
             </div>`,
             polityka: `<div class="space-y-4 text-slate-600 text-xs leading-relaxed">
@@ -884,9 +882,14 @@
 
         function otworzLegal(typ) { 
             document.getElementById('legal-title').innerText = typ === 'regulamin' ? 'Regulamin Sklepu & Zwroty' : 'Polityka Prywatności'; 
-            document.getElementById('legal-content').innerHTML = SYSTEMOWE_TEKSTY_PRAWNE[typ]; 
+            document.getElementById('legal-content').innerHTML = STRONY_PRAWNE_TEKSTY[typ]; 
             document.getElementById('legal-modal').classList.remove('hidden'); 
             document.body.style.overflow = 'hidden'; 
+        }
+
+        function zamknijLegal() { 
+            document.getElementById('legal-modal').classList.add('hidden'); 
+            document.body.style.overflow = 'auto'; 
         }
 
         pobierzAktualnosci(); pobierzProdukty(); checkAdminPresence(); obsluzStatusPlatonosci(); zglosObecnoscUzytkownika(); setInterval(zglosObecnoscUzytkownika, 10000);
